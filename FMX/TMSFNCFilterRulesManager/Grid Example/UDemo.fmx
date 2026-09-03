@@ -1,0 +1,109 @@
+object FormMain: TFormMain
+  Left = 0
+  Top = 0
+  Caption = 'TMS FNC Filter Rules Manager Demo'
+  ClientHeight = 600
+  ClientWidth = 960
+  Position = ScreenCenter
+  FormFactor.Width = 320
+  FormFactor.Height = 480
+  FormFactor.Devices = [Desktop]
+  OnCreate = FormCreate
+  DesignerMasterStyle = 0
+  object PanelTop: TPanel
+    Align = Top
+    Size.Width = 960.000000000000000000
+    Size.Height = 44.000000000000000000
+    Size.PlatformDefault = False
+    TabOrder = 0
+    object LabelFilter: TLabel
+      Align = Left
+      Margins.Left = 10.000000000000000000
+      Position.X = 10.000000000000000000
+      Size.Width = 47.000000000000000000
+      Size.Height = 44.000000000000000000
+      Size.PlatformDefault = False
+      TextSettings.HorzAlign = Center
+      Text = 'Filter:'
+    end
+    object EditSearch: TEdit
+      Touch.InteractiveGestures = [LongTap, DoubleTap]
+      Align = Left
+      TabOrder = 0
+      Position.X = 241.000000000000000000
+      Position.Y = 7.000000000000000000
+      Margins.Left = 8.000000000000000000
+      Margins.Top = 7.000000000000000000
+      Margins.Bottom = 7.000000000000000000
+      Size.Width = 200.000000000000000000
+      Size.Height = 30.000000000000000000
+      Size.PlatformDefault = False
+      OnKeyDown = EditSearchKeyDown
+    end
+    object BtnApply: TButton
+      Align = Left
+      Margins.Left = 8.000000000000000000
+      Margins.Top = 7.000000000000000000
+      Margins.Bottom = 7.000000000000000000
+      Position.X = 449.000000000000000000
+      Position.Y = 7.000000000000000000
+      Size.Width = 100.000000000000000000
+      Size.Height = 30.000000000000000000
+      Size.PlatformDefault = False
+      TabOrder = 1
+      Text = 'Apply Filter'
+      OnClick = BtnApplyClick
+    end
+    object BtnClear: TButton
+      Align = Left
+      Margins.Left = 6.000000000000000000
+      Margins.Top = 7.000000000000000000
+      Margins.Bottom = 7.000000000000000000
+      Position.X = 555.000000000000000000
+      Position.Y = 7.000000000000000000
+      Size.Width = 70.000000000000000000
+      Size.Height = 30.000000000000000000
+      Size.PlatformDefault = False
+      TabOrder = 2
+      Text = 'Clear'
+      OnClick = BtnClearClick
+    end
+    object LabelStatus: TLabel
+      Align = Client
+      Margins.Left = 16.000000000000000000
+      Margins.Right = 16.000000000000000000
+      Size.Width = 303.000000000000000000
+      Size.Height = 44.000000000000000000
+      Size.PlatformDefault = False
+      TextSettings.HorzAlign = Trailing
+    end
+    object SearchFieldCombo: TComboBox
+      Align = Left
+      Items.Strings = (
+        'Name'
+        'Company'
+        'City'
+        'Country')
+      ItemIndex = 0
+      Margins.Top = 7.000000000000000000
+      Margins.Bottom = 7.000000000000000000
+      Position.X = 57.000000000000000000
+      Position.Y = 7.000000000000000000
+      Size.Width = 100.000000000000000000
+      Size.Height = 30.000000000000000000
+      Size.PlatformDefault = False
+      TabOrder = 4
+    end
+    object Label1: TLabel
+      Align = Left
+      Margins.Left = 10.000000000000000000
+      Position.X = 167.000000000000000000
+      Size.Width = 66.000000000000000000
+      Size.Height = 44.000000000000000000
+      Size.PlatformDefault = False
+      TextSettings.HorzAlign = Center
+      Text = 'starts with:'
+      TabOrder = 6
+    end
+  end
+end

@@ -1,0 +1,643 @@
+object Form1: TForm1
+  Left = 0
+  Top = 0
+  Caption = 'TMS FNC Popup Menu Appearance Demo'
+  ClientHeight = 216
+  ClientWidth = 420
+  Fill.Kind = Solid
+  Position = ScreenCenter
+  FormFactor.Width = 320
+  FormFactor.Height = 480
+  FormFactor.Devices = [Desktop]
+  DesignerMasterStyle = 0
+  object Button1: TButton
+    PopupMenu = TMSFNCPopupMenu
+    Position.X = 96.000000000000000000
+    Position.Y = 24.000000000000000000
+    Size.Width = 209.000000000000000000
+    Size.Height = 49.000000000000000000
+    Size.PlatformDefault = False
+    TabOrder = 1
+    Text = 'FNC Popup Menu Attached'
+    TextSettings.Trimming = None
+  end
+  object TMSFNCPopupMenu: TTMSFNCPopupMenu
+    BitmapContainer = TMSFNCBitmapContainer1
+    Appearance.Fill.Color = xFFFCFCFC
+    Appearance.DefaultItemAppearance.Font.Color = xFF1B1B1B
+    Appearance.DefaultItemAppearance.SelectedFontColor = xFF1A1A1A
+    Appearance.DefaultItemAppearance.DisabledFontColor = xFF454545
+    Appearance.DefaultItemAppearance.SelectedFill.Color = xFFF3F3F3
+    Appearance.DefaultItemAppearance.Separator.Color = xFFECECEC
+    Appearance.DefaultItemAppearance.NoteFont.Color = claNull
+    Appearance.DefaultItemAppearance.AccessoryWidth = 20
+    Appearance.DefaultItemAppearance.BitmapMargins.Left = 2.000000000000000000
+    Appearance.DefaultItemAppearance.BitmapMargins.Top = 2.000000000000000000
+    Appearance.DefaultItemAppearance.BitmapMargins.Right = 2.000000000000000000
+    Appearance.DefaultItemAppearance.BitmapMargins.Bottom = 2.000000000000000000
+    Appearance.DefaultItemAppearance.ItemMargins.Left = 1.000000000000000000
+    Appearance.DefaultItemAppearance.ItemMargins.Top = 1.000000000000000000
+    Appearance.DefaultItemAppearance.ItemMargins.Right = 1.000000000000000000
+    Appearance.DefaultItemAppearance.ItemMargins.Bottom = 1.000000000000000000
+    Appearance.CheckedIcon.PNG = {
+      89504E470D0A1A0A0000000D4948445200000018000000180806000000E0773D
+      F80000000473424954080808087C08648800000018494441544889EDC1010100
+      00008090FEAFEE080A0080AA0109180001CEEE253E0000000049454E44AE4260
+      82}
+    Appearance.CheckedIcon.SVG = {
+      3C7376672066696C6C3D226E6F6E6522206865696768743D2235313222207669
+      6577426F783D22302030203234203234222077696474683D223531322220786D
+      6C6E733D22687474703A2F2F7777772E77332E6F72672F323030302F73766722
+      3E3C7061746820643D226D31322039632D312E3635363920302D3320312E3334
+      33312D33203373312E3334333120332033203320332D312E3334333120332D33
+      2D312E333433312D332D332D337A222066696C6C3D227267622832372C32372C
+      323729222F3E3C2F7376673E0D0A}
+    Appearance.SubMenuIcon.PNG = {
+      89504E470D0A1A0A0000000D4948445200000018000000180806000000E0773D
+      F80000000473424954080808087C08648800000018494441544889EDC1010100
+      00008090FEAFEE080A0080AA0109180001CEEE253E0000000049454E44AE4260
+      82}
+    Appearance.SubMenuIcon.SVG = {
+      3C737667206865696768743D22353132222076696577426F783D223020302032
+      34203234222077696474683D223531322220786D6C6E733D22687474703A2F2F
+      7777772E77332E6F72672F323030302F737667223E3C672069643D225F313522
+      20646174612D6E616D653D223135223E3C7061746820643D226D392031396131
+      2031203020302031202D2E37312D312E37316C352E332D352E32392D352E332D
+      352E32396131203120302030203120312E34322D312E34326C36203661312031
+      203020302031203020312E34316C2D36203661312031203020302031202D2E37
+      312E337A222066696C6C3D227267622832372C32372C323729222F3E3C2F673E
+      3C2F7376673E0D0A}
+    Items = <
+      item
+        Text = ''
+        Items = <
+          item
+            Text = 'Cut'
+            Items = <>
+            Appearance.Font.Color = xFF1B1B1B
+            Appearance.SelectedFontColor = xFF1A1A1A
+            Appearance.DisabledFontColor = xFF454545
+            Appearance.SelectedFill.Color = xFFF3F3F3
+            Appearance.Separator.Color = xFFECECEC
+            Appearance.NoteFont.Color = claNull
+            Appearance.AccessoryWidth = 20
+            Appearance.BitmapMargins.Left = 2.000000000000000000
+            Appearance.BitmapMargins.Top = 2.000000000000000000
+            Appearance.BitmapMargins.Right = 2.000000000000000000
+            Appearance.BitmapMargins.Bottom = 2.000000000000000000
+            Appearance.ItemMargins.Left = 1.000000000000000000
+            Appearance.ItemMargins.Top = 1.000000000000000000
+            Appearance.ItemMargins.Right = 1.000000000000000000
+            Appearance.ItemMargins.Bottom = 1.000000000000000000
+            BitmapName = 'Cut'
+            ControlPosition = cpTopLeft
+            ShortCut = 0
+            Tag = 0
+          end
+          item
+            Text = 'Copy'
+            Items = <>
+            Appearance.Font.Color = xFF1B1B1B
+            Appearance.SelectedFontColor = xFF1A1A1A
+            Appearance.DisabledFontColor = xFF454545
+            Appearance.SelectedFill.Color = xFFF3F3F3
+            Appearance.Separator.Color = xFFECECEC
+            Appearance.NoteFont.Color = claNull
+            Appearance.AccessoryWidth = 20
+            Appearance.BitmapMargins.Left = 2.000000000000000000
+            Appearance.BitmapMargins.Top = 2.000000000000000000
+            Appearance.BitmapMargins.Right = 2.000000000000000000
+            Appearance.BitmapMargins.Bottom = 2.000000000000000000
+            Appearance.ItemMargins.Left = 1.000000000000000000
+            Appearance.ItemMargins.Top = 1.000000000000000000
+            Appearance.ItemMargins.Right = 1.000000000000000000
+            Appearance.ItemMargins.Bottom = 1.000000000000000000
+            BitmapName = 'Copy'
+            ControlPosition = cpTopLeft
+            ShortCut = 0
+            Tag = 0
+          end
+          item
+            Text = 'Paste'
+            Items = <>
+            Appearance.Font.Color = xFF1B1B1B
+            Appearance.SelectedFontColor = xFF1A1A1A
+            Appearance.DisabledFontColor = xFF454545
+            Appearance.SelectedFill.Color = xFFF3F3F3
+            Appearance.Separator.Color = xFFECECEC
+            Appearance.NoteFont.Color = claNull
+            Appearance.AccessoryWidth = 20
+            Appearance.BitmapMargins.Left = 2.000000000000000000
+            Appearance.BitmapMargins.Top = 2.000000000000000000
+            Appearance.BitmapMargins.Right = 2.000000000000000000
+            Appearance.BitmapMargins.Bottom = 2.000000000000000000
+            Appearance.ItemMargins.Left = 1.000000000000000000
+            Appearance.ItemMargins.Top = 1.000000000000000000
+            Appearance.ItemMargins.Right = 1.000000000000000000
+            Appearance.ItemMargins.Bottom = 1.000000000000000000
+            BitmapName = 'Paste'
+            ControlPosition = cpTopLeft
+            ShortCut = 0
+            Tag = 0
+          end
+          item
+            Text = 'Delete'
+            Items = <>
+            Appearance.Font.Color = xFF1B1B1B
+            Appearance.SelectedFontColor = xFF1A1A1A
+            Appearance.DisabledFontColor = xFF454545
+            Appearance.SelectedFill.Color = xFFF3F3F3
+            Appearance.Separator.Color = xFFECECEC
+            Appearance.NoteFont.Color = claNull
+            Appearance.AccessoryWidth = 20
+            Appearance.BitmapMargins.Left = 2.000000000000000000
+            Appearance.BitmapMargins.Top = 2.000000000000000000
+            Appearance.BitmapMargins.Right = 2.000000000000000000
+            Appearance.BitmapMargins.Bottom = 2.000000000000000000
+            Appearance.ItemMargins.Left = 1.000000000000000000
+            Appearance.ItemMargins.Top = 1.000000000000000000
+            Appearance.ItemMargins.Right = 1.000000000000000000
+            Appearance.ItemMargins.Bottom = 1.000000000000000000
+            BitmapName = 'Delete'
+            ControlPosition = cpTopLeft
+            ShortCut = 0
+            Tag = 0
+          end>
+        ItemType = mitToolBar
+        Appearance.Font.Color = xFF1B1B1B
+        Appearance.SelectedFontColor = xFF1A1A1A
+        Appearance.DisabledFontColor = xFF454545
+        Appearance.SelectedFill.Color = xFFF3F3F3
+        Appearance.Separator.Color = xFFECECEC
+        Appearance.NoteFont.Color = claNull
+        Appearance.AccessoryWidth = 20
+        Appearance.BitmapMargins.Left = 2.000000000000000000
+        Appearance.BitmapMargins.Top = 2.000000000000000000
+        Appearance.BitmapMargins.Right = 2.000000000000000000
+        Appearance.BitmapMargins.Bottom = 2.000000000000000000
+        Appearance.ItemMargins.Left = 1.000000000000000000
+        Appearance.ItemMargins.Top = 1.000000000000000000
+        Appearance.ItemMargins.Right = 1.000000000000000000
+        Appearance.ItemMargins.Bottom = 1.000000000000000000
+        ControlPosition = cpTopLeft
+        ShortCut = 0
+        Tag = 0
+      end
+      item
+        Text = 'MenuItem 1'
+        Items = <>
+        ItemType = mitSeparator
+        Appearance.Font.Color = xFF1B1B1B
+        Appearance.SelectedFontColor = xFF1A1A1A
+        Appearance.DisabledFontColor = xFF454545
+        Appearance.SelectedFill.Color = xFFF3F3F3
+        Appearance.Separator.Color = xFFECECEC
+        Appearance.NoteFont.Color = claNull
+        Appearance.AccessoryWidth = 20
+        Appearance.BitmapMargins.Left = 2.000000000000000000
+        Appearance.BitmapMargins.Top = 2.000000000000000000
+        Appearance.BitmapMargins.Right = 2.000000000000000000
+        Appearance.BitmapMargins.Bottom = 2.000000000000000000
+        Appearance.ItemMargins.Left = 1.000000000000000000
+        Appearance.ItemMargins.Top = 1.000000000000000000
+        Appearance.ItemMargins.Right = 1.000000000000000000
+        Appearance.ItemMargins.Bottom = 1.000000000000000000
+        ControlPosition = cpTopLeft
+        ShortCut = 0
+        Tag = 0
+      end
+      item
+        Text = 'Sort'
+        Items = <
+          item
+            Text = 'Name'
+            Items = <>
+            ItemType = mitCheck
+            Appearance.Font.Color = xFF1B1B1B
+            Appearance.SelectedFontColor = xFF1A1A1A
+            Appearance.DisabledFontColor = xFF454545
+            Appearance.SelectedFill.Color = xFFF3F3F3
+            Appearance.Separator.Color = xFFECECEC
+            Appearance.NoteFont.Color = claNull
+            Appearance.AccessoryWidth = 20
+            Appearance.BitmapMargins.Left = 2.000000000000000000
+            Appearance.BitmapMargins.Top = 2.000000000000000000
+            Appearance.BitmapMargins.Right = 2.000000000000000000
+            Appearance.BitmapMargins.Bottom = 2.000000000000000000
+            Appearance.ItemMargins.Left = 1.000000000000000000
+            Appearance.ItemMargins.Top = 1.000000000000000000
+            Appearance.ItemMargins.Right = 1.000000000000000000
+            Appearance.ItemMargins.Bottom = 1.000000000000000000
+            GroupName = 'GroupBy'
+            ControlPosition = cpTopLeft
+            ShortCut = 0
+            Tag = 0
+          end
+          item
+            Text = 'Last Updated'
+            Items = <>
+            ItemType = mitCheck
+            Appearance.Font.Color = xFF1B1B1B
+            Appearance.SelectedFontColor = xFF1A1A1A
+            Appearance.DisabledFontColor = xFF454545
+            Appearance.SelectedFill.Color = xFFF3F3F3
+            Appearance.Separator.Color = xFFECECEC
+            Appearance.NoteFont.Color = claNull
+            Appearance.AccessoryWidth = 20
+            Appearance.BitmapMargins.Left = 2.000000000000000000
+            Appearance.BitmapMargins.Top = 2.000000000000000000
+            Appearance.BitmapMargins.Right = 2.000000000000000000
+            Appearance.BitmapMargins.Bottom = 2.000000000000000000
+            Appearance.ItemMargins.Left = 1.000000000000000000
+            Appearance.ItemMargins.Top = 1.000000000000000000
+            Appearance.ItemMargins.Right = 1.000000000000000000
+            Appearance.ItemMargins.Bottom = 1.000000000000000000
+            GroupName = 'GroupBy'
+            ControlPosition = cpTopLeft
+            ShortCut = 0
+            Tag = 0
+          end
+          item
+            Text = 'Type'
+            Items = <>
+            ItemType = mitCheck
+            Appearance.Font.Color = xFF1B1B1B
+            Appearance.SelectedFontColor = xFF1A1A1A
+            Appearance.DisabledFontColor = xFF454545
+            Appearance.SelectedFill.Color = xFFF3F3F3
+            Appearance.Separator.Color = xFFECECEC
+            Appearance.NoteFont.Color = claNull
+            Appearance.AccessoryWidth = 20
+            Appearance.BitmapMargins.Left = 2.000000000000000000
+            Appearance.BitmapMargins.Top = 2.000000000000000000
+            Appearance.BitmapMargins.Right = 2.000000000000000000
+            Appearance.BitmapMargins.Bottom = 2.000000000000000000
+            Appearance.ItemMargins.Left = 1.000000000000000000
+            Appearance.ItemMargins.Top = 1.000000000000000000
+            Appearance.ItemMargins.Right = 1.000000000000000000
+            Appearance.ItemMargins.Bottom = 1.000000000000000000
+            GroupName = 'GroupBy'
+            ControlPosition = cpTopLeft
+            ShortCut = 0
+            Tag = 0
+          end
+          item
+            Text = 'Size'
+            Items = <>
+            ItemType = mitCheck
+            Appearance.Font.Color = xFF1B1B1B
+            Appearance.SelectedFontColor = xFF1A1A1A
+            Appearance.DisabledFontColor = xFF454545
+            Appearance.SelectedFill.Color = xFFF3F3F3
+            Appearance.Separator.Color = xFFECECEC
+            Appearance.NoteFont.Color = claNull
+            Appearance.AccessoryWidth = 20
+            Appearance.BitmapMargins.Left = 2.000000000000000000
+            Appearance.BitmapMargins.Top = 2.000000000000000000
+            Appearance.BitmapMargins.Right = 2.000000000000000000
+            Appearance.BitmapMargins.Bottom = 2.000000000000000000
+            Appearance.ItemMargins.Left = 1.000000000000000000
+            Appearance.ItemMargins.Top = 1.000000000000000000
+            Appearance.ItemMargins.Right = 1.000000000000000000
+            Appearance.ItemMargins.Bottom = 1.000000000000000000
+            GroupName = 'GroupBy'
+            ControlPosition = cpTopLeft
+            ShortCut = 0
+            Tag = 0
+          end>
+        ItemType = mitDropDownButton
+        Appearance.Font.Color = xFF1B1B1B
+        Appearance.SelectedFontColor = xFF1A1A1A
+        Appearance.DisabledFontColor = xFF454545
+        Appearance.SelectedFill.Color = xFFF3F3F3
+        Appearance.Separator.Color = xFFECECEC
+        Appearance.NoteFont.Color = claNull
+        Appearance.AccessoryWidth = 20
+        Appearance.BitmapMargins.Left = 2.000000000000000000
+        Appearance.BitmapMargins.Top = 2.000000000000000000
+        Appearance.BitmapMargins.Right = 2.000000000000000000
+        Appearance.BitmapMargins.Bottom = 2.000000000000000000
+        Appearance.ItemMargins.Left = 1.000000000000000000
+        Appearance.ItemMargins.Top = 1.000000000000000000
+        Appearance.ItemMargins.Right = 1.000000000000000000
+        Appearance.ItemMargins.Bottom = 1.000000000000000000
+        ControlPosition = cpTopLeft
+        ShortCut = 0
+        Tag = 0
+      end
+      item
+        Text = 'Style'
+        Items = <
+          item
+            Text = 'Light'
+            Items = <>
+            Checked = True
+            ItemType = mitCheck
+            Appearance.Font.Color = xFF1B1B1B
+            Appearance.SelectedFontColor = xFF1A1A1A
+            Appearance.DisabledFontColor = xFF454545
+            Appearance.SelectedFill.Color = xFFF3F3F3
+            Appearance.Separator.Color = xFFECECEC
+            Appearance.NoteFont.Color = claNull
+            Appearance.AccessoryWidth = 20
+            Appearance.BitmapMargins.Left = 2.000000000000000000
+            Appearance.BitmapMargins.Top = 2.000000000000000000
+            Appearance.BitmapMargins.Right = 2.000000000000000000
+            Appearance.BitmapMargins.Bottom = 2.000000000000000000
+            Appearance.ItemMargins.Left = 1.000000000000000000
+            Appearance.ItemMargins.Top = 1.000000000000000000
+            Appearance.ItemMargins.Right = 1.000000000000000000
+            Appearance.ItemMargins.Bottom = 1.000000000000000000
+            GroupName = 'Style'
+            ControlPosition = cpTopLeft
+            ShortCut = 0
+            OnClick = TMSFNCPopupMenu1Items3Items0Click
+            Tag = 0
+          end
+          item
+            Text = 'Dark'
+            Items = <>
+            ItemType = mitCheck
+            Appearance.Font.Color = xFF1B1B1B
+            Appearance.SelectedFontColor = xFF1A1A1A
+            Appearance.DisabledFontColor = xFF454545
+            Appearance.SelectedFill.Color = xFFF3F3F3
+            Appearance.Separator.Color = xFFECECEC
+            Appearance.NoteFont.Color = claNull
+            Appearance.AccessoryWidth = 20
+            Appearance.BitmapMargins.Left = 2.000000000000000000
+            Appearance.BitmapMargins.Top = 2.000000000000000000
+            Appearance.BitmapMargins.Right = 2.000000000000000000
+            Appearance.BitmapMargins.Bottom = 2.000000000000000000
+            Appearance.ItemMargins.Left = 1.000000000000000000
+            Appearance.ItemMargins.Top = 1.000000000000000000
+            Appearance.ItemMargins.Right = 1.000000000000000000
+            Appearance.ItemMargins.Bottom = 1.000000000000000000
+            GroupName = 'Style'
+            ControlPosition = cpTopLeft
+            ShortCut = 0
+            OnClick = TMSFNCPopupMenu1Items3Items1Click
+            Tag = 0
+          end>
+        Appearance.Font.Color = xFF1B1B1B
+        Appearance.SelectedFontColor = xFF1A1A1A
+        Appearance.DisabledFontColor = xFF454545
+        Appearance.SelectedFill.Color = xFFF3F3F3
+        Appearance.Separator.Color = xFFECECEC
+        Appearance.NoteFont.Color = claNull
+        Appearance.AccessoryWidth = 20
+        Appearance.BitmapMargins.Left = 2.000000000000000000
+        Appearance.BitmapMargins.Top = 2.000000000000000000
+        Appearance.BitmapMargins.Right = 2.000000000000000000
+        Appearance.BitmapMargins.Bottom = 2.000000000000000000
+        Appearance.ItemMargins.Left = 1.000000000000000000
+        Appearance.ItemMargins.Top = 1.000000000000000000
+        Appearance.ItemMargins.Right = 1.000000000000000000
+        Appearance.ItemMargins.Bottom = 1.000000000000000000
+        ControlPosition = cpTopLeft
+        ShortCut = 0
+        Tag = 0
+      end>
+    OnMenuItemClick = TMSFNCPopupMenuMenuItemClick
+    OnMenuItemControlAdded = TMSFNCPopupMenuMenuItemControlAdded
+    Left = 120
+    Top = 128
+  end
+  object TMSFNCBitmapContainer1: TTMSFNCBitmapContainer
+    Size.Width = 26.000000000000000000
+    Size.Height = 26.000000000000000000
+    Size.PlatformDefault = False
+    Position.X = 240.000000000000000000
+    Position.Y = 130.000000000000000000
+    Items = <
+      item
+        Bitmap.PNG = {
+          89504E470D0A1A0A0000000D4948445200000018000000180806000000E0773D
+          F80000000473424954080808087C08648800000018494441544889EDC1010100
+          00008090FEAFEE080A0080AA0109180001CEEE253E0000000049454E44AE4260
+          82}
+        Bitmap.SVG = {
+          3C7376672066696C6C3D226E6F6E6522206865696768743D2235313222207669
+          6577426F783D22302030203234203234222077696474683D223531322220786D
+          6C6E733D22687474703A2F2F7777772E77332E6F72672F323030302F73766722
+          3E3C7061746820643D226D31322039632D312E3635363920302D3320312E3334
+          33312D33203373312E3334333120332033203320332D312E3334333120332D33
+          2D312E333433312D332D332D337A222066696C6C3D227267622832372C32372C
+          323729222F3E3C2F7376673E0D0A}
+        Name = 'CheckLight'
+        Tag = 0
+      end
+      item
+        Bitmap.PNG = {
+          89504E470D0A1A0A0000000D4948445200000018000000180806000000E0773D
+          F80000000473424954080808087C08648800000018494441544889EDC1010100
+          00008090FEAFEE080A0080AA0109180001CEEE253E0000000049454E44AE4260
+          82}
+        Bitmap.SVG = {
+          3C7376672066696C6C3D226E6F6E6522206865696768743D2235313222207669
+          6577426F783D22302030203234203234222077696474683D223531322220786D
+          6C6E733D22687474703A2F2F7777772E77332E6F72672F323030302F73766722
+          3E3C7061746820643D226D31322039632D312E3635363920302D3320312E3334
+          33312D33203373312E3334333120332033203320332D312E3334333120332D33
+          2D312E333433312D332D332D337A222066696C6C3D22726762283235352C3235
+          352C32353529222F3E3C2F7376673E0D0A}
+        Name = 'CheckDark'
+        Tag = 0
+      end
+      item
+        Bitmap.PNG = {
+          89504E470D0A1A0A0000000D4948445200000018000000180806000000E0773D
+          F80000000473424954080808087C08648800000018494441544889EDC1010100
+          00008090FEAFEE080A0080AA0109180001CEEE253E0000000049454E44AE4260
+          82}
+        Bitmap.SVG = {
+          3C737667206865696768743D22353132222076696577426F783D223020302032
+          34203234222077696474683D223531322220786D6C6E733D22687474703A2F2F
+          7777772E77332E6F72672F323030302F737667223E3C672069643D225F313522
+          20646174612D6E616D653D223135223E3C7061746820643D226D392031396131
+          2031203020302031202D2E37312D312E37316C352E332D352E32392D352E332D
+          352E32396131203120302030203120312E34322D312E34326C36203661312031
+          203020302031203020312E34316C2D36203661312031203020302031202D2E37
+          312E337A222066696C6C3D227267622832372C32372C323729222F3E3C2F673E
+          3C2F7376673E0D0A}
+        Name = 'SubLight'
+        Tag = 0
+      end
+      item
+        Bitmap.PNG = {
+          89504E470D0A1A0A0000000D4948445200000018000000180806000000E0773D
+          F80000000473424954080808087C08648800000018494441544889EDC1010100
+          00008090FEAFEE080A0080AA0109180001CEEE253E0000000049454E44AE4260
+          82}
+        Bitmap.SVG = {
+          3C737667206865696768743D22353132222076696577426F783D223020302032
+          34203234222077696474683D223531322220786D6C6E733D22687474703A2F2F
+          7777772E77332E6F72672F323030302F737667223E3C672069643D225F313522
+          20646174612D6E616D653D223135223E3C7061746820643D226D392031396131
+          2031203020302031202D2E37312D312E37316C352E332D352E32392D352E332D
+          352E32396131203120302030203120312E34322D312E34326C36203661312031
+          203020302031203020312E34316C2D36203661312031203020302031202D2E37
+          312E337A222066696C6C3D22726762283235352C3235352C32353529222F3E3C
+          2F673E3C2F7376673E0D0A}
+        Name = 'SubDark'
+        Tag = 0
+      end
+      item
+        Bitmap.PNG = {
+          89504E470D0A1A0A0000000D4948445200000020000000200806000000737A7A
+          F40000000473424954080808087C0864880000001A494441545885EDC1010100
+          00008220FFAF6E484001000000EF06102000014701A0880000000049454E44AE
+          426082}
+        Bitmap.SVG = {
+          3C7376672076696577426F783D223020302033322033322220786D6C6E733D22
+          687474703A2F2F7777772E77332E6F72672F323030302F737667223E3C672069
+          643D2249636F6E223E3C7061746820643D226D31312E31332032312E31613120
+          31203020302031202D2E37352D312E36366C31342E38372D31372E3161312031
+          20302031203120312E3520312E33326C2D31342E38372031372E316131203120
+          3020302031202D2E37352E33347A222066696C6C3D2223633665626265222F3E
+          3C7061746820643D226D32302E38372032312E3161312031203020302031202D
+          2E37352D2E33346C2D31342E38372D31372E316131203120302031203120312E
+          352D312E33326C31342E38382031372E3161312031203020302031202D2E3120
+          312E343120312031203020302031202D2E36362E32357A222066696C6C3D2223
+          633665626265222F3E3C672066696C6C3D2223303061306564223E3C70617468
+          20643D226D32342033306136203620302031203120362D362036203620302030
+          2031202D3620367A6D302D313061342034203020312030203420342034203420
+          3020302030202D342D347A222F3E3C7061746820643D226D3820333061362036
+          20302031203120362D3620362036203020302031202D3620367A6D302D313061
+          3420342030203120302034203420342034203020302030202D342D347A222F3E
+          3C2F673E3C2F673E3C2F7376673E0D0A}
+        Name = 'Cut'
+        Tag = 0
+      end
+      item
+        Bitmap.PNG = {
+          89504E470D0A1A0A0000000D4948445200000018000000180806000000E0773D
+          F80000000473424954080808087C08648800000018494441544889EDC1010100
+          00008090FEAFEE080A0080AA0109180001CEEE253E0000000049454E44AE4260
+          82}
+        Bitmap.SVG = {
+          3C7376672069643D2249636F6E222076696577426F783D223020302032342032
+          342220786D6C6E733D22687474703A2F2F7777772E77332E6F72672F32303030
+          2F737667223E3C7061746820643D226D313720332E3235682D372E393233632D
+          312E35313720302D322E373520312E3233332D322E373520322E37356C2D2E30
+          363320392E393831632D2E3030352E3733372E32373820312E3433322E373939
+          20312E3935362E3532312E35323320312E3231332E38313220312E3935312E38
+          313268382E39383663312E353137203020322E37352D312E32333320322E3735
+          2D322E3735762D382E39393963302D322E3036372D312E3638332D332E37352D
+          332E37352D332E37357A222066696C6C3D2223353439626666222F3E3C726563
+          742066696C6C3D222362616437666622206865696768743D2231342E35222072
+          783D22322E3735222077696474683D2231342E352220783D22332E3235222079
+          3D22362E3235222F3E3C2F7376673E0D0A}
+        Name = 'Copy'
+        Tag = 0
+      end
+      item
+        Bitmap.PNG = {
+          89504E470D0A1A0A0000000D4948445200000020000000200806000000737A7A
+          F40000000473424954080808087C0864880000001A494441545885EDC1010100
+          00008220FFAF6E484001000000EF06102000014701A0880000000049454E44AE
+          426082}
+        Bitmap.SVG = {
+          3C7376672069643D227376673522206865696768743D22353132222076696577
+          426F783D22302030203332203332222077696474683D223531322220786D6C6E
+          733D22687474703A2F2F7777772E77332E6F72672F323030302F737667222078
+          6D6C6E733A7376673D22687474703A2F2F7777772E77332E6F72672F32303030
+          2F737667223E3C672069643D226C6179657231222066696C6C2D72756C653D22
+          6576656E6F646422207374726F6B652D6C696E656361703D22726F756E642220
+          7374726F6B652D6C696E656A6F696E3D22726F756E6422207374726F6B652D6D
+          697465726C696D69743D22342E3122207472616E73666F726D3D227472616E73
+          6C617465282D313038202D34383429223E3C706174682069643D227061746831
+          353538342220643D226D31313320343838632D312E3634343720302D3320312E
+          333535332D332033763138633020312E3634343720312E333535332033203320
+          3368313363312E36343437203020332D312E3335353320332D33762D31386330
+          2D312E363434372D312E333535332D332D332D337A222066696C6C3D22233431
+          61356565222F3E3C706174682069643D227061746831353635302220643D226D
+          31313620343836632D312E3039303720302D32202E393039332D322032763263
+          3020312E303930372E39303933203220322032683763312E3039303720302032
+          2D2E3930393320322D32762D3263302D312E303930372D2E393039332D322D32
+          2D327A222066696C6C3D2223303763222F3E3C706174682069643D2270617468
+          31353538392220643D226D31323320343934632D312E3634343720302D332031
+          2E333535332D332033763134633020312E3634343720312E3335353320332033
+          203368313063312E36343437203020332D312E3335353320332D33762D313463
+          302D312E363434372D312E333535332D332D332D337A222066696C6C3D222330
+          3763222F3E3C672066696C6C3D2223643765656665223E3C706174682069643D
+          227061746832373433392220643D226D31323520343938613120312030203020
+          30202D3120312031203120302030203020312031683661312031203020302030
+          20312D3120312031203020302030202D312D317A222F3E3C706174682069643D
+          227061746832373434312220643D226D31323520353031613120312030203020
+          30202D3120312031203120302030203020312031683661312031203020302030
+          20312D3120312031203020302030202D312D317A222F3E3C706174682069643D
+          227061746832373434332220643D226D31323520353034613120312030203020
+          30202D3120312031203120302030203020312031683661312031203020302030
+          20312D3120312031203020302030202D312D317A222F3E3C706174682069643D
+          227061746832373434352220643D226D31323520353037613120312030203020
+          30202D3120312031203120302030203020312031683661312031203020302030
+          20312D3120312031203020302030202D312D317A222F3E3C2F673E3C2F673E3C
+          2F7376673E0D0A}
+        Name = 'Paste'
+        Tag = 0
+      end
+      item
+        Bitmap.PNG = {
+          89504E470D0A1A0A0000000D494844520000006400000064080600000070E295
+          540000000473424954080808087C0864880000003E49444154789CEDC1310100
+          0000C2A0F54F6D0B2FA000000000000000000000000000000000000000000000
+          0000000000000000000000000000000080A7019CA40001A675958E0000000049
+          454E44AE426082}
+        Bitmap.SVG = {
+          3C7376672069643D224C617965725F312220656E61626C652D6261636B67726F
+          756E643D226E6577203020302031303020313030222076696577426F783D2230
+          203020313030203130302220786D6C6E733D22687474703A2F2F7777772E7733
+          2E6F72672F323030302F737667223E3C6720636C69702D72756C653D22657665
+          6E6F6464222066696C6C3D2223303061646636222066696C6C2D72756C653D22
+          6576656E6F6464223E3C7061746820643D226D39312E39303833323532203135
+          2E3530323534373376362E37353837303034682D38332E38313636353333762D
+          362E37353837303034632E303131303336392D332E3732363635393820332E30
+          3332303430362D362E3734373636343520362E373538373030342D362E373437
+          363634356837302E3239393235353463332E37323636363137203020362E3734
+          373636353420332E3032313030343720362E3735383639373520362E37343736
+          3634357A222F3E3C7061746820643D226D31392E333534323231332039332E33
+          323132303531632E3136353534343520322E3334383435373320322E31313639
+          36343320342E3136373730393420342E3436353432313720342E313738373431
+          356835322E3036323836363263322E333438353934372E303131303339372034
+          2E333131303530342D312E3830383231323320342E343635343233362D342E31
+          3536363639366C342E373532303938312D36352E31383333353732682D37302E
+          3230303035387A6D33382E323134373738392D35322E37333534313236632E30
+          3333313037382D312E3537363732313220312E333132313134372D322E383535
+          3539303820322E383939373338332D322E3838383730323420312E3632303733
+          31342D2E3033333130373820322E3937363835363220312E3235363830313620
+          332E3030393936373820322E383838373032347634312E33373839383235632D
+          2E3033333131313620312E353837373630392D312E3331313938313220322E38
+          3535373238312D322E3839393630343820322E383838383339372D312E363230
+          383634392E303333313131362D322E393736393933362D312E32353639333531
+          2D332E303130313031332D322E383838383339377A6D2D32312E303437383430
+          31203063302D312E3633313930303820312E333233303137312D322E39343338
+          383220322E393534373834342D322E39343338383220312E3633313737313120
+          3020322E3934333838353820312E3331313938313220322E3934333838353820
+          322E3934333838327634312E33373839383235632D2E3033323937343220312E
+          353837373630392D312E3330313037383820322E383535373238312D322E3838
+          383730323420322E383838383339372D312E363331373637332E303333313131
+          362D322E39373638362D312E323536393335312D332E303039393637382D322E
+          383838383339377A222F3E3C7061746820643D226D36332E3236393332353320
+          31302E31373935333231682D32362E35333836353036762D352E343633373737
+          3163302D312E323235333931342E393930343133372D322E3231353735352032
+          2E323135383534362D322E3231353735356832322E3130363934313263312E32
+          3235343431203020322E323135383534362E3939303336333620322E32313538
+          35343620322E32313537353576352E343633373737317A222F3E3C2F673E3C2F
+          7376673E0D0A}
+        Name = 'Delete'
+        Tag = 0
+      end>
+  end
+  object Label1: TLabel
+    StyledSettings = [Family, Size, Style]
+    Position.X = 96.000000000000000000
+    Position.Y = 81.000000000000000000
+    Size.Width = 209.000000000000000000
+    Size.Height = 41.000000000000000000
+    Size.PlatformDefault = False
+    TextSettings.HorzAlign = Center
+    Text = 'Right-click on the button to show the Popup Menu'
+    TabOrder = 4
+  end
+end

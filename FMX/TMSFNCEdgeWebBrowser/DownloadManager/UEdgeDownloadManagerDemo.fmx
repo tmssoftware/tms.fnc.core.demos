@@ -1,0 +1,144 @@
+object Form3: TForm3
+  Left = 0
+  Top = 0
+  Caption = 'Download Manager Demo'
+  ClientHeight = 446
+  ClientWidth = 748
+  FormFactor.Width = 320
+  FormFactor.Height = 480
+  FormFactor.Devices = [Desktop]
+  OnCreate = FormCreate
+  DesignerMasterStyle = 0
+  object DownloadPanel: TPanel
+    Align = Right
+    Position.X = 444.000000000000000000
+    Size.Width = 304.000000000000000000
+    Size.Height = 446.000000000000000000
+    Size.PlatformDefault = False
+    TabOrder = 1
+    object CancelBtn: TButton
+      Anchors = [akLeft, akRight, akBottom]
+      Position.X = 8.000000000000000000
+      Position.Y = 409.000000000000000000
+      Size.Width = 288.000000000000000000
+      Size.Height = 24.000000000000000000
+      Size.PlatformDefault = False
+      TabOrder = 5
+      Text = 'Cancel'
+      OnClick = CancelBtnClick
+    end
+    object DestEdit: TEdit
+      Touch.InteractiveGestures = [LongTap, DoubleTap]
+      Anchors = [akLeft, akTop, akRight]
+      TabOrder = 2
+      Position.X = 8.000000000000000000
+      Position.Y = 56.000000000000000000
+      Size.Width = 287.000000000000000000
+      Size.Height = 22.000000000000000000
+      Size.PlatformDefault = False
+    end
+    object DownloadList: TListBox
+      Anchors = [akLeft, akTop, akRight, akBottom]
+      Position.X = 8.000000000000000000
+      Position.Y = 86.000000000000000000
+      Size.Width = 288.000000000000000000
+      Size.Height = 251.000000000000000000
+      Size.PlatformDefault = False
+      TabOrder = 4
+      DisableFocusEffect = True
+      DefaultItemStyles.ItemStyle = ''
+      DefaultItemStyles.GroupHeaderStyle = ''
+      DefaultItemStyles.GroupFooterStyle = ''
+      OnItemClick = DownloadListItemClick
+      Viewport.Width = 284.000000000000000000
+      Viewport.Height = 247.000000000000000000
+    end
+    object Label1: TLabel
+      Position.X = 8.000000000000000000
+      Position.Y = 38.000000000000000000
+      Size.Width = 176.000000000000000000
+      Size.Height = 10.000000000000000000
+      Size.PlatformDefault = False
+      Text = 'Custom Destination Folder:'
+      TabOrder = 9
+    end
+    object PauseBtn: TButton
+      Anchors = [akLeft, akRight, akBottom]
+      Position.X = 8.000000000000000000
+      Position.Y = 345.000000000000000000
+      Size.Width = 288.000000000000000000
+      Size.Height = 24.000000000000000000
+      Size.PlatformDefault = False
+      TabOrder = 7
+      Text = 'Pause'
+      OnClick = PauseBtnClick
+    end
+    object ResumeBtn: TButton
+      Anchors = [akLeft, akRight, akBottom]
+      Position.X = 8.000000000000000000
+      Position.Y = 377.000000000000000000
+      Size.Width = 288.000000000000000000
+      Size.Height = 24.000000000000000000
+      Size.PlatformDefault = False
+      TabOrder = 6
+      Text = 'Resume'
+      OnClick = ResumeBtnClick
+    end
+    object SilentCheck: TCheckBox
+      Position.X = 8.000000000000000000
+      Position.Y = 11.000000000000000000
+      TabOrder = 8
+      Text = 'Silent Download'
+    end
+  end
+  object Splitter1: TSplitter
+    Align = Right
+    Cursor = crHSplit
+    MinSize = 100.000000000000000000
+    Position.X = 433.000000000000000000
+    Size.Width = 11.000000000000000000
+    Size.Height = 446.000000000000000000
+    Size.PlatformDefault = False
+  end
+  object Panel1: TPanel
+    Align = Client
+    Size.Width = 433.000000000000000000
+    Size.Height = 446.000000000000000000
+    Size.PlatformDefault = False
+    TabOrder = 3
+    object NavBtn: TButton
+      Position.X = 8.000000000000000000
+      Position.Y = 8.000000000000000000
+      TabOrder = 2
+      Text = 'Navigate'
+      OnClick = NavBtnClick
+    end
+    object NavEdit: TEdit
+      Touch.InteractiveGestures = [LongTap, DoubleTap]
+      Anchors = [akLeft, akTop, akRight]
+      TabOrder = 3
+      Text = 'https://sample-videos.com/download-sample-zip.php'
+      Position.X = 96.000000000000000000
+      Position.Y = 8.000000000000000000
+      Size.Width = 329.000000000000000000
+      Size.Height = 22.000000000000000000
+      Size.PlatformDefault = False
+    end
+    object TMSFNCEdgeWebBrowser1: TTMSFNCEdgeWebBrowser
+      Anchors = [akLeft, akTop, akRight, akBottom]
+      Position.X = 8.000000000000000000
+      Position.Y = 38.000000000000000000
+      Size.Width = 417.000000000000000000
+      Size.Height = 395.000000000000000000
+      Size.PlatformDefault = False
+      TabOrder = 0
+      Settings.EnableContextMenu = True
+      Settings.EnableShowDebugConsole = True
+      Settings.EnableAcceleratorKeys = True
+      Settings.UsePopupMenuAsContextMenu = False
+      OnDownloadStarted = TMSFNCEdgeWebBrowser1DownloadStarted
+      OnDownloadStateChanged = TMSFNCEdgeWebBrowser1DownloadStateChanged
+      OnDownloadBytesReceivedChanged = TMSFNCEdgeWebBrowser1DownloadBytesReceivedChanged
+    end
+  end
+end

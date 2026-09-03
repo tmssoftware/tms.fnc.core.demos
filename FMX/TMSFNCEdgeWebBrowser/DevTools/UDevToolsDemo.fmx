@@ -1,0 +1,287 @@
+object DevToolsForm: TDevToolsForm
+  Left = 0
+  Top = 0
+  Caption = 'DevTools Demo'
+  ClientHeight = 404
+  ClientWidth = 714
+  FormFactor.Width = 320
+  FormFactor.Height = 480
+  FormFactor.Devices = [Desktop]
+  DesignerMasterStyle = 0
+  object Panel1: TPanel
+    Align = Client
+    Size.Width = 381.000000000000000000
+    Size.Height = 382.000000000000000000
+    Size.PlatformDefault = False
+    TabOrder = 0
+    object TMSFNCEdgeWebBrowser1: TTMSFNCEdgeWebBrowser
+      Anchors = [akLeft, akTop, akRight, akBottom]
+      Position.X = 8.000000000000000000
+      Position.Y = 38.000000000000000000
+      Size.Width = 365.000000000000000000
+      Size.Height = 336.000000000000000000
+      Size.PlatformDefault = False
+      TabOrder = 0
+      URL = 'https://www.google.com'
+      Settings.EnableContextMenu = True
+      Settings.EnableShowDebugConsole = True
+      Settings.EnableAcceleratorKeys = True
+      Settings.UsePopupMenuAsContextMenu = False
+      OnDevToolsMethodCompleted = TMSFNCEdgeWebBrowser1DevToolsMethodCompleted
+      OnDevToolsSubscribedEvent = TMSFNCEdgeWebBrowser1DevToolsSubscribedEvent
+      OnGetConsoleMessage = TMSFNCEdgeWebBrowser1GetConsoleMessage
+    end
+    object NavEdit: TEdit
+      Touch.InteractiveGestures = [LongTap, DoubleTap]
+      Anchors = [akLeft, akTop, akRight]
+      TabOrder = 1
+      Text = 'https://www.google.com'
+      Position.X = 96.000000000000000000
+      Position.Y = 8.000000000000000000
+      Size.Width = 277.000000000000000000
+      Size.Height = 22.000000000000000000
+      Size.PlatformDefault = False
+    end
+    object NavBtn: TButton
+      Position.X = 8.000000000000000000
+      Position.Y = 8.000000000000000000
+      TabOrder = 2
+      Text = 'Navigate'
+      OnClick = NavBtnClick
+    end
+  end
+  object Panel2: TPanel
+    Align = Right
+    Position.X = 394.000000000000000000
+    Position.Y = 22.000000000000000000
+    Size.Width = 320.000000000000000000
+    Size.Height = 382.000000000000000000
+    Size.PlatformDefault = False
+    TabOrder = 1
+    object TabControl1: TTabControl
+      Align = Client
+      Size.Width = 320.000000000000000000
+      Size.Height = 382.000000000000000000
+      Size.PlatformDefault = False
+      TabIndex = 0
+      TabOrder = 0
+      TabPosition = PlatformDefault
+      Sizes = (
+        320s
+        356s
+        320s
+        356s
+        320s
+        356s)
+      object TabItem1: TTabItem
+        CustomIcon = <
+          item
+          end>
+        IsSelected = True
+        Size.Width = 105.000000000000000000
+        Size.Height = 26.000000000000000000
+        Size.PlatformDefault = False
+        StyleLookup = ''
+        TabOrder = 0
+        Text = 'Default Logging'
+        ExplicitSize.cx = 105.000000000000000000
+        ExplicitSize.cy = 26.000000000000000000
+        object LoggingMemo: TMemo
+          Touch.InteractiveGestures = [Pan, LongTap, DoubleTap]
+          DataDetectorTypes = []
+          Anchors = [akLeft, akTop, akRight, akBottom]
+          Position.X = 8.000000000000000000
+          Position.Y = 33.000000000000000000
+          Size.Width = 305.000000000000000000
+          Size.Height = 285.000000000000000000
+          Size.PlatformDefault = False
+          TabOrder = 0
+          Viewport.Width = 301.000000000000000000
+          Viewport.Height = 281.000000000000000000
+        end
+        object ClrLogBtn: TButton
+          Anchors = [akLeft, akRight, akBottom]
+          Position.X = 8.000000000000000000
+          Position.Y = 326.000000000000000000
+          Size.Width = 305.000000000000000000
+          Size.Height = 22.000000000000000000
+          Size.PlatformDefault = False
+          TabOrder = 1
+          Text = 'Clear Text'
+          OnClick = ClrLogBtnClick
+        end
+        object Label5: TLabel
+          Position.X = 8.000000000000000000
+          Position.Y = 8.000000000000000000
+          Text = 'Console Entries:'
+          TabOrder = 2
+        end
+      end
+      object TabItem2: TTabItem
+        CustomIcon = <
+          item
+          end>
+        IsSelected = False
+        Size.Width = 113.000000000000000000
+        Size.Height = 26.000000000000000000
+        Size.PlatformDefault = False
+        StyleLookup = ''
+        TabOrder = 0
+        Text = 'DevTool Methods'
+        ExplicitSize.cx = 113.000000000000000000
+        ExplicitSize.cy = 26.000000000000000000
+        object MethodResponseMemo: TMemo
+          Touch.InteractiveGestures = [Pan, LongTap, DoubleTap]
+          DataDetectorTypes = []
+          Anchors = [akLeft, akTop, akRight, akBottom]
+          Position.X = 8.000000000000000000
+          Position.Y = 208.000000000000000000
+          Size.Width = 305.000000000000000000
+          Size.Height = 139.000000000000000000
+          Size.PlatformDefault = False
+          TabOrder = 1
+          Viewport.Width = 301.000000000000000000
+          Viewport.Height = 135.000000000000000000
+        end
+        object MethodEdit: TEdit
+          Touch.InteractiveGestures = [LongTap, DoubleTap]
+          Anchors = [akLeft, akTop, akRight]
+          TabOrder = 2
+          Text = 'Browser.getVersion'
+          Position.X = 8.000000000000000000
+          Position.Y = 33.000000000000000000
+          Size.Width = 305.000000000000000000
+          Size.Height = 22.000000000000000000
+          Size.PlatformDefault = False
+        end
+        object Label1: TLabel
+          Position.X = 8.000000000000000000
+          Position.Y = 183.000000000000000000
+          Text = 'JSON Response:'
+          TabOrder = 5
+        end
+        object Label2: TLabel
+          Position.X = 8.000000000000000000
+          Position.Y = 8.000000000000000000
+          Text = 'Method Name:'
+          TabOrder = 4
+        end
+        object ExeMethodBtn: TButton
+          Anchors = [akTop, akRight]
+          Position.X = 216.000000000000000000
+          Position.Y = 164.000000000000000000
+          Size.Width = 96.000000000000000000
+          Size.Height = 22.000000000000000000
+          Size.PlatformDefault = False
+          TabOrder = 6
+          Text = 'Execute'
+          OnClick = ExeMethodBtnClick
+        end
+        object MethodParamMemo: TMemo
+          Touch.InteractiveGestures = [Pan, LongTap, DoubleTap]
+          DataDetectorTypes = []
+          Anchors = [akLeft, akTop, akRight]
+          Position.X = 8.000000000000000000
+          Position.Y = 88.000000000000000000
+          Size.Width = 305.000000000000000000
+          Size.Height = 68.000000000000000000
+          Size.PlatformDefault = False
+          TabOrder = 0
+          Viewport.Width = 301.000000000000000000
+          Viewport.Height = 64.000000000000000000
+        end
+        object Label3: TLabel
+          Position.X = 8.000000000000000000
+          Position.Y = 63.000000000000000000
+          Text = 'JSON Parameters:'
+          TabOrder = 3
+        end
+      end
+      object TabItem3: TTabItem
+        CustomIcon = <
+          item
+          end>
+        IsSelected = False
+        Size.Width = 100.000000000000000000
+        Size.Height = 26.000000000000000000
+        Size.PlatformDefault = False
+        StyleLookup = ''
+        TabOrder = 0
+        Text = 'DevTool Events'
+        ExplicitSize.cx = 100.000000000000000000
+        ExplicitSize.cy = 26.000000000000000000
+        object Label4: TLabel
+          Position.X = 8.000000000000000000
+          Position.Y = 8.000000000000000000
+          Text = 'Event Name:'
+          TabOrder = 4
+        end
+        object SubscribeEdit: TEdit
+          Touch.InteractiveGestures = [LongTap, DoubleTap]
+          Anchors = [akLeft, akTop, akRight]
+          TabOrder = 2
+          Text = 'Network.dataReceived'
+          Position.X = 8.000000000000000000
+          Position.Y = 33.000000000000000000
+          Size.Width = 305.000000000000000000
+          Size.Height = 22.000000000000000000
+          Size.PlatformDefault = False
+        end
+        object SubscribeBtn: TButton
+          Anchors = [akTop, akRight]
+          Position.X = 217.000000000000000000
+          Position.Y = 63.000000000000000000
+          Size.Width = 96.000000000000000000
+          Size.Height = 22.000000000000000000
+          Size.PlatformDefault = False
+          TabOrder = 6
+          Text = 'Subscribe'
+          OnClick = SubscribeBtnClick
+        end
+        object EventMemo: TMemo
+          Touch.InteractiveGestures = [Pan, LongTap, DoubleTap]
+          DataDetectorTypes = []
+          Anchors = [akLeft, akTop, akRight, akBottom]
+          Position.X = 8.000000000000000000
+          Position.Y = 93.000000000000000000
+          Size.Width = 306.000000000000000000
+          Size.Height = 225.000000000000000000
+          Size.PlatformDefault = False
+          TabOrder = 7
+          Viewport.Width = 302.000000000000000000
+          Viewport.Height = 221.000000000000000000
+        end
+        object ClrEventBtn: TButton
+          Anchors = [akLeft, akRight, akBottom]
+          Position.X = 8.000000000000000000
+          Position.Y = 326.000000000000000000
+          Size.Width = 305.000000000000000000
+          Size.Height = 22.000000000000000000
+          Size.PlatformDefault = False
+          TabOrder = 8
+          Text = 'Clear Events'
+          OnClick = ClrEventBtnClick
+        end
+      end
+    end
+  end
+  object Splitter1: TSplitter
+    Align = Right
+    Cursor = crHSplit
+    MinSize = 100.000000000000000000
+    Position.X = 381.000000000000000000
+    Position.Y = 22.000000000000000000
+    Size.Width = 13.000000000000000000
+    Size.Height = 382.000000000000000000
+    Size.PlatformDefault = False
+  end
+  object InfoBtn: TButton
+    Align = Top
+    Size.Width = 714.000000000000000000
+    Size.Height = 22.000000000000000000
+    Size.PlatformDefault = False
+    TabOrder = 3
+    Text = 'DevTools Information'
+    OnClick = InfoBtnClick
+  end
+end

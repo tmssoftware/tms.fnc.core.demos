@@ -1,0 +1,111 @@
+object Form1: TForm1
+  Left = 0
+  Top = 0
+  Caption = 'TMS FNC Filter Rules Manager Panel Control Demo'
+  ClientHeight = 280
+  ClientWidth = 284
+  FormFactor.Width = 320
+  FormFactor.Height = 480
+  FormFactor.Devices = [Desktop]
+  OnCreate = FormCreate
+  DesignerMasterStyle = 0
+  object pnlControls: TPanel
+    Position.X = 8.000000000000000000
+    Position.Y = 48.000000000000000000
+    Size.Width = 265.000000000000000000
+    Size.Height = 217.000000000000000000
+    Size.PlatformDefault = False
+    TabOrder = 0
+    object btnCreateInvoice: TButton
+      Align = Top
+      Size.Width = 265.000000000000000000
+      Size.Height = 22.000000000000000000
+      Size.PlatformDefault = False
+      TabOrder = 4
+      Text = 'Create invoice'
+    end
+    object btnApproveInvoice: TButton
+      Align = Top
+      Position.Y = 121.000000000000000000
+      Size.Width = 265.000000000000000000
+      Size.Height = 22.000000000000000000
+      Size.PlatformDefault = False
+      TabOrder = 3
+      Text = 'Approve invoice'
+    end
+    object btnSendReminder: TButton
+      Align = Top
+      StyledSettings = [Family, Size, Style]
+      Position.Y = 160.000000000000000000
+      Size.Width = 265.000000000000000000
+      Size.Height = 22.000000000000000000
+      Size.PlatformDefault = False
+      TabOrder = 2
+      Text = 'Send reminder'
+    end
+    object btnArchiveInvoice: TButton
+      Align = Top
+      Position.Y = 80.000000000000000000
+      Size.Width = 265.000000000000000000
+      Size.Height = 22.000000000000000000
+      Size.PlatformDefault = False
+      TabOrder = 1
+      Text = 'Archive invoice'
+    end
+    object btnExportInvoices: TButton
+      Align = Top
+      Position.Y = 41.000000000000000000
+      Size.Width = 265.000000000000000000
+      Size.Height = 22.000000000000000000
+      Size.PlatformDefault = False
+      TabOrder = 0
+      Text = 'Export invoices'
+    end
+    object lblCustomer: TLabel
+      Align = Top
+      Position.Y = 63.000000000000000000
+      Size.Width = 265.000000000000000000
+      Size.Height = 17.000000000000000000
+      Size.PlatformDefault = False
+      Text = 'Customer: FNC Demo Company'
+      TabOrder = 5
+    end
+    object lblDueDate: TLabel
+      Align = Top
+      Position.Y = 143.000000000000000000
+      Size.Width = 265.000000000000000000
+      Size.Height = 17.000000000000000000
+      Size.PlatformDefault = False
+      Text = 'Due date: 30 days'
+      TabOrder = 6
+    end
+    object chkIncludePaid: TCheckBox
+      Align = Top
+      Position.Y = 22.000000000000000000
+      Size.Width = 265.000000000000000000
+      Size.Height = 19.000000000000000000
+      Size.PlatformDefault = False
+      TabOrder = 7
+      Text = 'Include paid invoices'
+    end
+    object rbOverdueOnly: TRadioButton
+      Align = Top
+      Position.Y = 102.000000000000000000
+      Size.Width = 265.000000000000000000
+      Size.Height = 19.000000000000000000
+      Size.PlatformDefault = False
+      TabOrder = 8
+      Text = 'Overdue only'
+    end
+  end
+  object btnToggleButtons: TButton
+    Position.X = 8.000000000000000000
+    Position.Y = 8.000000000000000000
+    Size.Width = 265.000000000000000000
+    Size.Height = 32.000000000000000000
+    Size.PlatformDefault = False
+    TabOrder = 1
+    Text = 'Toggle action buttons'
+    OnClick = btnToggleButtonsClick
+  end
+end

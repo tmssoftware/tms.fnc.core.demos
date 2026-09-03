@@ -1,0 +1,264 @@
+object Form2: TForm2
+  Left = 0
+  Top = 0
+  Caption = 'EdgeWebBrowser Cookies Demo'
+  ClientHeight = 550
+  ClientWidth = 1418
+  FormFactor.Width = 320
+  FormFactor.Height = 480
+  FormFactor.Devices = [Desktop]
+  OnCreate = FormCreate
+  DesignerMasterStyle = 0
+  object Panel1: TPanel
+    Align = Left
+    Size.Width = 697.000000000000000000
+    Size.Height = 550.000000000000000000
+    Size.PlatformDefault = False
+    TabOrder = 1
+    object TMSFNCEdgeWebBrowser1: TTMSFNCEdgeWebBrowser
+      Anchors = [akLeft, akTop, akRight, akBottom]
+      Position.X = 16.000000000000000000
+      Position.Y = 46.000000000000000000
+      Size.Width = 665.000000000000000000
+      Size.Height = 479.000000000000000000
+      Size.PlatformDefault = False
+      TabOrder = 0
+      OnInitialized = TMSFNCEdgeWebBrowser1Initialized
+      URL = 'https://www.google.com'
+      OnNavigateComplete = TMSFNCEdgeWebBrowser1NavigateComplete
+      Settings.EnableContextMenu = True
+      Settings.EnableShowDebugConsole = True
+      Settings.EnableAcceleratorKeys = True
+      Settings.AllowExternalDrop = True
+      Settings.UsePopupMenuAsContextMenu = False
+      OnGetCookies = TMSFNCEdgeWebBrowser1GetCookies
+    end
+    object NavigateBtn: TButton
+      Anchors = [akTop, akRight]
+      Position.X = 608.000000000000000000
+      Position.Y = 16.000000000000000000
+      Size.Width = 73.000000000000000000
+      Size.Height = 22.000000000000000000
+      Size.PlatformDefault = False
+      TabOrder = 1
+      Text = 'Navigate'
+      OnClick = NavigateBtnClick
+    end
+    object URIEdit: TEdit
+      Touch.InteractiveGestures = [LongTap, DoubleTap]
+      Anchors = [akLeft, akTop, akRight]
+      TabOrder = 7
+      Text = 'https://www.google.com'
+      Position.X = 16.000000000000000000
+      Position.Y = 16.000000000000000000
+      Size.Width = 584.000000000000000000
+      Size.Height = 22.000000000000000000
+      Size.PlatformDefault = False
+    end
+  end
+  object Panel2: TPanel
+    Align = Client
+    Size.Width = 713.000000000000000000
+    Size.Height = 550.000000000000000000
+    Size.PlatformDefault = False
+    TabOrder = 5
+    object AddCookieBtn: TButton
+      Anchors = [akLeft, akRight, akBottom]
+      Position.X = 19.000000000000000000
+      Position.Y = 425.000000000000000000
+      Size.Width = 670.000000000000000000
+      Size.Height = 28.000000000000000000
+      Size.PlatformDefault = False
+      TabOrder = 28
+      Text = 'Add Or Update Cookie'
+      OnClick = AddCookieBtnClick
+    end
+    object CookieGrid: TStringGrid
+      Anchors = [akLeft, akTop, akRight]
+      CanFocus = True
+      ClipChildren = True
+      Position.X = 17.000000000000000000
+      Position.Y = 46.000000000000000000
+      Size.Width = 672.000000000000000000
+      Size.Height = 227.000000000000000000
+      Size.PlatformDefault = False
+      TabOrder = 26
+      RowCount = 3
+      Options = [Editing, ColumnResize, ColumnMove, ColLines, RowLines, RowSelect, Tabs, Header, HeaderClick, AutoDisplacement]
+      OnSelectCell = CookieGridSelectCell
+      Viewport.Width = 672.000000000000000000
+      Viewport.Height = 227.000000000000000000
+      object StringColumn1: TStringColumn
+        Header = 'Name'
+        Size.Width = 220.000000000000000000
+      end
+      object StringColumn2: TStringColumn
+        Header = 'Domain'
+        Size.Width = 150.000000000000000000
+      end
+      object StringColumn3: TStringColumn
+        Header = 'Path'
+        Size.Width = 90.000000000000000000
+      end
+      object StringColumn4: TStringColumn
+        Header = 'Value'
+      end
+      object StringColumn5: TStringColumn
+        Header = 'Expires'
+      end
+    end
+    object DeleteAllCookiesBtn: TButton
+      Anchors = [akLeft, akRight, akBottom]
+      Position.X = 19.000000000000000000
+      Position.Y = 497.000000000000000000
+      Size.Width = 670.000000000000000000
+      Size.Height = 28.000000000000000000
+      Size.PlatformDefault = False
+      TabOrder = 20
+      Text = 'Delete All Cookies'
+      OnClick = DeleteAllCookiesBtnClick
+    end
+    object DeleteCookieBtn: TButton
+      Anchors = [akLeft, akRight, akBottom]
+      Position.X = 19.000000000000000000
+      Position.Y = 461.000000000000000000
+      Size.Width = 670.000000000000000000
+      Size.Height = 28.000000000000000000
+      Size.PlatformDefault = False
+      TabOrder = 25
+      Text = 'Delete Cookie'
+      OnClick = DeleteCookieBtnClick
+    end
+    object DomainEdit: TEdit
+      Touch.InteractiveGestures = [LongTap, DoubleTap]
+      Anchors = [akLeft, akRight, akBottom]
+      TabOrder = 9
+      Position.X = 119.000000000000000000
+      Position.Y = 305.000000000000000000
+      Size.Width = 570.000000000000000000
+      Size.Height = 22.000000000000000000
+      Size.PlatformDefault = False
+    end
+    object DomainLbl: TLabel
+      Position.X = 17.000000000000000000
+      Position.Y = 308.000000000000000000
+      Size.Width = 94.000000000000000000
+      Size.Height = 17.000000000000000000
+      Size.PlatformDefault = False
+      Text = 'Domain'
+      TabOrder = 18
+    end
+    object ExpirationDate: TDateEdit
+      Date = 45043.000000000000000000
+      Anchors = [akLeft, akRight, akBottom]
+      Position.X = 119.000000000000000000
+      Position.Y = 388.000000000000000000
+      Size.Width = 459.000000000000000000
+      Size.Height = 22.000000000000000000
+      Size.PlatformDefault = False
+      TabOrder = 21
+    end
+    object ExpirationTime: TTimeEdit
+      Time = 0.523963738425925900
+      Anchors = [akRight, akBottom]
+      Position.X = 586.000000000000000000
+      Position.Y = 388.000000000000000000
+      Size.Width = 103.000000000000000000
+      Size.Height = 22.000000000000000000
+      Size.PlatformDefault = False
+      TabOrder = 23
+    end
+    object GetCookiesBtn: TButton
+      Anchors = [akTop, akRight]
+      Position.X = 494.000000000000000000
+      Position.Y = 16.000000000000000000
+      Size.Width = 195.000000000000000000
+      Size.Height = 22.000000000000000000
+      Size.PlatformDefault = False
+      TabOrder = 0
+      Text = 'Refresh Cookies'
+      OnClick = GetCookiesBtnClick
+    end
+    object Label1: TLabel
+      Position.X = 17.000000000000000000
+      Position.Y = 362.000000000000000000
+      Size.Width = 94.000000000000000000
+      Size.Height = 17.000000000000000000
+      Size.PlatformDefault = False
+      Text = 'Value:'
+      TabOrder = 12
+    end
+    object Label2: TLabel
+      Position.X = 17.000000000000000000
+      Position.Y = 391.000000000000000000
+      Size.Width = 94.000000000000000000
+      Size.Height = 17.000000000000000000
+      Size.PlatformDefault = False
+      Text = 'Expiry Date:'
+      TabOrder = 7
+    end
+    object Label3: TLabel
+      Position.X = 17.000000000000000000
+      Position.Y = 19.000000000000000000
+      Text = 'Cookies:'
+      TabOrder = 22
+    end
+    object NameEdit: TEdit
+      Touch.InteractiveGestures = [LongTap, DoubleTap]
+      Anchors = [akLeft, akRight, akBottom]
+      TabOrder = 10
+      Position.X = 119.000000000000000000
+      Position.Y = 278.000000000000000000
+      Size.Width = 570.000000000000000000
+      Size.Height = 22.000000000000000000
+      Size.PlatformDefault = False
+    end
+    object NameLbl: TLabel
+      Position.X = 17.000000000000000000
+      Position.Y = 281.000000000000000000
+      Size.Width = 94.000000000000000000
+      Size.Height = 17.000000000000000000
+      Size.PlatformDefault = False
+      Text = 'Name:'
+      TabOrder = 17
+    end
+    object PathEdit: TEdit
+      Touch.InteractiveGestures = [LongTap, DoubleTap]
+      Anchors = [akLeft, akRight, akBottom]
+      TabOrder = 1
+      Position.X = 119.000000000000000000
+      Position.Y = 332.000000000000000000
+      Size.Width = 570.000000000000000000
+      Size.Height = 22.000000000000000000
+      Size.PlatformDefault = False
+    end
+    object PathLbl: TLabel
+      Position.X = 17.000000000000000000
+      Position.Y = 333.000000000000000000
+      Size.Width = 94.000000000000000000
+      Size.Height = 17.000000000000000000
+      Size.PlatformDefault = False
+      Text = 'Path:'
+      TabOrder = 11
+    end
+    object ValueEdit: TEdit
+      Touch.InteractiveGestures = [LongTap, DoubleTap]
+      Anchors = [akLeft, akBottom]
+      TabOrder = 2
+      Position.X = 118.000000000000000000
+      Position.Y = 360.000000000000000000
+      Size.Width = 568.000000000000000000
+      Size.Height = 22.000000000000000000
+      Size.PlatformDefault = False
+    end
+  end
+  object Splitter1: TSplitter
+    Align = Left
+    Cursor = crHSplit
+    MinSize = 20.000000000000000000
+    Position.X = 697.000000000000000000
+    Size.Width = 8.000000000000000000
+    Size.Height = 550.000000000000000000
+    Size.PlatformDefault = False
+  end
+end

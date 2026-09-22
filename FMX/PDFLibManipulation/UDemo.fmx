@@ -1,0 +1,42 @@
+object Form131: TForm131
+  Left = 0
+  Top = 0
+  Caption = 'TMS FNC PDFLib Document Manipulation Demo'
+  ClientHeight = 340
+  ClientWidth = 460
+  FormFactor.Width = 320
+  FormFactor.Height = 480
+  FormFactor.Devices = [Desktop]
+  DesignerMasterStyle = 0
+  object btnRun: TButton
+    Position.X = 24.000000000000000000
+    Position.Y = 24.000000000000000000
+    Size.Width = 412.000000000000000000
+    Size.Height = 32.000000000000000000
+    Size.PlatformDefault = False
+    Text = 'Assemble a pack from two documents'
+    TabOrder = 0
+    OnClick = btnRunClick
+  end
+  object lblInfo: TLabel
+    Position.X = 24.000000000000000000
+    Position.Y = 72.000000000000000000
+    Size.Width = 412.000000000000000000
+    Size.Height = 60.000000000000000000
+    Size.PlatformDefault = False
+    TextSettings.WordWrap = True
+    Text = 
+      'Builds two documents, then opens one and merges, reorders, rotate' +
+      's and deletes pages, writes its metadata, adds a link annotation ' +
+      'and reads the first page back as text.'
+    TabOrder = 1
+  end
+  object memoText: TMemo
+    Position.X = 24.000000000000000000
+    Position.Y = 140.000000000000000000
+    Size.Width = 412.000000000000000000
+    Size.Height = 180.000000000000000000
+    Size.PlatformDefault = False
+    TabOrder = 2
+  end
+end

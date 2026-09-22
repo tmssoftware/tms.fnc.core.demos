@@ -27,7 +27,8 @@ implementation
 {$R *.fmx}
 
 uses
-  FMX.TMSFNCPDFLib, FMX.TMSFNCGraphicsTypes, FMX.TMSFNCUtils, System.IOUtils;
+  FMX.TMSFNCPDFLib, FMX.TMSFNCGraphicsTypes, FMX.TMSFNCUtils, System.IOUtils,
+  System.Math;
 
 function TForm130.CreateReport(const AFileName: string): Integer;
 var
@@ -64,6 +65,7 @@ var
   p: TTMSFNCPDFLib;
   I: Integer;
   r: TRectF;
+  a: Double;
 begin
   p := TTMSFNCPDFLib.Create(Self);
   try
@@ -81,10 +83,19 @@ begin
         p.Graphics.Fill.Kind := gfkNone;
         p.Graphics.Stroke.Kind := gskNone;
 
-        r := RectF(0, p.PageHeight / 2 - 60, p.PageWidth,
-          p.PageHeight / 2 + 60);
+        // Rotate 45 degrees about the middle of the page. DrawSetTransform
+        // takes the matrix directly, so the stamp is drawn around (0,0) and
+        // the transform puts it on the diagonal.
+        a := -45 * Pi / 180;
+        p.Graphics.DrawSaveState;
+        p.Graphics.DrawSetTransform(Cos(a), Sin(a), -Sin(a), Cos(a),
+          p.PageWidth / 2, p.PageHeight / 2);
+
+        r := RectF(-p.PageWidth / 2, -40, p.PageWidth / 2, 40);
         p.Graphics.Alignment := gtaCenter;
         p.Graphics.DrawText(AText, r);
+
+        p.Graphics.DrawRestoreState;
 
         p.EndPageEdit;
       except

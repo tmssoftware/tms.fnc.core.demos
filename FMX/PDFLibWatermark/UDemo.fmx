@@ -1,0 +1,34 @@
+object Form130: TForm130
+  Left = 0
+  Top = 0
+  Caption = 'TMS FNC PDFLib Watermark Demo'
+  ClientHeight = 180
+  ClientWidth = 420
+  FormFactor.Width = 320
+  FormFactor.Height = 480
+  FormFactor.Devices = [Desktop]
+  DesignerMasterStyle = 0
+  object btnWatermark: TButton
+    Position.X = 24.000000000000000000
+    Position.Y = 24.000000000000000000
+    Size.Width = 372.000000000000000000
+    Size.Height = 32.000000000000000000
+    Size.PlatformDefault = False
+    Text = 'Create a report and stamp it CONFIDENTIAL'
+    TabOrder = 0
+    OnClick = btnWatermarkClick
+  end
+  object lblInfo: TLabel
+    Position.X = 24.000000000000000000
+    Position.Y = 72.000000000000000000
+    Size.Width = 372.000000000000000000
+    Size.Height = 88.000000000000000000
+    Size.PlatformDefault = False
+    TextSettings.WordWrap = True
+    Text =
+      'Generates a three page report, then opens it again and draws a wa' +
+      'termark under the content of every page with BeginPageEdit(I, pel' +
+      'Underlay).'
+    TabOrder = 1
+  end
+end

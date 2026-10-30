@@ -1,112 +1,189 @@
 object MainForm: TMainForm
   Left = 0
   Top = 0
-  Caption = 'TMS FNC PDF Capabilities'
+  Caption = 'TMS FNC Core - PDF capabilities'
   ClientHeight = 520
   ClientWidth = 820
   Color = clBtnFace
   Font.Charset = DEFAULT_CHARSET
   Font.Color = clWindowText
-  Font.Height = -13
+  Font.Height = -12
   Font.Name = 'Segoe UI'
   Font.Style = []
   Position = poScreenCenter
-  OnCreate = FormCreate
   PixelsPerInch = 96
-  TextHeight = 17
-  object HeaderPanel: TPanel
+  TextHeight = 15
+  OnCreate = FormCreate
+  OnDestroy = FormDestroy
+  object DemoHeader: TPanel
     Left = 0
     Top = 0
     Width = 820
-    Height = 112
+    Height = 72
     Align = alTop
     BevelOuter = bvNone
-    Color = 3158064
-    ParentBackground = False
+    ParentColor = True
+    ShowCaption = False
     TabOrder = 0
-    object TitleLabel: TLabel
+    object DemoTitle: TLabel
       Left = 24
-      Top = 20
-      Width = 174
+      Top = 12
+      Width = 606
       Height = 30
+      Anchors = [akLeft, akTop, akRight]
+      AutoSize = False
       Caption = 'PDF capabilities'
       Font.Charset = DEFAULT_CHARSET
-      Font.Color = clWhite
-      Font.Height = -24
+      Font.Color = clWindowText
+      Font.Height = -20
       Font.Name = 'Segoe UI Semibold'
       Font.Style = []
       ParentFont = False
     end
-    object DescriptionLabel: TLabel
+    object DemoDescription: TLabel
       Left = 24
-      Top = 60
-      Width = 750
-      Height = 40
+      Top = 44
+      Width = 772
+      Height = 20
+      Anchors = [akLeft, akTop, akRight]
       AutoSize = False
-      Caption = 'Generate, inspect, edit, reorganize, extract, and merge PDF documents with TTMSFNCPDFLib.'
-      Font.Charset = DEFAULT_CHARSET
-      Font.Color = 15132390
-      Font.Height = -13
-      Font.Name = 'Segoe UI'
-      Font.Style = []
-      ParentFont = False
-      WordWrap = True
+      Caption = 'Generate, inspect, edit, reorganize, extract and merge PDF documents with TTMSFNCPDFLib'
+    end
+    object DemoThemeCombo: TComboBox
+      Left = 646
+      Top = 16
+      Width = 150
+      Height = 23
+      Style = csDropDownList
+      Anchors = [akTop, akRight]
+      ItemIndex = 0
+      TabOrder = 2
+      Text = 'Fluent Light'
+      OnChange = DemoThemeComboChange
+      Items.Strings = (
+        'Fluent Light'
+        'Fluent Dark')
     end
   end
-  object ActionsPanel: TPanel
-    Left = 0
-    Top = 112
-    Width = 820
-    Height = 66
-    Align = alTop
+  object SettingsPanel: TPanel
+    AlignWithMargins = True
+    Left = 24
+    Top = 72
+    Width = 260
+    Height = 424
+    Margins.Left = 24
+    Margins.Top = 0
+    Margins.Right = 0
+    Margins.Bottom = 24
+    Align = alLeft
     BevelOuter = bvNone
+    ParentColor = True
+    ShowCaption = False
     TabOrder = 1
+    object StepsCaption: TLabel
+      Left = 0
+      Top = 0
+      Width = 260
+      Height = 24
+      Align = alTop
+      AlignWithMargins = True
+      Margins.Left = 0
+      Margins.Top = 0
+      Margins.Right = 0
+      Margins.Bottom = 8
+      AutoSize = False
+      Caption = 'Steps'
+      Font.Charset = DEFAULT_CHARSET
+      Font.Color = clWindowText
+      Font.Height = -13
+      Font.Name = 'Segoe UI Semibold'
+      Font.Style = []
+      ParentFont = False
+    end
     object CreateButton: TButton
-      Left = 18
-      Top = 13
-      Width = 180
-      Height = 40
+      Left = 0
+      Top = 32
+      Width = 260
+      Height = 36
+      Align = alTop
+      AlignWithMargins = True
+      Margins.Left = 0
+      Margins.Top = 0
+      Margins.Right = 0
+      Margins.Bottom = 8
       Caption = '1. Generate source PDF'
       TabOrder = 0
       OnClick = CreateButtonClick
     end
     object EditButton: TButton
-      Left = 204
-      Top = 13
-      Width = 180
-      Height = 40
+      Left = 0
+      Top = 76
+      Width = 260
+      Height = 36
+      Align = alTop
+      AlignWithMargins = True
+      Margins.Left = 0
+      Margins.Top = 0
+      Margins.Right = 0
+      Margins.Bottom = 8
       Caption = '2. Edit and reorganize'
       TabOrder = 1
       OnClick = EditButtonClick
     end
     object InspectButton: TButton
-      Left = 390
-      Top = 13
-      Width = 150
-      Height = 40
+      Left = 0
+      Top = 120
+      Width = 260
+      Height = 36
+      Align = alTop
+      AlignWithMargins = True
+      Margins.Left = 0
+      Margins.Top = 0
+      Margins.Right = 0
+      Margins.Bottom = 8
       Caption = '3. Inspect result'
       TabOrder = 2
       OnClick = InspectButtonClick
     end
     object OpenButton: TButton
-      Left = 546
-      Top = 13
-      Width = 140
-      Height = 40
+      Left = 0
+      Top = 164
+      Width = 260
+      Height = 36
+      Align = alTop
+      AlignWithMargins = True
+      Margins.Left = 0
+      Margins.Top = 0
+      Margins.Right = 0
+      Margins.Bottom = 8
       Caption = '4. Open PDF'
       TabOrder = 3
       OnClick = OpenButtonClick
     end
+    object StepsHint: TLabel
+      Left = 0
+      Top = 208
+      Width = 260
+      Height = 64
+      Align = alTop
+      AutoSize = False
+      Caption = 'Steps 3 and 4 create the source PDF first when it does not exist yet.'
+      WordWrap = True
+    end
   end
   object LogMemo: TMemo
-    Left = 0
-    Top = 178
-    Width = 820
-    Height = 342
+    AlignWithMargins = True
+    Left = 300
+    Top = 72
+    Width = 496
+    Height = 424
+    Margins.Left = 16
+    Margins.Top = 0
+    Margins.Right = 24
+    Margins.Bottom = 24
     Align = alClient
-    Color = 16448250
     Font.Charset = DEFAULT_CHARSET
-    Font.Color = 2697513
+    Font.Color = clWindowText
     Font.Height = -13
     Font.Name = 'Consolas'
     Font.Style = []
@@ -114,5 +191,10 @@ object MainForm: TMainForm
     ReadOnly = True
     ScrollBars = ssVertical
     TabOrder = 2
+  end
+  object ThemeManager: TTMSFNCThemeManager
+    Theme = 'Fluent Light'
+    Left = 8
+    Top = 8
   end
 end

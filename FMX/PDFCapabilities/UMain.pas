@@ -6,16 +6,21 @@ uses
   System.SysUtils, System.Types, System.Classes, System.UITypes,
   System.IOUtils, FMX.Types, FMX.Controls, FMX.Forms, FMX.Graphics,
   FMX.Dialogs, FMX.StdCtrls, FMX.Layouts, FMX.Memo, FMX.Objects,
-  FMX.TMSFNCGraphicsTypes, FMX.TMSFNCPDFLib;
+  FMX.TMSFNCGraphicsTypes, FMX.TMSFNCPDFLib,
+  FMX.ListBox, FMX.TMSFNCTheme;
 
 type
   TPDFDemoAction = (daCreate, daEdit, daInspect, daOpen);
 
   TMainForm = class(TForm)
-    HeaderBackground: TRectangle;
-    TitleLabel: TLabel;
-    DescriptionLabel: TLabel;
-    ActionsLayout: TLayout;
+    ThemeManager: TTMSFNCThemeManager;
+    DemoHeader: TLayout;
+    DemoTitle: TLabel;
+    DemoDescription: TLabel;
+    DemoThemeCombo: TComboBox;
+    SettingsPanel: TLayout;
+    StepsCaption: TLabel;
+    StepsHint: TLabel;
     CreateButton: TButton;
     EditButton: TButton;
     InspectButton: TButton;
@@ -24,9 +29,12 @@ type
     procedure CreateButtonClick(Sender: TObject);
     procedure EditButtonClick(Sender: TObject);
     procedure FormCreate(Sender: TObject);
+    procedure FormDestroy(Sender: TObject);
+    procedure DemoThemeComboChange(Sender: TObject);
     procedure InspectButtonClick(Sender: TObject);
     procedure OpenButtonClick(Sender: TObject);
   private
+    procedure ThemeChanged(Sender: TObject);
     function DemoFileName(const AName: string): string;
     function SourceFileName: string;
     function EditedFileName: string;
@@ -234,6 +242,8 @@ end;
 
 procedure TMainForm.FormCreate(Sender: TObject);
 begin
+  TTMSFNCTheme.AddChangeListener(ThemeChanged);
+  ThemeChanged(nil);
   AddLog('Ready. Output folder: ' + System.IOUtils.TPath.GetDocumentsPath);
 end;
 
@@ -316,6 +326,46 @@ end;
 function TMainForm.SourceFileName: string;
 begin
   Result := DemoFileName(CSourcePDF);
+end;
+
+procedure TMainForm.FormDestroy(Sender: TObject);
+begin
+  TTMSFNCTheme.RemoveChangeListener(ThemeChanged);
+end;
+
+{ Core has no FNC label or button: the native labels take the text colours of the theme in
+  effect (without a theme: the platform's). Native buttons, edits and memos keep the platform
+  look, which is readable on a light and on a dark form. }
+procedure TMainForm.ThemeChanged(Sender: TObject);
+var
+  t: TTMSFNCResolvedTheme;
+  txt, sec: TAlphaColor;
+begin
+  t := TTMSFNCTheme.Resolve(TTMSFNCTheme.Current);
+  if Assigned(t) then
+  begin
+    txt := t[ttText];
+    sec := t[ttTextSecondary];
+    { a form without FNC controls is not coloured by the manager: do it here }
+    Fill.Kind := TBrushKind.Solid;
+    Fill.Color := t[ttWindowBackground];
+  end
+  else
+  begin
+    txt := TAlphaColorRec.Black;
+    sec := $FF5B6470;
+    Fill.Kind := TBrushKind.None;
+  end;
+  DemoTitle.FontColor := txt;
+  StepsCaption.FontColor := txt;
+  DemoDescription.FontColor := sec;
+  StepsHint.FontColor := sec;
+end;
+
+procedure TMainForm.DemoThemeComboChange(Sender: TObject);
+begin
+  if DemoThemeCombo.ItemIndex >= 0 then
+    ThemeManager.Theme := DemoThemeCombo.Items[DemoThemeCombo.ItemIndex];
 end;
 
 end.

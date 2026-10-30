@@ -1,17 +1,12 @@
 object Form4: TForm4
   Left = 0
   Top = 0
-  Margins.Left = 5
-  Margins.Top = 5
-  Margins.Right = 5
-  Margins.Bottom = 5
-  Caption = 'TMS FNC Popup Menu Runtime Build'
-  ClientHeight = 289
-  ClientWidth = 558
-  Color = clBtnFace
+  Caption = 'TMS FNC Core - Popup menu built at run time'
+  ClientHeight = 190
+  ClientWidth = 560
   Font.Charset = DEFAULT_CHARSET
   Font.Color = clWindowText
-  Font.Height = -18
+  Font.Height = -12
   Font.Name = 'Segoe UI'
   Font.Style = []
   Icon.Data = {
@@ -152,13 +147,36 @@ object Form4: TForm4
   Position = poScreenCenter
   OnClose = FormClose
   OnCreate = FormCreate
-  PixelsPerInch = 144
-  TextHeight = 25
+  PixelsPerInch = 96
+  TextHeight = 15
+  OnDestroy = FormDestroy
+  object DemoTitle: TLabel
+    Left = 24
+    Top = 16
+    Width = 512
+    Height = 30
+    AutoSize = False
+    Caption = 'Popup menu built at run time'
+    Font.Charset = DEFAULT_CHARSET
+    Font.Color = clWindowText
+    Font.Height = -20
+    Font.Name = 'Segoe UI Semibold'
+    Font.Style = []
+    ParentFont = False
+  end
+  object DemoDescription: TLabel
+    Left = 24
+    Top = 48
+    Width = 512
+    Height = 20
+    AutoSize = False
+    Caption = 'Menu items created in code, depending on the text selected in the edit'
+  end
   object Label1: TLabel
-    Left = 60
-    Top = 132
-    Width = 384
-    Height = 25
+    Left = 24
+    Top = 128
+    Width = 512
+    Height = 20
     Margins.Left = 5
     Margins.Top = 5
     Margins.Right = 5
@@ -166,10 +184,10 @@ object Form4: TForm4
     Caption = 'Right-Click on the Edit to show the popup menu'
   end
   object Label2: TLabel
-    Left = 60
-    Top = 167
-    Width = 410
-    Height = 25
+    Left = 24
+    Top = 150
+    Width = 512
+    Height = 20
     Margins.Left = 5
     Margins.Top = 5
     Margins.Right = 5
@@ -177,10 +195,10 @@ object Form4: TForm4
     Caption = 'Other options will be available when text is selected.'
   end
   object Edit1: TEdit
-    Left = 60
-    Top = 72
-    Width = 397
-    Height = 33
+    Left = 24
+    Top = 88
+    Width = 360
+    Height = 32
     Margins.Left = 5
     Margins.Top = 5
     Margins.Right = 5
@@ -380,5 +398,10 @@ object Form4: TForm4
         Name = 'Google'
         Tag = 0
       end>
+  end
+  object ThemeManager: TTMSFNCThemeManager
+    Theme = 'Fluent Light'
+    Left = 504
+    Top = 16
   end
 end

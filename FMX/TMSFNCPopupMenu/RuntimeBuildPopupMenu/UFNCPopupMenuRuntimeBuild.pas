@@ -6,10 +6,14 @@ uses
   System.SysUtils, System.Types, System.UITypes, System.Classes, System.Variants,
   FMX.Types, FMX.Controls, FMX.Forms, FMX.Graphics, FMX.Dialogs,
   FMX.Controls.Presentation, FMX.StdCtrls, FMX.TMSFNCPopupMenu, FMX.Edit,
-  FMX.TMSFNCCustomComponent, FMX.TMSFNCBitmapContainer;
+  FMX.TMSFNCCustomComponent, FMX.TMSFNCBitmapContainer,
+  FMX.TMSFNCTheme;
 
 type
   TForm1 = class(TForm)
+    ThemeManager: TTMSFNCThemeManager;
+    DemoTitle: TLabel;
+    DemoDescription: TLabel;
     Edit1: TEdit;
     TMSFNCBitmapContainer: TTMSFNCBitmapContainer;
     Label1: TLabel;
@@ -21,7 +25,9 @@ type
     procedure DoGetNumberOfSubMenuItems(Sender: TObject; AParentMenuItemControl: TTMSFNCMenuItemControl; var ADisplayItemCount: Integer);
     procedure FormClose(Sender: TObject; var Action: TCloseAction);
     procedure DoMenuItemClick(Sender: TObject; AMenuItemControl: TTMSFNCMenuItemControl);
+    procedure FormDestroy(Sender: TObject);
   private
+    procedure ThemeChanged(Sender: TObject);
     { Private declarations }
   public
     { Public declarations }
@@ -75,6 +81,8 @@ end;
 
 procedure TForm1.FormCreate(Sender: TObject);
 begin
+  TTMSFNCTheme.AddChangeListener(ThemeChanged);
+  ThemeChanged(nil);
   pm := TTMSFNCPopupMenu.Create(Self);
   pm.Appearance.DefaultItemAppearance.ItemHeight := 30;
 
@@ -270,6 +278,40 @@ var
 begin
   txt := Edit1.Text.Substring(Edit1.SelStart, Edit1.SelLength);
   TTMSFNCUtils.OpenURL('https://www.google.com/search?q=' + txt);
+end;
+
+{ Core has no FNC label or button: the native labels take the text colours of the theme in
+  effect (without a theme: the platform's). Native buttons and edits keep the platform look,
+  which is readable on a light and on a dark form. }
+procedure TForm1.ThemeChanged(Sender: TObject);
+var
+  t: TTMSFNCResolvedTheme;
+  txt, sec: TAlphaColor;
+begin
+  t := TTMSFNCTheme.Resolve(TTMSFNCTheme.Current);
+  if Assigned(t) then
+  begin
+    txt := t[ttText];
+    sec := t[ttTextSecondary];
+    { a form without FNC controls is not coloured by the manager: do it here }
+    Fill.Kind := TBrushKind.Solid;
+    Fill.Color := t[ttWindowBackground];
+  end
+  else
+  begin
+    txt := TAlphaColorRec.Black;
+    sec := $FF5B6470;
+    Fill.Kind := TBrushKind.None;
+  end;
+  DemoTitle.FontColor := txt;
+  DemoDescription.FontColor := sec;
+  Label1.FontColor := sec;
+  Label2.FontColor := sec;
+end;
+
+procedure TForm1.FormDestroy(Sender: TObject);
+begin
+  TTMSFNCTheme.RemoveChangeListener(ThemeChanged);
 end;
 
 end.

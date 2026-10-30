@@ -1,17 +1,12 @@
 object Form4: TForm4
   Left = 0
   Top = 0
-  Margins.Left = 5
-  Margins.Top = 5
-  Margins.Right = 5
-  Margins.Bottom = 5
-  Caption = 'TMS FNC Popup Menu Appearance Demo'
-  ClientHeight = 308
-  ClientWidth = 574
-  Color = clWhite
+  Caption = 'TMS FNC Core - Popup menu appearance'
+  ClientHeight = 184
+  ClientWidth = 560
   Font.Charset = DEFAULT_CHARSET
   Font.Color = clWindowText
-  Font.Height = -18
+  Font.Height = -12
   Font.Name = 'Segoe UI'
   Font.Style = []
   Icon.Data = {
@@ -150,28 +145,51 @@ object Form4: TForm4
     0000000000000000000000000000000000000000000000000000000000000000
     000000000000000000000000000000000000000000000000000000000000}
   Position = poScreenCenter
-  PixelsPerInch = 144
-  TextHeight = 25
+  PixelsPerInch = 96
+  TextHeight = 15
+  OnCreate = FormCreate
+  OnDestroy = FormDestroy
+  object DemoTitle: TLabel
+    Left = 24
+    Top = 16
+    Width = 512
+    Height = 30
+    AutoSize = False
+    Caption = 'Popup menu appearance'
+    Font.Charset = DEFAULT_CHARSET
+    Font.Color = clWindowText
+    Font.Height = -20
+    Font.Name = 'Segoe UI Semibold'
+    Font.Style = []
+    ParentFont = False
+  end
+  object DemoDescription: TLabel
+    Left = 24
+    Top = 48
+    Width = 512
+    Height = 20
+    AutoSize = False
+    Caption = 'A popup menu with icons, check groups, sub menus and separators'
+  end
   object Label1: TLabel
-    Left = 118
-    Top = 95
-    Width = 339
-    Height = 38
+    Left = 24
+    Top = 136
+    Width = 512
+    Height = 20
     Margins.Left = 5
     Margins.Top = 5
     Margins.Right = 5
     Margins.Bottom = 5
-    Alignment = taCenter
     AutoSize = False
     BiDiMode = bdLeftToRight
-    Caption = 'Right-click on the button '
+    Caption = 'Right-click the button to show the popup menu; Style switches the theme'
     ParentBiDiMode = False
   end
   object Button1: TButton
-    Left = 118
-    Top = 24
-    Width = 339
-    Height = 61
+    Left = 24
+    Top = 88
+    Width = 240
+    Height = 40
     Margins.Left = 5
     Margins.Top = 5
     Margins.Right = 5
@@ -839,5 +857,10 @@ object Form4: TForm4
     OnMenuItemControlAdded = TMSFNCPopupMenu1MenuItemControlAdded
     Left = 312
     Top = 129
+  end
+  object ThemeManager: TTMSFNCThemeManager
+    Theme = 'Fluent Light'
+    Left = 504
+    Top = 16
   end
 end

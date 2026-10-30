@@ -1,9 +1,9 @@
 object Form1: TForm1
   Left = 0
   Top = 0
-  Caption = 'TMS FNC Popup Menu Runtime Build Demo'
-  ClientHeight = 284
-  ClientWidth = 496
+  Caption = 'TMS FNC Core - Popup menu built at run time'
+  ClientHeight = 190
+  ClientWidth = 560
   Position = ScreenCenter
   FormFactor.Width = 320
   FormFactor.Height = 480
@@ -11,14 +11,36 @@ object Form1: TForm1
   OnCreate = FormCreate
   OnClose = FormClose
   DesignerMasterStyle = 0
+  OnDestroy = FormDestroy
+  object DemoTitle: TLabel
+    StyledSettings = [Family]
+    Position.X = 24.000000000000000000
+    Position.Y = 16.000000000000000000
+    Size.Width = 512.000000000000000000
+    Size.Height = 30.000000000000000000
+    Size.PlatformDefault = False
+    TextSettings.Font.Size = 20.000000000000000000
+    TextSettings.Font.StyleExt = {00060000000000000004000000}
+    Text = 'Popup menu built at run time'
+  end
+  object DemoDescription: TLabel
+    StyledSettings = [Family, Style]
+    Position.X = 24.000000000000000000
+    Position.Y = 48.000000000000000000
+    Size.Width = 512.000000000000000000
+    Size.Height = 20.000000000000000000
+    Size.PlatformDefault = False
+    TextSettings.Font.Size = 13.000000000000000000
+    Text = 'Menu items created in code, depending on the text selected in the edit'
+  end
   object Edit1: TEdit
     Touch.InteractiveGestures = [LongTap, DoubleTap]
     TabOrder = 0
     Text = 'https://www.tmssoftware.com'
-    Position.X = 104.000000000000000000
-    Position.Y = 48.000000000000000000
-    Size.Width = 265.000000000000000000
-    Size.Height = 22.000000000000000000
+    Position.X = 24.000000000000000000
+    Position.Y = 88.000000000000000000
+    Size.Width = 360.000000000000000000
+    Size.Height = 32.000000000000000000
     Size.PlatformDefault = False
   end
   object TMSFNCBitmapContainer: TTMSFNCBitmapContainer
@@ -296,21 +318,28 @@ object Form1: TForm1
       end>
   end
   object Label1: TLabel
-    Position.X = 88.000000000000000000
-    Position.Y = 78.000000000000000000
-    Size.Width = 281.000000000000000000
-    Size.Height = 17.000000000000000000
+    Position.X = 24.000000000000000000
+    Position.Y = 128.000000000000000000
+    Size.Width = 512.000000000000000000
+    Size.Height = 20.000000000000000000
     Size.PlatformDefault = False
     Text = 'Right-Click on the Edit to show the popup menu'
     TabOrder = 4
+    StyledSettings = [Family, Size, Style]
   end
   object Label2: TLabel
-    Position.X = 88.000000000000000000
-    Position.Y = 103.000000000000000000
-    Size.Width = 297.000000000000000000
-    Size.Height = 17.000000000000000000
+    Position.X = 24.000000000000000000
+    Position.Y = 150.000000000000000000
+    Size.Width = 512.000000000000000000
+    Size.Height = 20.000000000000000000
     Size.PlatformDefault = False
     Text = 'Other options will be available when text is selected.'
     TabOrder = 3
+    StyledSettings = [Family, Size, Style]
+  end
+  object ThemeManager: TTMSFNCThemeManager
+    Theme = 'Fluent Light'
+    Left = 504
+    Top = 16
   end
 end

@@ -6,10 +6,14 @@ uses
   System.SysUtils, System.Types, System.UITypes, System.Classes, System.Variants,
   FMX.Types, FMX.Controls, FMX.Forms, FMX.Graphics, FMX.Dialogs,
   FMX.TMSFNCPopupMenu, FMX.Controls.Presentation, FMX.StdCtrls, FMX.Menus,
-  FMX.TMSFNCCustomComponent, FMX.TMSFNCBitmapContainer;
+  FMX.TMSFNCCustomComponent, FMX.TMSFNCBitmapContainer,
+  FMX.TMSFNCTheme;
 
 type
   TForm1 = class(TForm)
+    ThemeManager: TTMSFNCThemeManager;
+    DemoTitle: TLabel;
+    DemoDescription: TLabel;
     TMSFNCPopupMenu: TTMSFNCPopupMenu;
     Button1: TButton;
     TMSFNCBitmapContainer1: TTMSFNCBitmapContainer;
@@ -20,13 +24,15 @@ type
       AMenuItemControl: TTMSFNCMenuItemControl);
     procedure TMSFNCPopupMenuMenuItemClick(Sender: TObject;
       AMenuItemControl: TTMSFNCMenuItemControl);
+    procedure FormCreate(Sender: TObject);
+    procedure FormDestroy(Sender: TObject);
   private
+    procedure ThemeChanged(Sender: TObject);
     { Private declarations }
   public
     { Public declarations }
     procedure SetLightStyle;
     procedure SetDarkStyle;
-    procedure ApplyDefaultAppearance;
   end;
 
 var
@@ -39,57 +45,18 @@ uses
 
 {$R *.fmx}
 
-procedure TForm1.ApplyDefaultAppearance;
-  procedure ApplySubItemsAppearance(AItems: TTMSFNCMenuItems);
-  var
-    I: Integer;
-  begin
-    for I := 0 to AItems.Count - 1 do
-    begin
-      AItems[I].Appearance.Assign(TMSFNCPopupMenu.Appearance.DefaultItemAppearance);
-      if AItems[I].Items.Count > 0 then
-        ApplySubItemsAppearance(AItems[I].Items);
-    end;
-  end;
-
-begin
-  ApplySubItemsAppearance(TMSFNCPopupMenu.Items)
-end;
-
 procedure TForm1.SetDarkStyle;
 begin
-  Label1.FontColor := gcWhitesmoke;
-  Fill.Color := gcBlack;
-  TMSFNCPopupMenu.Appearance.Fill.Color := $FF2B2B2B;
-  TMSFNCPopupMenu.Appearance.Stroke.Color := $FF3A3A3A;
-  TMSFNCPopupMenu.Appearance.DefaultItemAppearance.Font.Color := gcWhite;
-  TMSFNCPopupMenu.Appearance.DefaultItemAppearance.SelectedFontColor := gcWhite;
-  TMSFNCPopupMenu.Appearance.DefaultItemAppearance.SelectedFill.Color := $FF373737;
-  TMSFNCPopupMenu.Appearance.DefaultItemAppearance.DisabledFontColor := $FFD0D0D0;
-  TMSFNCPopupMenu.Appearance.DefaultItemAppearance.Separator.Color := $FF393939;
-
-  TMSFNCPopupMenu.Appearance.CheckedIcon := TMSFNCBitmapContainer1.FindBitmap('CheckDark');
-  TMSFNCPopupMenu.Appearance.SubMenuIcon := TMSFNCBitmapContainer1.FindBitmap('SubDark');
-
-  ApplyDefaultAppearance;
+  { the Style sub menu switches the application theme: the form, this menu and every FNC control
+    follow (TTMSFNCThemeManager on the form) }
+  ThemeManager.Theme := 'Fluent Dark';
 end;
 
 procedure TForm1.SetLightStyle;
 begin
-  Label1.FontColor := gcBlack;
-  Fill.Color := gcWhite;
-  TMSFNCPopupMenu.Appearance.Fill.Color := $FFFCFCFC;
-  TMSFNCPopupMenu.Appearance.Stroke.Color := $FFEDEDED;
-  TMSFNCPopupMenu.Appearance.DefaultItemAppearance.Font.Color := $FF1B1B1B;
-  TMSFNCPopupMenu.Appearance.DefaultItemAppearance.SelectedFontColor := $FF1A1A1A;
-  TMSFNCPopupMenu.Appearance.DefaultItemAppearance.SelectedFill.Color := $FFF3F3F3;
-  TMSFNCPopupMenu.Appearance.DefaultItemAppearance.DisabledFontColor := $FF454545;
-  TMSFNCPopupMenu.Appearance.DefaultItemAppearance.Separator.Color := $FFECECEC;
-
-  TMSFNCPopupMenu.Appearance.CheckedIcon := TMSFNCBitmapContainer1.FindBitmap('CheckLight');
-  TMSFNCPopupMenu.Appearance.SubMenuIcon := TMSFNCBitmapContainer1.FindBitmap('SubLight');
-
-  ApplyDefaultAppearance;
+  { the Style sub menu switches the application theme: the form, this menu and every FNC control
+    follow (TTMSFNCThemeManager on the form) }
+  ThemeManager.Theme := 'Fluent Light';
 end;
 
 procedure TForm1.TMSFNCPopupMenu1Items3Items0Click(Sender: TObject);
@@ -118,6 +85,45 @@ begin
     if Assigned(dmi) then
       AMenuItemControl.Text := 'Sort by ' + dmi.Text;
   end;
+end;
+
+{ Core has no FNC label or button: the native labels take the text colours of the theme in
+  effect (without a theme: the platform's). Native buttons and edits keep the platform look,
+  which is readable on a light and on a dark form. }
+procedure TForm1.ThemeChanged(Sender: TObject);
+var
+  t: TTMSFNCResolvedTheme;
+  txt, sec: TAlphaColor;
+begin
+  t := TTMSFNCTheme.Resolve(TTMSFNCTheme.Current);
+  if Assigned(t) then
+  begin
+    txt := t[ttText];
+    sec := t[ttTextSecondary];
+    { a form without FNC controls is not coloured by the manager: do it here }
+    Fill.Kind := TBrushKind.Solid;
+    Fill.Color := t[ttWindowBackground];
+  end
+  else
+  begin
+    txt := TAlphaColorRec.Black;
+    sec := $FF5B6470;
+    Fill.Kind := TBrushKind.None;
+  end;
+  DemoTitle.FontColor := txt;
+  DemoDescription.FontColor := sec;
+  Label1.FontColor := sec;
+end;
+
+procedure TForm1.FormCreate(Sender: TObject);
+begin
+  TTMSFNCTheme.AddChangeListener(ThemeChanged);
+  ThemeChanged(nil);
+end;
+
+procedure TForm1.FormDestroy(Sender: TObject);
+begin
+  TTMSFNCTheme.RemoveChangeListener(ThemeChanged);
 end;
 
 end.

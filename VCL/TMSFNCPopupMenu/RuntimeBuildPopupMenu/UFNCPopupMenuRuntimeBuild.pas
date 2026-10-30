@@ -5,17 +5,23 @@ interface
 uses
   Winapi.Windows, Winapi.Messages, System.SysUtils, System.Variants, System.Classes, Vcl.Graphics,
   Vcl.Controls, Vcl.Forms, Vcl.Dialogs, Vcl.StdCtrls, VCL.TMSFNCPopupMenu,
-  VCL.TMSFNCCustomComponent, VCL.TMSFNCBitmapContainer;
+  VCL.TMSFNCCustomComponent, VCL.TMSFNCBitmapContainer,
+  VCL.TMSFNCTheme;
 
 type
   TForm4 = class(TForm)
+    ThemeManager: TTMSFNCThemeManager;
+    DemoTitle: TLabel;
+    DemoDescription: TLabel;
     Edit1: TEdit;
     Label1: TLabel;
     Label2: TLabel;
     TMSFNCBitmapContainer: TTMSFNCBitmapContainer;
     procedure FormCreate(Sender: TObject);
     procedure FormClose(Sender: TObject; var Action: TCloseAction);
+    procedure FormDestroy(Sender: TObject);
   private
+    procedure ThemeChanged(Sender: TObject);
     { Private declarations }
   public
     { Public declarations }
@@ -75,6 +81,8 @@ end;
 
 procedure TForm4.FormCreate(Sender: TObject);
 begin
+  TTMSFNCTheme.AddChangeListener(ThemeChanged);
+  ThemeChanged(nil);
 
   pm := TTMSFNCPopupMenu.Create(Self);
   pm.Appearance.DefaultItemAppearance.ItemHeight := 30;
@@ -253,6 +261,39 @@ end;
 procedure TForm4.DoSearchClick(Sender: TObject);
 begin
   TTMSFNCUtils.OpenURL('https://www.google.com/search?q=' + Edit1.SelText);
+end;
+
+{ Core has no FNC label or button: the native labels take the text colours of the theme in
+  effect (without a theme: the platform's). Native buttons and edits keep the platform look,
+  which is readable on a light and on a dark form. }
+procedure TForm4.ThemeChanged(Sender: TObject);
+var
+  t: TTMSFNCResolvedTheme;
+  txt, sec: TColor;
+begin
+  t := TTMSFNCTheme.Resolve(TTMSFNCTheme.Current);
+  if Assigned(t) then
+  begin
+    txt := t[ttText];
+    sec := t[ttTextSecondary];
+    { a form without FNC controls is not coloured by the manager: do it here }
+    Color := t[ttWindowBackground];
+  end
+  else
+  begin
+    txt := clWindowText;
+    sec := clGrayText;
+    Color := clBtnFace;
+  end;
+  DemoTitle.Font.Color := txt;
+  DemoDescription.Font.Color := sec;
+  Label1.Font.Color := sec;
+  Label2.Font.Color := sec;
+end;
+
+procedure TForm4.FormDestroy(Sender: TObject);
+begin
+  TTMSFNCTheme.RemoveChangeListener(ThemeChanged);
 end;
 
 end.

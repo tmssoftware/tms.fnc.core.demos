@@ -1,21 +1,43 @@
 object Form1: TForm1
   Left = 0
   Top = 0
-  Caption = 'TMS FNC Popup Menu Appearance Demo'
-  ClientHeight = 216
-  ClientWidth = 420
-  Fill.Kind = Solid
+  Caption = 'TMS FNC Core - Popup menu appearance'
+  ClientHeight = 184
+  ClientWidth = 560
   Position = ScreenCenter
   FormFactor.Width = 320
   FormFactor.Height = 480
   FormFactor.Devices = [Desktop]
   DesignerMasterStyle = 0
+  OnCreate = FormCreate
+  OnDestroy = FormDestroy
+  object DemoTitle: TLabel
+    StyledSettings = [Family]
+    Position.X = 24.000000000000000000
+    Position.Y = 16.000000000000000000
+    Size.Width = 512.000000000000000000
+    Size.Height = 30.000000000000000000
+    Size.PlatformDefault = False
+    TextSettings.Font.Size = 20.000000000000000000
+    TextSettings.Font.StyleExt = {00060000000000000004000000}
+    Text = 'Popup menu appearance'
+  end
+  object DemoDescription: TLabel
+    StyledSettings = [Family, Style]
+    Position.X = 24.000000000000000000
+    Position.Y = 48.000000000000000000
+    Size.Width = 512.000000000000000000
+    Size.Height = 20.000000000000000000
+    Size.PlatformDefault = False
+    TextSettings.Font.Size = 13.000000000000000000
+    Text = 'A popup menu with icons, check groups, sub menus and separators'
+  end
   object Button1: TButton
     PopupMenu = TMSFNCPopupMenu
-    Position.X = 96.000000000000000000
-    Position.Y = 24.000000000000000000
-    Size.Width = 209.000000000000000000
-    Size.Height = 49.000000000000000000
+    Position.X = 24.000000000000000000
+    Position.Y = 88.000000000000000000
+    Size.Width = 240.000000000000000000
+    Size.Height = 40.000000000000000000
     Size.PlatformDefault = False
     TabOrder = 1
     Text = 'FNC Popup Menu Attached'
@@ -631,13 +653,17 @@ object Form1: TForm1
   end
   object Label1: TLabel
     StyledSettings = [Family, Size, Style]
-    Position.X = 96.000000000000000000
-    Position.Y = 81.000000000000000000
-    Size.Width = 209.000000000000000000
-    Size.Height = 41.000000000000000000
+    Position.X = 24.000000000000000000
+    Position.Y = 136.000000000000000000
+    Size.Width = 512.000000000000000000
+    Size.Height = 20.000000000000000000
     Size.PlatformDefault = False
-    TextSettings.HorzAlign = Center
-    Text = 'Right-click on the button to show the Popup Menu'
+    Text = 'Right-click the button to show the popup menu; Style switches the theme'
     TabOrder = 4
+  end
+  object ThemeManager: TTMSFNCThemeManager
+    Theme = 'Fluent Light'
+    Left = 504
+    Top = 16
   end
 end

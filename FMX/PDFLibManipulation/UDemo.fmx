@@ -1,42 +1,128 @@
 object Form131: TForm131
   Left = 0
   Top = 0
-  Caption = 'TMS FNC PDFLib Document Manipulation Demo'
-  ClientHeight = 340
-  ClientWidth = 460
+  Caption = 'TMS FNC Core - PDF document manipulation'
+  ClientHeight = 520
+  ClientWidth = 820
+  Position = ScreenCenter
   FormFactor.Width = 320
   FormFactor.Height = 480
   FormFactor.Devices = [Desktop]
   DesignerMasterStyle = 0
-  object btnRun: TButton
-    Position.X = 24.000000000000000000
-    Position.Y = 24.000000000000000000
-    Size.Width = 412.000000000000000000
-    Size.Height = 32.000000000000000000
+  OnCreate = FormCreate
+  OnDestroy = FormDestroy
+  object DemoHeader: TLayout
+    Align = Top
+    Size.Width = 820.000000000000000000
+    Size.Height = 72.000000000000000000
     Size.PlatformDefault = False
-    Text = 'Assemble a pack from two documents'
     TabOrder = 0
-    OnClick = btnRunClick
+    object DemoTitle: TLabel
+      Anchors = [akLeft, akTop, akRight]
+      StyledSettings = [Family]
+      Position.X = 24.000000000000000000
+      Position.Y = 12.000000000000000000
+      Size.Width = 606.000000000000000000
+      Size.Height = 30.000000000000000000
+      Size.PlatformDefault = False
+      TextSettings.Font.Size = 20.000000000000000000
+      TextSettings.Font.StyleExt = {00060000000000000004000000}
+      Text = 'PDF document manipulation'
+    end
+    object DemoDescription: TLabel
+      Anchors = [akLeft, akTop, akRight]
+      StyledSettings = [Family, Style]
+      Position.X = 24.000000000000000000
+      Position.Y = 44.000000000000000000
+      Size.Width = 772.000000000000000000
+      Size.Height = 20.000000000000000000
+      Size.PlatformDefault = False
+      TextSettings.Font.Size = 13.000000000000000000
+      Text = 'Merge, reorder, rotate and delete pages, edit metadata and read text back'
+    end
+    object DemoThemeCombo: TComboBox
+      Anchors = [akTop, akRight]
+      Items.Strings = (
+        'Fluent Light'
+        'Fluent Dark')
+      ItemIndex = 0
+      Position.X = 646.000000000000000000
+      Position.Y = 10.000000000000000000
+      Size.Width = 150.000000000000000000
+      Size.Height = 32.000000000000000000
+      Size.PlatformDefault = False
+      TabOrder = 2
+      OnChange = DemoThemeComboChange
+    end
   end
-  object lblInfo: TLabel
+  object SettingsPanel: TLayout
+    Align = Left
+    Margins.Left = 24.000000000000000000
+    Margins.Bottom = 24.000000000000000000
     Position.X = 24.000000000000000000
     Position.Y = 72.000000000000000000
-    Size.Width = 412.000000000000000000
-    Size.Height = 60.000000000000000000
+    Size.Width = 260.000000000000000000
+    Size.Height = 424.000000000000000000
     Size.PlatformDefault = False
-    TextSettings.WordWrap = True
-    Text = 
-      'Builds two documents, then opens one and merges, reorders, rotate' +
-      's and deletes pages, writes its metadata, adds a link annotation ' +
-      'and reads the first page back as text.'
     TabOrder = 1
+    object StepsCaption: TLabel
+      Align = Top
+      StyledSettings = [Family]
+      Margins.Bottom = 8.000000000000000000
+      Position.X = 0.000000000000000000
+      Position.Y = 0.000000000000000000
+      Size.Width = 260.000000000000000000
+      Size.Height = 24.000000000000000000
+      Size.PlatformDefault = False
+      TextSettings.Font.Size = 13.000000000000000000
+      TextSettings.Font.StyleExt = {00060000000000000004000000}
+      Text = 'Document pack'
+    end
+    object btnRun: TButton
+      Align = Top
+      Margins.Bottom = 8.000000000000000000
+      Position.X = 0.000000000000000000
+      Position.Y = 32.000000000000000000
+      Size.Width = 260.000000000000000000
+      Size.Height = 36.000000000000000000
+      Size.PlatformDefault = False
+      TabOrder = 0
+      Text = 'Assemble a pack'
+      TextSettings.Trimming = None
+      OnClick = btnRunClick
+    end
+    object lblInfo: TLabel
+      Align = Top
+      StyledSettings = [Family, Style]
+      Position.X = 0.000000000000000000
+      Position.Y = 76.000000000000000000
+      Size.Width = 260.000000000000000000
+      Size.Height = 150.000000000000000000
+      Size.PlatformDefault = False
+      TextSettings.Font.Size = 13.000000000000000000
+      TextSettings.WordWrap = True
+    TextSettings.VertAlign = Leading
+      Text = 'Builds two documents, then opens one and merges, reorders, rotates and deletes pages, writes its metadata, adds a link annotation and reads the first page back as text.'
+    end
   end
   object memoText: TMemo
-    Position.X = 24.000000000000000000
-    Position.Y = 140.000000000000000000
-    Size.Width = 412.000000000000000000
-    Size.Height = 180.000000000000000000
+    Touch.InteractiveGestures = [Pan, LongTap, DoubleTap]
+    DataDetectorTypes = []
+    Align = Client
+    Margins.Left = 16.000000000000000000
+    Margins.Right = 24.000000000000000000
+    Margins.Bottom = 24.000000000000000000
+    ReadOnly = True
+    Size.Width = 496.000000000000000000
+    Size.Height = 424.000000000000000000
     Size.PlatformDefault = False
     TabOrder = 2
+    Viewport.Width = 500.000000000000000000
+    Viewport.Height = 400.000000000000000000
+  end
+  object ThemeManager: TTMSFNCThemeManager
+    Theme = 'Fluent Light'
+    Left = 8
+    Top = 8
   end
 end

@@ -5,14 +5,24 @@ interface
 uses
   System.SysUtils, System.Types, System.UITypes, System.Classes, FMX.Forms,
   FMX.Types, FMX.Controls, FMX.Controls.Presentation, FMX.StdCtrls,
-  FMX.TMSFNCCustomComponent;
+  FMX.TMSFNCCustomComponent,
+  FMX.ListBox, FMX.Layouts, FMX.Graphics, FMX.TMSFNCTheme;
 
 type
   TForm130 = class(TForm)
+    ThemeManager: TTMSFNCThemeManager;
+    DemoHeader: TLayout;
+    DemoTitle: TLabel;
+    DemoDescription: TLabel;
+    DemoThemeCombo: TComboBox;
     btnWatermark: TButton;
     lblInfo: TLabel;
     procedure btnWatermarkClick(Sender: TObject);
+    procedure FormCreate(Sender: TObject);
+    procedure FormDestroy(Sender: TObject);
+    procedure DemoThemeComboChange(Sender: TObject);
   private
+    procedure ThemeChanged(Sender: TObject);
     function CreateReport(const AFileName: string): Integer;
     procedure StampWatermark(const ASource, ATarget: string;
       const AText: string);
@@ -124,6 +134,51 @@ begin
 
   lblInfo.Text := Format('Stamped %d page(s).'#13#10'%s', [pages, dst]);
   TTMSFNCUtils.OpenFile(dst);
+end;
+
+procedure TForm130.FormCreate(Sender: TObject);
+begin
+  TTMSFNCTheme.AddChangeListener(ThemeChanged);
+  ThemeChanged(nil);
+end;
+
+procedure TForm130.FormDestroy(Sender: TObject);
+begin
+  TTMSFNCTheme.RemoveChangeListener(ThemeChanged);
+end;
+
+{ Core has no FNC label or button: the native labels take the text colours of the theme in
+  effect (without a theme: the platform's). Native buttons, edits and memos keep the platform
+  look, which is readable on a light and on a dark form. }
+procedure TForm130.ThemeChanged(Sender: TObject);
+var
+  t: TTMSFNCResolvedTheme;
+  txt, sec: TAlphaColor;
+begin
+  t := TTMSFNCTheme.Resolve(TTMSFNCTheme.Current);
+  if Assigned(t) then
+  begin
+    txt := t[ttText];
+    sec := t[ttTextSecondary];
+    { a form without FNC controls is not coloured by the manager: do it here }
+    Fill.Kind := TBrushKind.Solid;
+    Fill.Color := t[ttWindowBackground];
+  end
+  else
+  begin
+    txt := TAlphaColorRec.Black;
+    sec := $FF5B6470;
+    Fill.Kind := TBrushKind.None;
+  end;
+  DemoTitle.FontColor := txt;
+  DemoDescription.FontColor := sec;
+  lblInfo.FontColor := sec;
+end;
+
+procedure TForm130.DemoThemeComboChange(Sender: TObject);
+begin
+  if DemoThemeCombo.ItemIndex >= 0 then
+    ThemeManager.Theme := DemoThemeCombo.Items[DemoThemeCombo.ItemIndex];
 end;
 
 end.

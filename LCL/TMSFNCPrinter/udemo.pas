@@ -12,6 +12,12 @@ type
   { TForm1 }
 
   TForm1 = class(TForm)
+    DemoHeader: TPanel;
+    DemoTitle: TLabel;
+    DemoDescription: TLabel;
+    SettingsPanel: TPanel;
+    StepsCaption: TLabel;
+    StepsHint: TLabel;
     Button1: TButton;
     Image1: TImage;
     PrintDialog1: TPrintDialog;
@@ -45,6 +51,7 @@ begin
   TMSFNCPrinter.OnDrawContent:=@DrawContent;
 end;
 
+{ demo-colors: the printed page (blue text, red ellipse) is the subject of this demo }
 procedure TForm1.DrawContent;
 begin
   TMSFNCPrinter.Graphics.Font.Color := gcBlue;

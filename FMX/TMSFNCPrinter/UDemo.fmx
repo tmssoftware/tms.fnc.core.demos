@@ -1,24 +1,109 @@
 object Form3: TForm3
   Left = 0
   Top = 0
-  Caption = 'TMSFNCPrinters Demo'
-  ClientHeight = 480
-  ClientWidth = 381
+  Caption = 'TMS FNC Core - Printer'
+  ClientHeight = 520
+  ClientWidth = 840
   Position = ScreenCenter
   FormFactor.Width = 320
   FormFactor.Height = 480
   FormFactor.Devices = [Desktop]
-  OnCreate = FormCreate
   DesignerMasterStyle = 0
-  object Button1: TButton
-    Position.X = 112.000000000000000000
-    Position.Y = 32.000000000000000000
-    Size.Width = 161.000000000000000000
-    Size.Height = 49.000000000000000000
+  OnCreate = FormCreate
+  OnDestroy = FormDestroy
+  object DemoHeader: TLayout
+    Align = Top
+    Size.Width = 840.000000000000000000
+    Size.Height = 72.000000000000000000
+    Size.PlatformDefault = False
+    TabOrder = 0
+    object DemoTitle: TLabel
+      Anchors = [akLeft, akTop, akRight]
+      StyledSettings = [Family]
+      Position.X = 24.000000000000000000
+      Position.Y = 12.000000000000000000
+      Size.Width = 626.000000000000000000
+      Size.Height = 30.000000000000000000
+      Size.PlatformDefault = False
+      TextSettings.Font.Size = 20.000000000000000000
+      TextSettings.Font.StyleExt = {00060000000000000004000000}
+      Text = 'Printing'
+    end
+    object DemoDescription: TLabel
+      Anchors = [akLeft, akTop, akRight]
+      StyledSettings = [Family, Style]
+      Position.X = 24.000000000000000000
+      Position.Y = 44.000000000000000000
+      Size.Width = 792.000000000000000000
+      Size.Height = 20.000000000000000000
+      Size.PlatformDefault = False
+      TextSettings.Font.Size = 13.000000000000000000
+      Text = 'Prints a page with text, an ellipse and a bitmap through TTMSFNCPrinter'
+    end
+    object DemoThemeCombo: TComboBox
+      Anchors = [akTop, akRight]
+      Items.Strings = (
+        'Fluent Light'
+        'Fluent Dark')
+      ItemIndex = 0
+      Position.X = 666.000000000000000000
+      Position.Y = 10.000000000000000000
+      Size.Width = 150.000000000000000000
+      Size.Height = 32.000000000000000000
+      Size.PlatformDefault = False
+      TabOrder = 2
+      OnChange = DemoThemeComboChange
+    end
+  end
+  object SettingsPanel: TLayout
+    Align = Left
+    Margins.Left = 24.000000000000000000
+    Margins.Bottom = 24.000000000000000000
+    Position.X = 24.000000000000000000
+    Position.Y = 72.000000000000000000
+    Size.Width = 260.000000000000000000
+    Size.Height = 424.000000000000000000
     Size.PlatformDefault = False
     TabOrder = 1
-    Text = 'TMSFNCPrinters'
-    OnClick = Button1Click
+    object StepsCaption: TLabel
+      Align = Top
+      StyledSettings = [Family]
+      Margins.Bottom = 8.000000000000000000
+      Position.X = 0.000000000000000000
+      Position.Y = 0.000000000000000000
+      Size.Width = 260.000000000000000000
+      Size.Height = 24.000000000000000000
+      Size.PlatformDefault = False
+      TextSettings.Font.Size = 13.000000000000000000
+      TextSettings.Font.StyleExt = {00060000000000000004000000}
+      Text = 'Print'
+    end
+    object Button1: TButton
+      Align = Top
+      Margins.Bottom = 8.000000000000000000
+      Position.X = 0.000000000000000000
+      Position.Y = 32.000000000000000000
+      Size.Width = 260.000000000000000000
+      Size.Height = 36.000000000000000000
+      Size.PlatformDefault = False
+      TabOrder = 0
+      Text = 'Print'
+      TextSettings.Trimming = None
+      OnClick = Button1Click
+    end
+    object StepsHint: TLabel
+      Align = Top
+      StyledSettings = [Family, Style]
+      Position.X = 0.000000000000000000
+      Position.Y = 76.000000000000000000
+      Size.Width = 260.000000000000000000
+      Size.Height = 110.000000000000000000
+      Size.PlatformDefault = False
+      TextSettings.Font.Size = 13.000000000000000000
+      TextSettings.WordWrap = True
+    TextSettings.VertAlign = Leading
+      Text = 'Opens the print dialog, then draws the text, the ellipse and the bitmap on the page. The colours on the printed page are part of the sample.'
+    end
   end
   object Image1: TImage
     MultiResBitmap = <
@@ -2260,14 +2345,22 @@ object Form3: TForm3
           000000000000E030C27700000000000000001C25FD3F7E8AFD3ECE6671820000
           000049454E44AE426082}
       end>
-    Position.X = 24.000000000000000000
-    Position.Y = 248.000000000000000000
-    Size.Width = 321.000000000000000000
-    Size.Height = 145.000000000000000000
+    Align = Client
+    Margins.Left = 16.000000000000000000
+    Margins.Right = 24.000000000000000000
+    Margins.Bottom = 24.000000000000000000
+    Size.Width = 516.000000000000000000
+    Size.Height = 424.000000000000000000
     Size.PlatformDefault = False
+    WrapMode = Fit
   end
   object PrintDialog1: TPrintDialog
     Left = 168
     Top = 136
+  end
+  object ThemeManager: TTMSFNCThemeManager
+    Theme = 'Fluent Light'
+    Left = 8
+    Top = 8
   end
 end

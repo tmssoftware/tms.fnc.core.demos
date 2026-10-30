@@ -1,20 +1,59 @@
 object Form1: TForm1
-  Width = 397
-  Height = 567
-  Caption = 'TMSFNCCloudBase Demo'
+  Left = 0
+  Top = 0
+  Width = 640
+  Height = 448
+  Caption = 'TMS FNC Core - Printer'
+  Color = clBtnFace
   Font.Charset = DEFAULT_CHARSET
   Font.Color = clWindowText
-  Font.Height = -11
-  Font.Name = 'Tahoma'
+  Font.Height = -13
+  Font.Name = 'Segoe UI'
   Font.Style = []
   FormContainer = 'appcontent'
   ParentFont = False
   OnCreate = WebFormCreate
+  object ThemeLabel: TWebLabel
+    Left = 16
+    Top = 18
+    Width = 40
+    Height = 15
+    Caption = 'Theme'
+    ElementClassName = 'form-label'
+    HeightPercent = 100.000000000000000000
+    WidthPercent = 100.000000000000000000
+  end
+  object ThemeCombo: TWebComboBox
+    Left = 72
+    Top = 12
+    Width = 160
+    Height = 28
+    ElementClassName = 'form-select'
+    HeightPercent = 100.000000000000000000
+    Text = 'Fluent Light'
+    WidthPercent = 100.000000000000000000
+    OnChange = ThemeComboChange
+    ItemIndex = 0
+    Items.Strings = (
+      'Fluent Light'
+      'Fluent Dark')
+  end
+  object WebButton1: TWebButton
+    Left = 16
+    Top = 56
+    Width = 178
+    Height = 32
+    Caption = 'Print'
+    ChildOrder = 1
+    HeightPercent = 100.000000000000000000
+    WidthPercent = 100.000000000000000000
+    OnClick = WebButton1Click
+  end
   object WebImageControl1: TWebImageControl
     Left = 16
-    Top = 80
-    Width = 353
-    Height = 161
+    Top = 104
+    Width = 608
+    Height = 328
     HeightPercent = 100.000000000000000000
     WidthPercent = 100.000000000000000000
     ChildOrder = 1
@@ -154456,15 +154495,9 @@ object Form1: TForm1
       FFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFF
       FFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFF}
   end
-  object WebButton1: TWebButton
-    Left = 103
-    Top = 32
-    Width = 178
-    Height = 25
-    Caption = 'TMSFNCPrinter'
-    ChildOrder = 1
-    HeightPercent = 100.000000000000000000
-    WidthPercent = 100.000000000000000000
-    OnClick = WebButton1Click
+  object ThemeManager: TTMSFNCThemeManager
+    Theme = 'Fluent Light'
+    Left = 248
+    Top = 8
   end
 end

@@ -5,14 +5,21 @@ interface
 uses
   Winapi.Windows, Winapi.Messages, System.SysUtils, System.Variants, System.Classes, Vcl.Graphics,
   Vcl.Forms, Vcl.StdCtrls, Vcl.Controls, VCL.TMSFNCCustomComponent,
-  VCL.TMSFNCBitmapContainer;
+  VCL.TMSFNCBitmapContainer,
+  VCL.TMSFNCTheme;
 
 type
   TForm130 = class(TForm)
+    ThemeManager: TTMSFNCThemeManager;
+    DemoTitle: TLabel;
+    DemoDescription: TLabel;
     TMSFNCBitmapContainer1: TTMSFNCBitmapContainer;
     Button1: TButton;
     procedure Button1Click(Sender: TObject);
+    procedure FormCreate(Sender: TObject);
+    procedure FormDestroy(Sender: TObject);
   private
+    procedure ThemeChanged(Sender: TObject);
     { Private declarations }
   public
     { Public declarations }
@@ -162,6 +169,43 @@ begin
   finally
     p.Free;
   end;
+end;
+
+{ Core has no FNC label or button: the native labels take the text colours of the theme in
+  effect (without a theme: the platform's). Native buttons and edits keep the platform look,
+  which is readable on a light and on a dark form. }
+procedure TForm130.ThemeChanged(Sender: TObject);
+var
+  t: TTMSFNCResolvedTheme;
+  txt, sec: TColor;
+begin
+  t := TTMSFNCTheme.Resolve(TTMSFNCTheme.Current);
+  if Assigned(t) then
+  begin
+    txt := t[ttText];
+    sec := t[ttTextSecondary];
+    { a form without FNC controls is not coloured by the manager: do it here }
+    Color := t[ttWindowBackground];
+  end
+  else
+  begin
+    txt := clWindowText;
+    sec := clGrayText;
+    Color := clBtnFace;
+  end;
+  DemoTitle.Font.Color := txt;
+  DemoDescription.Font.Color := sec;
+end;
+
+procedure TForm130.FormCreate(Sender: TObject);
+begin
+  TTMSFNCTheme.AddChangeListener(ThemeChanged);
+  ThemeChanged(nil);
+end;
+
+procedure TForm130.FormDestroy(Sender: TObject);
+begin
+  TTMSFNCTheme.RemoveChangeListener(ThemeChanged);
 end;
 
 end.

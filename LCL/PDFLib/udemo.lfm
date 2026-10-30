@@ -1,17 +1,51 @@
 object Form1: TForm1
   Left = 583
-  Height = 167
+  Height = 239
   Top = 193
   Width = 354
   Caption = 'TMS FNC PDFLib'
-  ClientHeight = 167
+  ClientHeight = 239
   ClientWidth = 354
   Position = poScreenCenter
   LCLVersion = '1.6.0.4'
+  object DemoHeader: TPanel
+    Left = 0
+    Height = 72
+    Top = 0
+    Width = 354
+    Align = alTop
+    BevelOuter = bvNone
+    ClientHeight = 72
+    ClientWidth = 354
+    TabOrder = 0
+    object DemoTitle: TLabel
+      Left = 24
+      Height = 30
+      Top = 12
+      Width = 306
+      Anchors = [akTop, akLeft, akRight]
+      AutoSize = False
+      Caption = 'PDF library'
+      Font.Height = -20
+      Font.Style = [fsBold]
+      ParentFont = False
+    end
+    object DemoDescription: TLabel
+      Left = 24
+      Height = 20
+      Top = 42
+      Width = 306
+      Anchors = [akTop, akLeft, akRight]
+      AutoSize = False
+      Caption = 'Generates a PDF document with text, HTML formatted text, images and shapes'
+      Font.Color = clGrayText
+      ParentFont = False
+    end
+  end
   object Button1: TButton
     Left = 64
     Height = 75
-    Top = 40
+    Top = 112
     Width = 211
     Caption = 'Export PDF Sample'
     OnClick = Button1Click
@@ -20,7 +54,7 @@ object Form1: TForm1
   object TMSFNCBitmapContainer1: TTMSFNCBitmapContainer
     Left = 294
     Height = 26
-    Top = 74
+    Top = 146
     Width = 26
     Visible = True
     Items = <    

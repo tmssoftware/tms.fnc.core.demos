@@ -1,19 +1,42 @@
 object Form130: TForm130
   Left = 0
   Top = 0
-  Caption = 'TMS FNC PDFLib Demo'
-  ClientHeight = 180
-  ClientWidth = 279
-  Color = clBtnFace
+  Caption = 'TMS FNC Core - PDF library'
+  ClientHeight = 152
+  ClientWidth = 560
   Font.Charset = DEFAULT_CHARSET
   Font.Color = clWindowText
-  Font.Height = -11
-  Font.Name = 'Tahoma'
+  Font.Height = -12
+  Font.Name = 'Segoe UI'
   Font.Style = []
   OldCreateOrder = False
   Position = poScreenCenter
   PixelsPerInch = 96
-  TextHeight = 13
+  TextHeight = 15
+  OnCreate = FormCreate
+  OnDestroy = FormDestroy
+  object DemoTitle: TLabel
+    Left = 24
+    Top = 16
+    Width = 512
+    Height = 30
+    AutoSize = False
+    Caption = 'PDF library'
+    Font.Charset = DEFAULT_CHARSET
+    Font.Color = clWindowText
+    Font.Height = -20
+    Font.Name = 'Segoe UI Semibold'
+    Font.Style = []
+    ParentFont = False
+  end
+  object DemoDescription: TLabel
+    Left = 24
+    Top = 48
+    Width = 512
+    Height = 20
+    AutoSize = False
+    Caption = 'Generates a PDF document with text, HTML formatted text, images and shapes'
+  end
   object TMSFNCBitmapContainer1: TTMSFNCBitmapContainer
     Left = 201
     Top = 128
@@ -163,12 +186,17 @@ object Form130: TForm130
       end>
   end
   object Button1: TButton
-    Left = 72
-    Top = 49
-    Width = 155
-    Height = 73
+    Left = 24
+    Top = 88
+    Width = 200
+    Height = 40
     Caption = 'Export PDF Sample'
     TabOrder = 1
     OnClick = Button1Click
+  end
+  object ThemeManager: TTMSFNCThemeManager
+    Theme = 'Fluent Light'
+    Left = 504
+    Top = 16
   end
 end

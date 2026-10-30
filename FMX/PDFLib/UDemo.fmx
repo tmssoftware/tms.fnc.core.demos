@@ -1,22 +1,46 @@
 object Form130: TForm130
   Left = 0
   Top = 0
-  Caption = 'TMS FNC PDFLib Demo'
-  ClientHeight = 166
-  ClientWidth = 279
+  Caption = 'TMS FNC Core - PDF library'
+  ClientHeight = 152
+  ClientWidth = 560
   Position = ScreenCenter
   FormFactor.Width = 320
   FormFactor.Height = 480
   FormFactor.Devices = [Desktop]
   DesignerMasterStyle = 0
+  OnCreate = FormCreate
+  OnDestroy = FormDestroy
+  object DemoTitle: TLabel
+    StyledSettings = [Family]
+    Position.X = 24.000000000000000000
+    Position.Y = 16.000000000000000000
+    Size.Width = 512.000000000000000000
+    Size.Height = 30.000000000000000000
+    Size.PlatformDefault = False
+    TextSettings.Font.Size = 20.000000000000000000
+    TextSettings.Font.StyleExt = {00060000000000000004000000}
+    Text = 'PDF library'
+  end
+  object DemoDescription: TLabel
+    StyledSettings = [Family, Style]
+    Position.X = 24.000000000000000000
+    Position.Y = 48.000000000000000000
+    Size.Width = 512.000000000000000000
+    Size.Height = 20.000000000000000000
+    Size.PlatformDefault = False
+    TextSettings.Font.Size = 13.000000000000000000
+    Text = 'Generates a PDF document with text, HTML formatted text, images and shapes'
+  end
   object Button1: TButton
-    Align = Center
-    Size.Width = 148.000000000000000000
-    Size.Height = 41.000000000000000000
+    Size.Width = 200.000000000000000000
+    Size.Height = 40.000000000000000000
     Size.PlatformDefault = False
     TabOrder = 6
     Text = 'Export PDF Sample'
     OnClick = Button1Click
+    Position.X = 24.000000000000000000
+    Position.Y = 88.000000000000000000
   end
   object TMSFNCBitmapContainer1: TTMSFNCBitmapContainer
     Size.Width = 26.000000000000000000
@@ -4116,5 +4140,10 @@ object Form130: TForm130
         Name = 'Sample2.jpg'
         Tag = 0
       end>
+  end
+  object ThemeManager: TTMSFNCThemeManager
+    Theme = 'Fluent Light'
+    Left = 504
+    Top = 16
   end
 end

@@ -13,6 +13,9 @@ type
   { TForm1 }
 
   TForm1 = class(TForm)
+    DemoHeader: TPanel;
+    DemoTitle: TLabel;
+    DemoDescription: TLabel;
     Button1: TButton;
     TMSFNCBitmapContainer1: TTMSFNCBitmapContainer;
     procedure Button1Click(Sender: TObject);

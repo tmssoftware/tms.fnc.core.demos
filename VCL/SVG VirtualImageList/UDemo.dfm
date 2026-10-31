@@ -1,51 +1,81 @@
 object Form130: TForm130
   Left = 0
   Top = 0
-  Caption = 'TMS FNC SVG Virtual Image List Demo'
-  ClientHeight = 511
-  ClientWidth = 788
+  Caption = 'TMS FNC Core - SVG virtual image list'
+  ClientHeight = 580
+  ClientWidth = 840
   Color = clBtnFace
   Font.Charset = DEFAULT_CHARSET
   Font.Color = clWindowText
-  Font.Height = -11
-  Font.Name = 'Tahoma'
+  Font.Height = -12
+  Font.Name = 'Segoe UI'
   Font.Style = []
   Menu = MainMenu1
-  OldCreateOrder = False
-  Position = poScreenCenter
   OnCreate = FormCreate
+  Position = poScreenCenter
   PixelsPerInch = 96
-  TextHeight = 13
-  object Label1: TLabel
-    AlignWithMargins = True
-    Left = 5
-    Top = 34
-    Width = 778
-    Height = 25
-    Margins.Left = 5
-    Margins.Top = 5
-    Margins.Right = 5
-    Margins.Bottom = 5
+  TextHeight = 15
+  OnDestroy = FormDestroy
+  object DemoHeader: TPanel
+    Left = 0
+    Top = 30
+    Width = 840
+    Height = 72
     Align = alTop
-    Caption = 'SVG Support via TVirtualImageList'
-    Font.Charset = DEFAULT_CHARSET
-    Font.Color = clWindowText
-    Font.Height = -21
-    Font.Name = 'Tahoma'
-    Font.Style = []
-    ParentFont = False
-    ExplicitWidth = 324
+    BevelOuter = bvNone
+    ParentColor = True
+    ShowCaption = False
+    TabOrder = 0
+    object DemoTitle: TLabel
+      Left = 24
+      Top = 12
+      Width = 626
+      Height = 30
+      Anchors = [akLeft, akTop, akRight]
+      AutoSize = False
+      Caption = 'SVG images in a virtual image list'
+      Font.Charset = DEFAULT_CHARSET
+      Font.Color = clWindowText
+      Font.Height = -20
+      Font.Name = 'Segoe UI Semibold'
+      Font.Style = []
+      ParentFont = False
+    end
+    object DemoDescription: TLabel
+      Left = 24
+      Top = 44
+      Width = 792
+      Height = 20
+      Anchors = [akLeft, akTop, akRight]
+      AutoSize = False
+      Caption = 'The same icons as PNG and as SVG in a toolbar, menus, tabs, buttons, a header and a tree'
+    end
+    object DemoThemeCombo: TComboBox
+      Left = 666
+      Top = 16
+      Width = 150
+      Height = 23
+      Style = csDropDownList
+      Anchors = [akTop, akRight]
+      ItemIndex = 0
+      TabOrder = 2
+      Text = 'Fluent Light'
+      OnChange = DemoThemeComboChange
+      Items.Strings = (
+        'Fluent Light'
+        'Fluent Dark')
+    end
   end
   object PageControl1: TPageControl
     AlignWithMargins = True
-    Left = 5
-    Top = 64
-    Width = 778
-    Height = 442
-    Margins.Left = 5
+    Left = 24
+    Top = 101
+    Width = 792
+    Height = 455
+    Margins.Left = 24
     Margins.Top = 0
-    Margins.Right = 5
-    Margins.Bottom = 5
+    Margins.Right = 24
+    Margins.Bottom = 24
     ActivePage = TabSheet1
     Align = alClient
     Images = VirtualImageList1
@@ -997,5 +1027,10 @@ object Form130: TForm130
         ImageIndex = 9
       end
     end
+  end
+  object ThemeManager: TTMSFNCThemeManager
+    Theme = 'Fluent Light'
+    Left = 8
+    Top = 8
   end
 end

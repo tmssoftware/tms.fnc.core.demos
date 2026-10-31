@@ -6,13 +6,18 @@ uses
   Winapi.Windows, Winapi.Messages, System.SysUtils, System.Variants, System.Classes, Vcl.Graphics,
   Vcl.Forms, Vcl.ComCtrls, Vcl.Controls, Vcl.StdCtrls, Vcl.BaseImageCollection,
   System.ImageList, Vcl.ImgList, Vcl.VirtualImageList, VCL.TMSFNCTypes,
-  Vcl.ToolWin, Vcl.ExtCtrls, Vcl.Imaging.pngimage, Vcl.Menus;
+  Vcl.ToolWin, Vcl.ExtCtrls, Vcl.Imaging.pngimage, Vcl.Menus,
+  VCL.TMSFNCTheme;
 
 type
   TForm130 = class(TForm)
+    ThemeManager: TTMSFNCThemeManager;
+    DemoHeader: TPanel;
+    DemoTitle: TLabel;
+    DemoDescription: TLabel;
+    DemoThemeCombo: TComboBox;
     VirtualImageList1: TVirtualImageList;
     TMSFNCSVGImageCollection1: TTMSFNCSVGImageCollection;
-    Label1: TLabel;
     PageControl1: TPageControl;
     TabSheet1: TTabSheet;
     TabSheet2: TTabSheet;
@@ -64,7 +69,10 @@ type
     SVG5: TMenuItem;
     SVG6: TMenuItem;
     procedure FormCreate(Sender: TObject);
+    procedure FormDestroy(Sender: TObject);
+    procedure DemoThemeComboChange(Sender: TObject);
   private
+    procedure ThemeChanged(Sender: TObject);
     { Private declarations }
   public
     { Public declarations }
@@ -79,7 +87,44 @@ implementation
 
 procedure TForm130.FormCreate(Sender: TObject);
 begin
+  TTMSFNCTheme.AddChangeListener(ThemeChanged);
+  ThemeChanged(nil);
   TreeView1.FullExpand;
+end;
+
+
+procedure TForm130.FormDestroy(Sender: TObject);
+begin
+  TTMSFNCTheme.RemoveChangeListener(ThemeChanged);
+end;
+
+{ Core has no FNC label or button: the native labels take the text colours of the theme in
+  effect (without a theme: the platform's). Native buttons, edits and memos keep the platform
+  look, which is readable on a light and on a dark form. }
+procedure TForm130.ThemeChanged(Sender: TObject);
+var
+  t: TTMSFNCResolvedTheme;
+  txt, sec: TColor;
+begin
+  t := TTMSFNCTheme.Resolve(TTMSFNCTheme.Current);
+  if Assigned(t) then
+  begin
+    txt := t[ttText];
+    sec := t[ttTextSecondary];
+  end
+  else
+  begin
+    txt := clWindowText;
+    sec := clGrayText;
+  end;
+  DemoTitle.Font.Color := txt;
+  DemoDescription.Font.Color := sec;
+end;
+
+procedure TForm130.DemoThemeComboChange(Sender: TObject);
+begin
+  if DemoThemeCombo.ItemIndex >= 0 then
+    ThemeManager.Theme := DemoThemeCombo.Items[DemoThemeCombo.ItemIndex];
 end;
 
 end.

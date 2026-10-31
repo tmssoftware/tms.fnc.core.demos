@@ -1,13 +1,13 @@
 object Form3: TForm3
   Left = 0
   Top = 0
-  Caption = 'Download Manager Demo'
-  ClientHeight = 664
-  ClientWidth = 1034
+  Caption = 'TMS FNC Core - Edge Web Browser Downloads'
+  ClientHeight = 720
+  ClientWidth = 1200
   Color = clBtnFace
   Font.Charset = DEFAULT_CHARSET
   Font.Color = clWindowText
-  Font.Height = -18
+  Font.Height = -12
   Font.Name = 'Segoe UI'
   Font.Style = []
   Icon.Data = {
@@ -145,264 +145,322 @@ object Form3: TForm3
     0000000000000000000000000000000000000000000000000000000000000000
     0000000000000000000000000000000000000000000000000000000000000000
     000000000000000000000000000000000000000000000000000000000000}
+  Position = poScreenCenter
   OnCreate = FormCreate
-  PixelsPerInch = 144
-  TextHeight = 25
-  object Splitter1: TSplitter
-    Left = 602
-    Top = 0
-    Width = 12
-    Height = 664
-    Margins.Left = 5
-    Margins.Top = 5
-    Margins.Right = 5
-    Margins.Bottom = 5
-    Align = alRight
-    MinSize = 100
-    ExplicitLeft = 612
-    ExplicitHeight = 666
-  end
-  object Panel1: TPanel
+  OnDestroy = FormDestroy
+  PixelsPerInch = 96
+  TextHeight = 15
+  object DemoHeader: TPanel
     Left = 0
     Top = 0
-    Width = 602
-    Height = 664
-    Margins.Left = 5
-    Margins.Top = 5
-    Margins.Right = 5
-    Margins.Bottom = 5
-    Align = alClient
-    Caption = 'Panel1'
+    Width = 1200
+    Height = 72
+    Align = alTop
+    BevelOuter = bvNone
+    ParentColor = True
+    ShowCaption = False
     TabOrder = 0
-    ExplicitWidth = 592
-    ExplicitHeight = 662
-    DesignSize = (
-      602
-      664)
-    object NavBtn: TButton
-      Left = 12
+    object DemoTitle: TLabel
+      Left = 24
       Top = 12
-      Width = 113
-      Height = 38
-      Margins.Left = 5
-      Margins.Top = 5
-      Margins.Right = 5
-      Margins.Bottom = 5
-      Caption = 'Navigate'
+      Width = 986
+      Height = 30
+      Anchors = [akLeft, akTop, akRight]
+      AutoSize = False
+      Caption = 'Download manager'
+      Font.Charset = DEFAULT_CHARSET
+      Font.Color = clWindowText
+      Font.Height = -20
+      Font.Name = 'Segoe UI Semibold'
+      Font.Style = []
+      ParentFont = False
+    end
+    object DemoDescription: TLabel
+      Left = 24
+      Top = 44
+      Width = 1152
+      Height = 20
+      Anchors = [akLeft, akTop, akRight]
+      AutoSize = False
+      Caption = 'Start a download in the page, then follow its progress and pause, resume or cancel it'
+    end
+    object DemoThemeCombo: TComboBox
+      Left = 1026
+      Top = 16
+      Width = 150
+      Height = 23
+      Style = csDropDownList
+      Anchors = [akTop, akRight]
+      ItemIndex = 0
       TabOrder = 0
+      Text = 'Fluent Light'
+      OnChange = DemoThemeComboChange
+      Items.Strings = (
+        'Fluent Light'
+        'Fluent Dark')
+    end
+  end
+  object SettingsPanel: TPanel
+    AlignWithMargins = True
+    Left = 24
+    Top = 112
+    Width = 300
+    Height = 584
+    Margins.Left = 24
+    Margins.Top = 0
+    Margins.Right = 0
+    Margins.Bottom = 24
+    Align = alLeft
+    BevelOuter = bvNone
+    ParentColor = True
+    ShowCaption = False
+    TabOrder = 1
+    object DownloadCaption: TLabel
+      AlignWithMargins = True
+      Left = 0
+      Top = 0
+      Width = 300
+      Height = 20
+      Margins.Left = 0
+      Margins.Top = 0
+      Margins.Right = 0
+      Margins.Bottom = 8
+      Align = alTop
+      AutoSize = False
+      Caption = 'Download'
+      Font.Charset = DEFAULT_CHARSET
+      Font.Color = clWindowText
+      Font.Height = -13
+      Font.Name = 'Segoe UI Semibold'
+      Font.Style = []
+      ParentFont = False
+    end
+    object SilentCheckRow: TPanel
+      AlignWithMargins = True
+      Left = 0
+      Top = 28
+      Width = 300
+      Height = 24
+      Margins.Left = 0
+      Margins.Top = 0
+      Margins.Right = 0
+      Margins.Bottom = 8
+      Align = alTop
+      BevelOuter = bvNone
+      ParentColor = True
+      ShowCaption = False
+      TabOrder = 0
+      object SilentCheck: TCheckBox
+        Left = 0
+        Top = 0
+        Width = 20
+        Height = 24
+        Align = alLeft
+        TabOrder = 0
+      end
+      object SilentCheckLabel: TLabel
+        Left = 20
+        Top = 0
+        Width = 280
+        Height = 24
+        Align = alClient
+        AutoSize = False
+        Caption = 'Silent download, without the download bar'
+        FocusControl = SilentCheck
+        Layout = tlCenter
+        OnClick = OptionLabelClick
+      end
+    end
+    object DestLabel: TLabel
+      AlignWithMargins = True
+      Left = 0
+      Top = 60
+      Width = 300
+      Height = 20
+      Margins.Left = 0
+      Margins.Top = 0
+      Margins.Right = 0
+      Margins.Bottom = 4
+      Align = alTop
+      AutoSize = False
+      Caption = 'Custom destination folder'
+      FocusControl = DestEdit
+    end
+    object DestEdit: TEdit
+      AlignWithMargins = True
+      Left = 0
+      Top = 84
+      Width = 300
+      Height = 23
+      Margins.Left = 0
+      Margins.Top = 0
+      Margins.Right = 0
+      Margins.Bottom = 24
+      Align = alTop
+      TabOrder = 1
+    end
+    object DownloadsCaption: TLabel
+      AlignWithMargins = True
+      Left = 0
+      Top = 131
+      Width = 300
+      Height = 20
+      Margins.Left = 0
+      Margins.Top = 0
+      Margins.Right = 0
+      Margins.Bottom = 8
+      Align = alTop
+      AutoSize = False
+      Caption = 'Downloads'
+      Font.Charset = DEFAULT_CHARSET
+      Font.Color = clWindowText
+      Font.Height = -13
+      Font.Name = 'Segoe UI Semibold'
+      Font.Style = []
+      ParentFont = False
+    end
+    object DownloadButtons: TPanel
+      AlignWithMargins = True
+      Left = 0
+      Top = 552
+      Width = 300
+      Height = 32
+      Margins.Left = 0
+      Margins.Top = 8
+      Margins.Right = 0
+      Margins.Bottom = 0
+      Align = alBottom
+      BevelOuter = bvNone
+      ParentColor = True
+      ShowCaption = False
+      TabOrder = 3
+      object PauseBtn: TButton
+        AlignWithMargins = True
+        Left = 0
+        Top = 0
+        Width = 94
+        Height = 32
+        Margins.Left = 0
+        Margins.Top = 0
+        Margins.Right = 8
+        Margins.Bottom = 0
+        Align = alLeft
+        TabOrder = 0
+        Caption = 'Pause'
+        OnClick = PauseBtnClick
+      end
+      object ResumeBtn: TButton
+        AlignWithMargins = True
+        Left = 102
+        Top = 0
+        Width = 94
+        Height = 32
+        Margins.Left = 0
+        Margins.Top = 0
+        Margins.Right = 8
+        Margins.Bottom = 0
+        Align = alLeft
+        TabOrder = 1
+        Caption = 'Resume'
+        OnClick = ResumeBtnClick
+      end
+      object CancelBtn: TButton
+        AlignWithMargins = True
+        Left = 204
+        Top = 0
+        Width = 96
+        Height = 32
+        Margins.Left = 0
+        Margins.Top = 0
+        Margins.Right = 0
+        Margins.Bottom = 0
+        Align = alClient
+        TabOrder = 2
+        Caption = 'Cancel'
+        OnClick = CancelBtnClick
+      end
+    end
+    object DownloadList: TListBox
+      Left = 0
+      Top = 159
+      Width = 300
+      Height = 385
+      Align = alClient
+      TabOrder = 2
+      OnClick = DownloadListClick
+    end
+  end
+  object AddressBar: TPanel
+    AlignWithMargins = True
+    Left = 24
+    Top = 72
+    Width = 1152
+    Height = 32
+    Margins.Left = 24
+    Margins.Top = 0
+    Margins.Right = 24
+    Margins.Bottom = 8
+    Align = alTop
+    BevelOuter = bvNone
+    ParentColor = True
+    ShowCaption = False
+    TabOrder = 2
+    object NavBtn: TButton
+      AlignWithMargins = True
+      Left = 1072
+      Top = 0
+      Width = 80
+      Height = 32
+      Margins.Left = 8
+      Margins.Top = 0
+      Margins.Right = 0
+      Margins.Bottom = 0
+      Align = alRight
+      Caption = 'Go'
+      Default = True
+      TabOrder = 1
       OnClick = NavBtnClick
     end
     object NavEdit: TEdit
-      Left = 135
-      Top = 14
-      Width = 457
-      Height = 33
-      Margins.Left = 5
-      Margins.Top = 5
-      Margins.Right = 5
-      Margins.Bottom = 5
-      Anchors = [akLeft, akTop, akRight]
-      TabOrder = 1
+      AlignWithMargins = True
+      Left = 0
+      Top = 4
+      Width = 1064
+      Height = 23
+      Margins.Left = 0
+      Margins.Top = 4
+      Margins.Right = 0
+      Margins.Bottom = 4
+      Align = alClient
+      TabOrder = 0
       Text = 'https://sample-videos.com/download-sample-zip.php'
-      ExplicitWidth = 447
-    end
-    object TMSFNCEdgeWebBrowser1: TTMSFNCEdgeWebBrowser
-      Left = 12
-      Top = 60
-      Width = 580
-      Height = 584
-      Margins.Left = 5
-      Margins.Top = 5
-      Margins.Right = 5
-      Margins.Bottom = 5
-      ParentDoubleBuffered = False
-      Anchors = [akLeft, akTop, akRight, akBottom]
-      DoubleBuffered = True
-      TabOrder = 2
-      Settings.EnableContextMenu = True
-      Settings.EnableShowDebugConsole = True
-      Settings.EnableAcceleratorKeys = True
-      Settings.UsePopupMenuAsContextMenu = False
-      OnDownloadStarted = TMSFNCEdgeWebBrowser1DownloadStarted
-      OnDownloadStateChanged = TMSFNCEdgeWebBrowser1DownloadStateChanged
-      OnDownloadBytesReceivedChanged = TMSFNCEdgeWebBrowser1DownloadBytesReceivedChanged
-      ExplicitWidth = 570
-      ExplicitHeight = 582
     end
   end
-  object Panel2: TPanel
-    Left = 614
-    Top = 0
-    Width = 420
-    Height = 664
-    Margins.Left = 5
-    Margins.Top = 5
-    Margins.Right = 5
-    Margins.Bottom = 5
-    Align = alRight
-    Caption = 'Panel2'
-    TabOrder = 1
-    ExplicitLeft = 604
-    ExplicitHeight = 662
-    object Label1: TLabel
-      Left = 10
-      Top = 60
-      Width = 133
-      Height = 25
-      Margins.Left = 5
-      Margins.Top = 5
-      Margins.Right = 5
-      Margins.Bottom = 5
-      Caption = 'Destination Path:'
-    end
-    object CheckBox1: TCheckBox
-      Left = 10
-      Top = 18
-      Width = 146
-      Height = 26
-      Margins.Left = 5
-      Margins.Top = 5
-      Margins.Right = 5
-      Margins.Bottom = 5
-      Caption = 'CheckBox1'
-      TabOrder = 0
-    end
-    object ListBox1: TListBox
-      Left = 10
-      Top = 95
-      Width = 399
-      Height = 338
-      Margins.Left = 5
-      Margins.Top = 5
-      Margins.Right = 5
-      Margins.Bottom = 5
-      ItemHeight = 25
-      TabOrder = 1
-    end
-    object Button2: TButton
-      Left = 10
-      Top = 619
-      Width = 399
-      Height = 38
-      Margins.Left = 5
-      Margins.Top = 5
-      Margins.Right = 5
-      Margins.Bottom = 5
-      Caption = 'Button2'
-      TabOrder = 2
-    end
-    object Button3: TButton
-      Left = 10
-      Top = 571
-      Width = 399
-      Height = 38
-      Margins.Left = 5
-      Margins.Top = 5
-      Margins.Right = 5
-      Margins.Bottom = 5
-      Caption = 'Button2'
-      TabOrder = 3
-    end
-    object Panel3: TPanel
-      Left = -1
-      Top = 1
-      Width = 420
-      Height = 662
-      Margins.Left = 5
-      Margins.Top = 5
-      Margins.Right = 5
-      Margins.Bottom = 5
-      Align = alRight
-      Caption = 'Panel2'
-      TabOrder = 4
-      ExplicitHeight = 660
-      DesignSize = (
-        420
-        662)
-      object SilentCheck: TCheckBox
-        Left = 10
-        Top = 18
-        Width = 303
-        Height = 26
-        Margins.Left = 5
-        Margins.Top = 5
-        Margins.Right = 5
-        Margins.Bottom = 5
-        Caption = 'Silent Download'
-        TabOrder = 0
-      end
-      object DownloadList: TListBox
-        Left = 10
-        Top = 132
-        Width = 399
-        Height = 361
-        Margins.Left = 5
-        Margins.Top = 5
-        Margins.Right = 5
-        Margins.Bottom = 5
-        Anchors = [akLeft, akTop, akRight, akBottom]
-        ItemHeight = 25
-        TabOrder = 1
-        OnClick = DownloadListClick
-        ExplicitHeight = 359
-      end
-      object CancelBtn: TButton
-        Left = 11
-        Top = 605
-        Width = 399
-        Height = 38
-        Margins.Left = 5
-        Margins.Top = 5
-        Margins.Right = 5
-        Margins.Bottom = 5
-        Anchors = [akLeft, akRight, akBottom]
-        Caption = 'Cancel'
-        TabOrder = 2
-        OnClick = CancelBtnClick
-        ExplicitTop = 603
-      end
-      object ResumeBtn: TButton
-        Left = 11
-        Top = 557
-        Width = 399
-        Height = 38
-        Margins.Left = 5
-        Margins.Top = 5
-        Margins.Right = 5
-        Margins.Bottom = 5
-        Anchors = [akLeft, akRight, akBottom]
-        Caption = 'Resume'
-        TabOrder = 3
-        OnClick = ResumeBtnClick
-        ExplicitTop = 555
-      end
-      object PauseBtn: TButton
-        Left = 12
-        Top = 508
-        Width = 399
-        Height = 38
-        Margins.Left = 5
-        Margins.Top = 5
-        Margins.Right = 5
-        Margins.Bottom = 5
-        Anchors = [akLeft, akRight, akBottom]
-        Caption = 'Pause'
-        TabOrder = 4
-        OnClick = PauseBtnClick
-        ExplicitTop = 506
-      end
-      object DestEdit: TEdit
-        Left = 11
-        Top = 89
-        Width = 398
-        Height = 33
-        Margins.Left = 5
-        Margins.Top = 5
-        Margins.Right = 5
-        Margins.Bottom = 5
-        Anchors = [akLeft, akTop, akRight]
-        TabOrder = 5
-      end
-    end
+  object TMSFNCEdgeWebBrowser1: TTMSFNCEdgeWebBrowser
+    AlignWithMargins = True
+    Left = 340
+    Top = 112
+    Width = 836
+    Height = 584
+    Margins.Left = 16
+    Margins.Top = 0
+    Margins.Right = 24
+    Margins.Bottom = 24
+    Align = alClient
+    TabOrder = 3
+    ParentDoubleBuffered = False
+    DoubleBuffered = True
+    Settings.EnableContextMenu = True
+    Settings.EnableShowDebugConsole = True
+    Settings.EnableAcceleratorKeys = True
+    Settings.UsePopupMenuAsContextMenu = False
+    OnDownloadStarted = TMSFNCEdgeWebBrowser1DownloadStarted
+    OnDownloadStateChanged = TMSFNCEdgeWebBrowser1DownloadStateChanged
+    OnDownloadBytesReceivedChanged = TMSFNCEdgeWebBrowser1DownloadBytesReceivedChanged
+  end
+  object ThemeManager: TTMSFNCThemeManager
+    Theme = 'Fluent Light'
+    Left = 8
+    Top = 8
   end
 end

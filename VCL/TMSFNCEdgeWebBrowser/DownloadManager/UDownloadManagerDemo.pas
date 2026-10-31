@@ -6,21 +6,25 @@ uses
   Winapi.Windows, Winapi.Messages, System.SysUtils, System.Variants, System.Classes, Vcl.Graphics,
   Vcl.Controls, Vcl.Forms, Vcl.Dialogs, VCL.TMSFNCTypes, VCL.TMSFNCUtils,
   VCL.TMSFNCGraphics, VCL.TMSFNCGraphicsTypes, Vcl.StdCtrls, Vcl.ExtCtrls,
-  VCL.TMSFNCCustomControl, VCL.TMSFNCWebBrowser, VCL.TMSFNCEdgeWebBrowser;
+  VCL.TMSFNCCustomControl, VCL.TMSFNCWebBrowser, VCL.TMSFNCEdgeWebBrowser, VCL.TMSFNCTheme;
 
 type
   TForm3 = class(TForm)
-    Panel1: TPanel;
+    ThemeManager: TTMSFNCThemeManager;
+    DemoHeader: TPanel;
+    DemoTitle: TLabel;
+    DemoDescription: TLabel;
+    DemoThemeCombo: TComboBox;
+    SettingsPanel: TPanel;
+    DownloadCaption: TLabel;
+    SilentCheckRow: TPanel;
+    SilentCheckLabel: TLabel;
+    DestLabel: TLabel;
+    DownloadsCaption: TLabel;
+    DownloadButtons: TPanel;
+    AddressBar: TPanel;
     NavBtn: TButton;
     NavEdit: TEdit;
-    Splitter1: TSplitter;
-    Panel2: TPanel;
-    CheckBox1: TCheckBox;
-    Label1: TLabel;
-    ListBox1: TListBox;
-    Button2: TButton;
-    Button3: TButton;
-    Panel3: TPanel;
     SilentCheck: TCheckBox;
     DownloadList: TListBox;
     CancelBtn: TButton;
@@ -33,6 +37,7 @@ type
     procedure ResumeBtnClick(Sender: TObject);
     procedure CancelBtnClick(Sender: TObject);
     procedure FormCreate(Sender: TObject);
+    procedure OptionLabelClick(Sender: TObject);
     procedure TMSFNCEdgeWebBrowser1DownloadStarted(Sender: TObject;
       ADownload: TTMSFNCWebBrowserDownload; var ASilent, APause, AResume,
       ACancel: Boolean);
@@ -44,11 +49,14 @@ type
       AState: TTMSFNCWebBrowserDownloadState; var APause, AResume,
       ACancel: Boolean);
     procedure DownloadListClick(Sender: TObject);
+    procedure FormDestroy(Sender: TObject);
+    procedure DemoThemeComboChange(Sender: TObject);
   private
     { Private declarations }
     procedure UpdateDownloadList;
     procedure UpdateButtons;
     function ExtractURLFileName(AFileName: string): string;
+    procedure ThemeChanged(Sender: TObject);
   public
     { Public declarations }
   end;
@@ -113,6 +121,8 @@ end;
 
 procedure TForm3.FormCreate(Sender: TObject);
 begin
+  TTMSFNCTheme.AddChangeListener(ThemeChanged);
+  ThemeChanged(nil);
   PauseBtn.Enabled := False;
   ResumeBtn.Enabled := False;
   CancelBtn.Enabled := False;
@@ -229,6 +239,53 @@ begin
 
   DownloadList.ItemIndex := idx;
   UpdateButtons;
+end;
+
+procedure TForm3.FormDestroy(Sender: TObject);
+begin
+  TTMSFNCTheme.RemoveChangeListener(ThemeChanged);
+end;
+
+{ Themed VCL check boxes draw their caption in the system colour, unreadable on a dark form: the
+  caption is a label that follows the theme, and clicking it toggles its check box. }
+procedure TForm3.OptionLabelClick(Sender: TObject);
+begin
+  if (Sender as TLabel).FocusControl is TCheckBox then
+    TCheckBox(TLabel(Sender).FocusControl).Checked := not TCheckBox(TLabel(Sender).FocusControl).Checked;
+end;
+
+{ Core has no FNC label: the native labels take the text colours of the theme in effect (without
+  a theme: the platform's). The theme manager colours the form; native buttons, edits, lists and
+  memos keep the platform look, which is readable on a light and on a dark form. The page in the
+  browser is not themed. }
+procedure TForm3.ThemeChanged(Sender: TObject);
+var
+  t: TTMSFNCResolvedTheme;
+  txt, sec: TColor;
+begin
+  t := TTMSFNCTheme.Resolve(TTMSFNCTheme.Current);
+  if Assigned(t) then
+  begin
+    txt := t[ttText];
+    sec := t[ttTextSecondary];
+  end
+  else
+  begin
+    txt := clWindowText;
+    sec := clGrayText;
+  end;
+  DemoTitle.Font.Color := txt;
+  DownloadCaption.Font.Color := txt;
+  DownloadsCaption.Font.Color := txt;
+  SilentCheckLabel.Font.Color := txt;
+  DestLabel.Font.Color := txt;
+  DemoDescription.Font.Color := sec;
+end;
+
+procedure TForm3.DemoThemeComboChange(Sender: TObject);
+begin
+  if DemoThemeCombo.ItemIndex >= 0 then
+    ThemeManager.Theme := DemoThemeCombo.Items[DemoThemeCombo.ItemIndex];
 end;
 
 end.

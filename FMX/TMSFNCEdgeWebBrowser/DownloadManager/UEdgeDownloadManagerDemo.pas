@@ -7,11 +7,20 @@ uses
   FMX.Types, FMX.Controls, FMX.Forms, FMX.Graphics, FMX.Dialogs,
   FMX.TMSFNCTypes, FMX.TMSFNCUtils, FMX.TMSFNCGraphics, FMX.TMSFNCGraphicsTypes,
   FMX.Layouts, FMX.ListBox, FMX.Edit, FMX.Controls.Presentation, FMX.StdCtrls,
-  FMX.TMSFNCCustomControl, FMX.TMSFNCWebBrowser, FMX.TMSFNCEdgeWebBrowser;
+  FMX.TMSFNCCustomControl, FMX.TMSFNCWebBrowser, FMX.TMSFNCEdgeWebBrowser, FMX.TMSFNCTheme;
 
 type
   TForm3 = class(TForm)
-    DownloadPanel: TPanel;
+    ThemeManager: TTMSFNCThemeManager;
+    DemoHeader: TLayout;
+    DemoTitle: TLabel;
+    DemoDescription: TLabel;
+    DemoThemeCombo: TComboBox;
+    SettingsPanel: TLayout;
+    DownloadCaption: TLabel;
+    DownloadsCaption: TLabel;
+    DownloadButtons: TLayout;
+    AddressBar: TLayout;
     CancelBtn: TButton;
     DestEdit: TEdit;
     DownloadList: TListBox;
@@ -19,8 +28,6 @@ type
     PauseBtn: TButton;
     ResumeBtn: TButton;
     SilentCheck: TCheckBox;
-    Splitter1: TSplitter;
-    Panel1: TPanel;
     NavBtn: TButton;
     NavEdit: TEdit;
     TMSFNCEdgeWebBrowser1: TTMSFNCEdgeWebBrowser;
@@ -41,11 +48,14 @@ type
     procedure PauseBtnClick(Sender: TObject);
     procedure ResumeBtnClick(Sender: TObject);
     procedure CancelBtnClick(Sender: TObject);
+    procedure FormDestroy(Sender: TObject);
+    procedure DemoThemeComboChange(Sender: TObject);
   private
     { Private declarations }
     procedure UpdateDownloadList;
     procedure UpdateButtons;
     function ExtractURLFileName(AFileName: string): string;
+    procedure ThemeChanged(Sender: TObject);
   public
     { Public declarations }
   end;
@@ -140,6 +150,8 @@ end;
 
 procedure TForm3.FormCreate(Sender: TObject);
 begin
+  TTMSFNCTheme.AddChangeListener(ThemeChanged);
+  ThemeChanged(nil);
   PauseBtn.Enabled := False;
   ResumeBtn.Enabled := False;
   CancelBtn.Enabled := False;
@@ -230,6 +242,45 @@ begin
 
   DownloadList.ItemIndex := idx;
   UpdateButtons;
+end;
+
+procedure TForm3.FormDestroy(Sender: TObject);
+begin
+  TTMSFNCTheme.RemoveChangeListener(ThemeChanged);
+end;
+
+{ Core has no FNC label: the native labels take the text colours of the theme in effect (without
+  a theme: the platform's). The theme manager colours the form; native buttons, edits, lists and
+  memos keep the platform look, which is readable on a light and on a dark form. The page in the
+  browser is not themed. }
+procedure TForm3.ThemeChanged(Sender: TObject);
+var
+  t: TTMSFNCResolvedTheme;
+  txt, sec: TAlphaColor;
+begin
+  t := TTMSFNCTheme.Resolve(TTMSFNCTheme.Current);
+  if Assigned(t) then
+  begin
+    txt := t[ttText];
+    sec := t[ttTextSecondary];
+  end
+  else
+  begin
+    txt := TAlphaColorRec.Black;
+    sec := $FF5B6470;
+  end;
+  DemoTitle.FontColor := txt;
+  DownloadCaption.FontColor := txt;
+  DownloadsCaption.FontColor := txt;
+  SilentCheck.FontColor := txt;
+  Label1.FontColor := txt;
+  DemoDescription.FontColor := sec;
+end;
+
+procedure TForm3.DemoThemeComboChange(Sender: TObject);
+begin
+  if DemoThemeCombo.ItemIndex >= 0 then
+    ThemeManager.Theme := DemoThemeCombo.Items[DemoThemeCombo.ItemIndex];
 end;
 
 end.

@@ -1,13 +1,13 @@
 object Form2: TForm2
   Left = 0
   Top = 0
-  Caption = 'EdgeWebBrowser Navigate with Postdata'
-  ClientHeight = 704
-  ClientWidth = 1512
+  Caption = 'TMS FNC Core - Edge Web Browser Navigate with POST'
+  ClientHeight = 640
+  ClientWidth = 1100
   Color = clBtnFace
   Font.Charset = DEFAULT_CHARSET
   Font.Color = clWindowText
-  Font.Height = -18
+  Font.Height = -12
   Font.Name = 'Segoe UI'
   Font.Style = []
   Icon.Data = {
@@ -145,124 +145,227 @@ object Form2: TForm2
     0000000000000000000000000000000000000000000000000000000000000000
     0000000000000000000000000000000000000000000000000000000000000000
     000000000000000000000000000000000000000000000000000000000000}
+  Position = poScreenCenter
   OnCreate = FormCreate
-  PixelsPerInch = 144
-  DesignSize = (
-    1512
-    704)
-  TextHeight = 25
-  object Label1: TLabel
-    Left = 836
-    Top = 24
-    Width = 32
-    Height = 25
-    Margins.Left = 5
-    Margins.Top = 5
-    Margins.Right = 5
-    Margins.Bottom = 5
-    Anchors = [akTop, akRight]
-    Caption = 'URI:'
+  OnDestroy = FormDestroy
+  PixelsPerInch = 96
+  TextHeight = 15
+  object DemoHeader: TPanel
+    Left = 0
+    Top = 0
+    Width = 1100
+    Height = 72
+    Align = alTop
+    BevelOuter = bvNone
+    ParentColor = True
+    ShowCaption = False
+    TabOrder = 0
+    object DemoTitle: TLabel
+      Left = 24
+      Top = 12
+      Width = 886
+      Height = 30
+      Anchors = [akLeft, akTop, akRight]
+      AutoSize = False
+      Caption = 'Navigate with POST data'
+      Font.Charset = DEFAULT_CHARSET
+      Font.Color = clWindowText
+      Font.Height = -20
+      Font.Name = 'Segoe UI Semibold'
+      Font.Style = []
+      ParentFont = False
+    end
+    object DemoDescription: TLabel
+      Left = 24
+      Top = 44
+      Width = 1052
+      Height = 20
+      Anchors = [akLeft, akTop, akRight]
+      AutoSize = False
+      Caption = 'Send a POST request with your own headers and body, and show the response in the browser'
+    end
+    object DemoThemeCombo: TComboBox
+      Left = 926
+      Top = 16
+      Width = 150
+      Height = 23
+      Style = csDropDownList
+      Anchors = [akTop, akRight]
+      ItemIndex = 0
+      TabOrder = 0
+      Text = 'Fluent Light'
+      OnChange = DemoThemeComboChange
+      Items.Strings = (
+        'Fluent Light'
+        'Fluent Dark')
+    end
   end
-  object Label2: TLabel
-    Left = 836
-    Top = 120
-    Width = 69
-    Height = 25
-    Margins.Left = 5
-    Margins.Top = 5
-    Margins.Right = 5
-    Margins.Bottom = 5
-    Anchors = [akTop, akRight]
-    Caption = 'Headers:'
-  end
-  object Label3: TLabel
-    Left = 836
-    Top = 348
-    Width = 73
-    Height = 25
-    Margins.Left = 5
-    Margins.Top = 5
-    Margins.Right = 5
-    Margins.Bottom = 5
-    Anchors = [akTop, akRight]
-    Caption = 'Postdata:'
+  object SettingsPanel: TPanel
+    AlignWithMargins = True
+    Left = 24
+    Top = 72
+    Width = 320
+    Height = 544
+    Margins.Left = 24
+    Margins.Top = 0
+    Margins.Right = 0
+    Margins.Bottom = 24
+    Align = alLeft
+    BevelOuter = bvNone
+    ParentColor = True
+    ShowCaption = False
+    TabOrder = 1
+    object RequestCaption: TLabel
+      AlignWithMargins = True
+      Left = 0
+      Top = 0
+      Width = 320
+      Height = 20
+      Margins.Left = 0
+      Margins.Top = 0
+      Margins.Right = 0
+      Margins.Bottom = 8
+      Align = alTop
+      AutoSize = False
+      Caption = 'Request'
+      Font.Charset = DEFAULT_CHARSET
+      Font.Color = clWindowText
+      Font.Height = -13
+      Font.Name = 'Segoe UI Semibold'
+      Font.Style = []
+      ParentFont = False
+    end
+    object Label1: TLabel
+      AlignWithMargins = True
+      Left = 0
+      Top = 28
+      Width = 320
+      Height = 20
+      Margins.Left = 0
+      Margins.Top = 0
+      Margins.Right = 0
+      Margins.Bottom = 4
+      Align = alTop
+      AutoSize = False
+      Caption = 'URI'
+      FocusControl = URIEdit
+    end
+    object URIEdit: TEdit
+      AlignWithMargins = True
+      Left = 0
+      Top = 52
+      Width = 320
+      Height = 23
+      Margins.Left = 0
+      Margins.Top = 0
+      Margins.Right = 0
+      Margins.Bottom = 16
+      Align = alTop
+      TabOrder = 0
+      Text = 'https://www.tmssoftware.com'
+    end
+    object Label2: TLabel
+      AlignWithMargins = True
+      Left = 0
+      Top = 91
+      Width = 320
+      Height = 20
+      Margins.Left = 0
+      Margins.Top = 0
+      Margins.Right = 0
+      Margins.Bottom = 4
+      Align = alTop
+      AutoSize = False
+      Caption = 'Headers'
+    end
+    object HeaderGrid: TStringGrid
+      AlignWithMargins = True
+      Left = 0
+      Top = 115
+      Width = 320
+      Height = 110
+      Margins.Left = 0
+      Margins.Top = 0
+      Margins.Right = 0
+      Margins.Bottom = 16
+      Align = alTop
+      DefaultColWidth = 150
+      DefaultRowHeight = 24
+      TabOrder = 1
+      ColCount = 2
+      FixedCols = 0
+      RowCount = 4
+      Options = [goFixedVertLine, goFixedHorzLine, goVertLine, goHorzLine, goRangeSelect, goColSizing, goEditing, goFixedRowDefAlign]
+    end
+    object Label3: TLabel
+      AlignWithMargins = True
+      Left = 0
+      Top = 241
+      Width = 320
+      Height = 20
+      Margins.Left = 0
+      Margins.Top = 0
+      Margins.Right = 0
+      Margins.Bottom = 4
+      Align = alTop
+      AutoSize = False
+      Caption = 'POST data'
+      FocusControl = BodyMemo
+    end
+    object BodyMemo: TMemo
+      AlignWithMargins = True
+      Left = 0
+      Top = 265
+      Width = 320
+      Height = 160
+      Margins.Left = 0
+      Margins.Top = 0
+      Margins.Right = 0
+      Margins.Bottom = 16
+      Align = alTop
+      TabOrder = 2
+      Lines.Strings = (
+        'testData=Me')
+    end
+    object NavigateBtn: TButton
+      AlignWithMargins = True
+      Left = 0
+      Top = 441
+      Width = 320
+      Height = 32
+      Margins.Left = 0
+      Margins.Top = 0
+      Margins.Right = 0
+      Margins.Bottom = 8
+      Align = alTop
+      Caption = 'Navigate with POST'
+      Default = True
+      TabOrder = 3
+      OnClick = NavigateBtnClick
+    end
   end
   object TMSFNCEdgeWebBrowser1: TTMSFNCEdgeWebBrowser
-    Left = 24
-    Top = 24
-    Width = 769
-    Height = 655
-    Margins.Left = 5
-    Margins.Top = 5
-    Margins.Right = 5
-    Margins.Bottom = 5
+    AlignWithMargins = True
+    Left = 360
+    Top = 72
+    Width = 716
+    Height = 544
+    Margins.Left = 16
+    Margins.Top = 0
+    Margins.Right = 24
+    Margins.Bottom = 24
+    Align = alClient
+    TabOrder = 2
     ParentDoubleBuffered = False
-    Anchors = [akLeft, akTop, akRight, akBottom]
     DoubleBuffered = True
-    TabOrder = 0
     Settings.EnableContextMenu = True
     Settings.EnableShowDebugConsole = True
     Settings.EnableAcceleratorKeys = True
     Settings.UsePopupMenuAsContextMenu = False
-    ExplicitHeight = 637
   end
-  object URIEdit: TEdit
-    Left = 836
-    Top = 59
-    Width = 645
-    Height = 33
-    Margins.Left = 5
-    Margins.Top = 5
-    Margins.Right = 5
-    Margins.Bottom = 5
-    Anchors = [akTop, akRight]
-    TabOrder = 1
-    Text = 'https://www.tmssoftware.com'
-  end
-  object HeaderGrid: TStringGrid
-    Left = 836
-    Top = 155
-    Width = 645
-    Height = 170
-    Margins.Left = 5
-    Margins.Top = 5
-    Margins.Right = 5
-    Margins.Bottom = 5
-    Anchors = [akTop, akRight]
-    ColCount = 2
-    DefaultColWidth = 318
-    DefaultRowHeight = 36
-    FixedCols = 0
-    RowCount = 4
-    Options = [goFixedVertLine, goFixedHorzLine, goVertLine, goHorzLine, goRangeSelect, goColSizing, goEditing, goFixedRowDefAlign]
-    TabOrder = 2
-  end
-  object BodyMemo: TMemo
-    Left = 836
-    Top = 383
-    Width = 645
-    Height = 194
-    Margins.Left = 5
-    Margins.Top = 5
-    Margins.Right = 5
-    Margins.Bottom = 5
-    Anchors = [akTop, akRight, akBottom]
-    Lines.Strings = (
-      'testData=Me')
-    TabOrder = 3
-  end
-  object NavigateBtn: TButton
-    Left = 836
-    Top = 612
-    Width = 645
-    Height = 67
-    Margins.Left = 5
-    Margins.Top = 5
-    Margins.Right = 5
-    Margins.Bottom = 5
-    Anchors = [akRight, akBottom]
-    Caption = 'Navigate With Post'
-    TabOrder = 4
-    OnClick = NavigateBtnClick
+  object ThemeManager: TTMSFNCThemeManager
+    Theme = 'Fluent Light'
+    Left = 8
+    Top = 8
   end
 end

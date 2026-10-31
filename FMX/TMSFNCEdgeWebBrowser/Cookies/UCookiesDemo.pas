@@ -8,15 +8,28 @@ uses
   FMX.TMSFNCTypes, FMX.TMSFNCUtils, FMX.TMSFNCGraphics, FMX.TMSFNCGraphicsTypes,
   FMX.TMSFNCCustomControl, FMX.TMSFNCWebBrowser, FMX.TMSFNCEdgeWebBrowser,
   System.Rtti, FMX.Grid.Style, FMX.StdCtrls, FMX.Grid, FMX.ScrollBox, FMX.Edit,
-  FMX.Controls.Presentation, FMX.DateTimeCtrls;
+  FMX.Controls.Presentation, FMX.DateTimeCtrls, FMX.Layouts, FMX.ListBox, FMX.TMSFNCTheme;
 
 type
   TForm2 = class(TForm)
-    Panel1: TPanel;
+    ThemeManager: TTMSFNCThemeManager;
+    DemoHeader: TLayout;
+    DemoTitle: TLabel;
+    DemoDescription: TLabel;
+    DemoThemeCombo: TComboBox;
+    SettingsPanel: TLayout;
+    CookieCaption: TLabel;
+    NameRow: TLayout;
+    DomainRow: TLayout;
+    PathRow: TLayout;
+    ValueRow: TLayout;
+    ExpiresRow: TLayout;
+    CookiesHint: TLabel;
+    AddressBar: TLayout;
+    ContentPanel: TLayout;
     TMSFNCEdgeWebBrowser1: TTMSFNCEdgeWebBrowser;
     NavigateBtn: TButton;
     URIEdit: TEdit;
-    Panel2: TPanel;
     AddCookieBtn: TButton;
     CookieGrid: TStringGrid;
     StringColumn1: TStringColumn;
@@ -53,8 +66,11 @@ type
     procedure CookieGridSelectCell(Sender: TObject; const ACol, ARow: Integer;
       var CanSelect: Boolean);
     procedure TMSFNCEdgeWebBrowser1Initialized(Sender: TObject);
+    procedure FormDestroy(Sender: TObject);
+    procedure DemoThemeComboChange(Sender: TObject);
   private
     { Private declarations }
+    procedure ThemeChanged(Sender: TObject);
   public
     { Public declarations }
     CookieList: array of TTMSFNCWebBrowserCookie;
@@ -137,6 +153,8 @@ end;
 //Other functions
 procedure TForm2.FormCreate(Sender: TObject);
 begin
+  TTMSFNCTheme.AddChangeListener(ThemeChanged);
+  ThemeChanged(nil);
   ExpirationDate.Date := Now + 1;
   ExpirationTime.Time := Now.GetTime;
 end;
@@ -182,6 +200,49 @@ end;
 procedure TForm2.TMSFNCEdgeWebBrowser1NavigateComplete(Sender: TObject; var Params: TTMSFNCCustomWebBrowserNavigateCompleteParams);
 begin
   TMSFNCEdgeWebBrowser1.GetCookies;
+end;
+
+procedure TForm2.FormDestroy(Sender: TObject);
+begin
+  TTMSFNCTheme.RemoveChangeListener(ThemeChanged);
+end;
+
+{ Core has no FNC label: the native labels take the text colours of the theme in effect (without
+  a theme: the platform's). The theme manager colours the form; native buttons, edits, lists and
+  memos keep the platform look, which is readable on a light and on a dark form. The page in the
+  browser is not themed. }
+procedure TForm2.ThemeChanged(Sender: TObject);
+var
+  t: TTMSFNCResolvedTheme;
+  txt, sec: TAlphaColor;
+begin
+  t := TTMSFNCTheme.Resolve(TTMSFNCTheme.Current);
+  if Assigned(t) then
+  begin
+    txt := t[ttText];
+    sec := t[ttTextSecondary];
+  end
+  else
+  begin
+    txt := TAlphaColorRec.Black;
+    sec := $FF5B6470;
+  end;
+  DemoTitle.FontColor := txt;
+  CookieCaption.FontColor := txt;
+  NameLbl.FontColor := txt;
+  DomainLbl.FontColor := txt;
+  PathLbl.FontColor := txt;
+  Label1.FontColor := txt;
+  Label2.FontColor := txt;
+  Label3.FontColor := txt;
+  DemoDescription.FontColor := sec;
+  CookiesHint.FontColor := sec;
+end;
+
+procedure TForm2.DemoThemeComboChange(Sender: TObject);
+begin
+  if DemoThemeCombo.ItemIndex >= 0 then
+    ThemeManager.Theme := DemoThemeCombo.Items[DemoThemeCombo.ItemIndex];
 end;
 
 end.

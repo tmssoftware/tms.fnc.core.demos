@@ -55,11 +55,16 @@ const
   cLikes = 350;
   cImprove = 480;
   cContact = 620;
+{ form fields are written by the TMS FNC PDF engine (Windows, Linux); on macOS, iOS and Android
+  the PDF library uses the operating system's PDF support, which has no form fields }
+{$IF DEFINED(MSWINDOWS) OR DEFINED(LINUX)}
 var
   p: TTMSFNCPDFLib;
   e: ITMSFNCCustomPDFFormFieldEdit;
   r: TRectF;
+{$IFEND}
 begin
+  {$IF DEFINED(MSWINDOWS) OR DEFINED(LINUX)}
   p := TTMSFNCPDFLib.Create;
   try
     p.Header := '';
@@ -157,6 +162,9 @@ begin
   finally
     p.Free;
   end;
+  {$ELSE}
+  ShowMessage('PDF form fields need the TMS FNC PDF engine, which is used on Windows and Linux.');
+  {$IFEND}
 end;
 
 procedure TForm4.FormCreate(Sender: TObject);

@@ -1,109 +1,181 @@
 object FormMain: TFormMain
   Left = 0
   Top = 0
-  Caption = 'TMS FNC Filter Rules Manager Demo'
-  ClientHeight = 600
-  ClientWidth = 960
+  Caption = 'TMS FNC Core - Filter rules manager'
+  ClientHeight = 620
+  ClientWidth = 1040
   Position = ScreenCenter
   FormFactor.Width = 320
   FormFactor.Height = 480
   FormFactor.Devices = [Desktop]
   OnCreate = FormCreate
+  OnDestroy = FormDestroy
   DesignerMasterStyle = 0
-  object PanelTop: TPanel
+  object DemoHeader: TLayout
     Align = Top
-    Size.Width = 960.000000000000000000
-    Size.Height = 44.000000000000000000
+    Size.Width = 1040.000000000000000000
+    Size.Height = 72.000000000000000000
     Size.PlatformDefault = False
     TabOrder = 0
-    object LabelFilter: TLabel
-      Align = Left
-      Margins.Left = 10.000000000000000000
-      Position.X = 10.000000000000000000
-      Size.Width = 47.000000000000000000
-      Size.Height = 44.000000000000000000
-      Size.PlatformDefault = False
-      TextSettings.HorzAlign = Center
-      Text = 'Filter:'
-    end
-    object EditSearch: TEdit
-      Touch.InteractiveGestures = [LongTap, DoubleTap]
-      Align = Left
-      TabOrder = 0
-      Position.X = 241.000000000000000000
-      Position.Y = 7.000000000000000000
-      Margins.Left = 8.000000000000000000
-      Margins.Top = 7.000000000000000000
-      Margins.Bottom = 7.000000000000000000
-      Size.Width = 200.000000000000000000
+    object DemoTitle: TLabel
+      Anchors = [akLeft, akTop, akRight]
+      StyledSettings = [Family]
+      Position.X = 24.000000000000000000
+      Position.Y = 12.000000000000000000
+      Size.Width = 826.000000000000000000
       Size.Height = 30.000000000000000000
       Size.PlatformDefault = False
-      OnKeyDown = EditSearchKeyDown
+      TextSettings.Font.Size = 20.000000000000000000
+      TextSettings.Font.StyleExt = {00060000000000000004000000}
+      Text = 'Filter rules manager - list'
     end
-    object BtnApply: TButton
-      Align = Left
-      Margins.Left = 8.000000000000000000
-      Margins.Top = 7.000000000000000000
-      Margins.Bottom = 7.000000000000000000
-      Position.X = 449.000000000000000000
-      Position.Y = 7.000000000000000000
-      Size.Width = 100.000000000000000000
-      Size.Height = 30.000000000000000000
+    object DemoDescription: TLabel
+      Anchors = [akLeft, akTop, akRight]
+      StyledSettings = [Family, Style]
+      Position.X = 24.000000000000000000
+      Position.Y = 44.000000000000000000
+      Size.Width = 992.000000000000000000
+      Size.Height = 20.000000000000000000
       Size.PlatformDefault = False
-      TabOrder = 1
-      Text = 'Apply Filter'
-      OnClick = BtnApplyClick
+      TextSettings.Font.Size = 13.000000000000000000
+      Text = 'Hide the rows of a list of plain objects with a rule: the manager reads and writes their properties'
     end
-    object BtnClear: TButton
-      Align = Left
-      Margins.Left = 6.000000000000000000
-      Margins.Top = 7.000000000000000000
-      Margins.Bottom = 7.000000000000000000
-      Position.X = 555.000000000000000000
-      Position.Y = 7.000000000000000000
-      Size.Width = 70.000000000000000000
-      Size.Height = 30.000000000000000000
+    object DemoThemeCombo: TComboBox
+      Anchors = [akTop, akRight]
+      Items.Strings = (
+        'Fluent Light'
+        'Fluent Dark')
+      ItemIndex = 0
+      Position.X = 866.000000000000000000
+      Position.Y = 10.000000000000000000
+      Size.Width = 150.000000000000000000
+      Size.Height = 32.000000000000000000
       Size.PlatformDefault = False
       TabOrder = 2
-      Text = 'Clear'
-      OnClick = BtnClearClick
+      OnChange = DemoThemeComboChange
     end
-    object LabelStatus: TLabel
-      Align = Client
-      Margins.Left = 16.000000000000000000
-      Margins.Right = 16.000000000000000000
-      Size.Width = 303.000000000000000000
-      Size.Height = 44.000000000000000000
+  end
+  object SettingsPanel: TLayout
+    Align = Left
+    Margins.Left = 24.000000000000000000
+    Margins.Bottom = 24.000000000000000000
+    Position.X = 24.000000000000000000
+    Position.Y = 72.000000000000000000
+    Size.Width = 260.000000000000000000
+    Size.Height = 400.000000000000000000
+    Size.PlatformDefault = False
+    TabOrder = 1
+    object LabelFilter: TLabel
+      Align = Top
+      StyledSettings = [Family]
+      Margins.Bottom = 8.000000000000000000
+      Position.X = 0.000000000000000000
+      Position.Y = 0.000000000000000000
+      Size.Width = 260.000000000000000000
+      Size.Height = 24.000000000000000000
       Size.PlatformDefault = False
-      TextSettings.HorzAlign = Trailing
+      TextSettings.Font.Size = 13.000000000000000000
+      TextSettings.Font.StyleExt = {00060000000000000004000000}
+      Text = 'Filter'
+    end
+    object LabelField: TLabel
+      Align = Top
+      StyledSettings = [Family, Style]
+      Margins.Bottom = 4.000000000000000000
+      Position.X = 0.000000000000000000
+      Position.Y = 32.000000000000000000
+      Size.Width = 260.000000000000000000
+      Size.Height = 20.000000000000000000
+      Size.PlatformDefault = False
+      TextSettings.Font.Size = 13.000000000000000000
+      Text = 'Field'
     end
     object SearchFieldCombo: TComboBox
-      Align = Left
+      Align = Top
       Items.Strings = (
         'Name'
         'Company'
         'City'
         'Country')
       ItemIndex = 0
-      Margins.Top = 7.000000000000000000
-      Margins.Bottom = 7.000000000000000000
-      Position.X = 57.000000000000000000
-      Position.Y = 7.000000000000000000
-      Size.Width = 100.000000000000000000
-      Size.Height = 30.000000000000000000
+      Margins.Bottom = 8.000000000000000000
+      Position.X = 0.000000000000000000
+      Position.Y = 56.000000000000000000
+      Size.Width = 260.000000000000000000
+      Size.Height = 32.000000000000000000
       Size.PlatformDefault = False
-      TabOrder = 4
+      TabOrder = 0
     end
     object Label1: TLabel
-      Align = Left
-      Margins.Left = 10.000000000000000000
-      Position.X = 167.000000000000000000
-      Size.Width = 66.000000000000000000
-      Size.Height = 44.000000000000000000
+      Align = Top
+      StyledSettings = [Family, Style]
+      Margins.Bottom = 4.000000000000000000
+      Position.X = 0.000000000000000000
+      Position.Y = 96.000000000000000000
+      Size.Width = 260.000000000000000000
+      Size.Height = 20.000000000000000000
       Size.PlatformDefault = False
-      TextSettings.HorzAlign = Center
-      Text = 'starts with:'
-      TabOrder = 6
+      TextSettings.Font.Size = 13.000000000000000000
+      Text = 'Starts with'
     end
+    object EditSearch: TEdit
+      Touch.InteractiveGestures = [LongTap, DoubleTap]
+      Align = Top
+      TabOrder = 1
+      Text = ''
+      Margins.Bottom = 8.000000000000000000
+      Position.X = 0.000000000000000000
+      Position.Y = 120.000000000000000000
+      Size.Width = 260.000000000000000000
+      Size.Height = 32.000000000000000000
+      Size.PlatformDefault = False
+      OnKeyDown = EditSearchKeyDown
+    end
+    object BtnApply: TButton
+      Align = Top
+      Margins.Bottom = 8.000000000000000000
+      Position.X = 0.000000000000000000
+      Position.Y = 160.000000000000000000
+      Size.Width = 260.000000000000000000
+      Size.Height = 36.000000000000000000
+      Size.PlatformDefault = False
+      TabOrder = 2
+      Default = True
+      Text = 'Apply filter'
+      TextSettings.Trimming = None
+      OnClick = BtnApplyClick
+    end
+    object BtnClear: TButton
+      Align = Top
+      Margins.Bottom = 8.000000000000000000
+      Position.X = 0.000000000000000000
+      Position.Y = 204.000000000000000000
+      Size.Width = 260.000000000000000000
+      Size.Height = 36.000000000000000000
+      Size.PlatformDefault = False
+      TabOrder = 3
+      Text = 'Clear'
+      TextSettings.Trimming = None
+      OnClick = BtnClearClick
+    end
+    object LabelStatus: TLabel
+      Align = Top
+      StyledSettings = [Family, Style]
+      Margins.Bottom = 8.000000000000000000
+      Position.X = 0.000000000000000000
+      Position.Y = 248.000000000000000000
+      Size.Width = 260.000000000000000000
+      Size.Height = 40.000000000000000000
+      Size.PlatformDefault = False
+      TextSettings.Font.Size = 13.000000000000000000
+      TextSettings.VertAlign = Leading
+      TextSettings.WordWrap = True
+      Text = ''
+    end
+  end
+  object ThemeManager: TTMSFNCThemeManager
+    Theme = 'Fluent Light'
+    Left = 8
+    Top = 8
   end
 end

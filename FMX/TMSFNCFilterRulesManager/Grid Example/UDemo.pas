@@ -15,7 +15,8 @@ uses
   FMX.Types, FMX.Controls, FMX.Controls.Presentation, FMX.Forms,
   FMX.StdCtrls, FMX.Edit, FMX.Grid, FMX.Grid.Style, FMX.ScrollBox,
   TMS.TMSFNCValue,
-  TMS.TMSFNCFilterRulesManager, FMX.ListBox;
+  TMS.TMSFNCFilterRulesManager, FMX.ListBox,
+  FMX.Layouts, FMX.TMSFNCTheme;
 
 // ---------------------------------------------------------------------------
 //  TEmployee — plain published-property object; RTTI can read/write fields
@@ -61,7 +62,13 @@ type
 //  Form
 // ---------------------------------------------------------------------------
   TFormMain = class(TForm)
-    PanelTop: TPanel;
+    ThemeManager: TTMSFNCThemeManager;
+    DemoHeader: TLayout;
+    DemoTitle: TLabel;
+    DemoDescription: TLabel;
+    DemoThemeCombo: TComboBox;
+    SettingsPanel: TLayout;
+    LabelField: TLabel;
     LabelFilter: TLabel;
     EditSearch: TEdit;
     BtnApply: TButton;
@@ -74,6 +81,9 @@ type
     procedure BtnClearClick(Sender: TObject);
     procedure EditSearchKeyDown(Sender: TObject; var Key: Word;
       var KeyChar: Char; Shift: TShiftState);
+    procedure FormDestroy(Sender: TObject);
+    procedure DemoThemeComboChange(Sender: TObject);
+    procedure ThemeChanged(Sender: TObject);
   private
     FGrid: TStringGrid;
     FEmployees: TEmployeeList;
@@ -169,6 +179,8 @@ end;
 
 procedure TFormMain.FormCreate(Sender: TObject);
 begin
+  TTMSFNCTheme.AddChangeListener(ThemeChanged);
+  ThemeChanged(nil);
   FEmployees := TEmployeeList.Create(Self);
   PopulateData;
   SetupGrid;
@@ -195,6 +207,9 @@ begin
   FGrid := TStringGrid.Create(Self);
   FGrid.Parent := Self;
   FGrid.Align := TAlignLayout.Client;
+  FGrid.Margins.Left := 16;
+  FGrid.Margins.Right := 24;
+  FGrid.Margins.Bottom := 24;
   FGrid.RowCount := 0;
 
   for i := 0 to High(HEADERS) do
@@ -292,6 +307,45 @@ procedure TFormMain.EditSearchKeyDown(Sender: TObject; var Key: Word;
 begin
   if Key = vkReturn then
     ApplyFilter;
+end;
+
+
+procedure TFormMain.FormDestroy(Sender: TObject);
+begin
+  TTMSFNCTheme.RemoveChangeListener(ThemeChanged);
+end;
+
+{ Core has no FNC label or button: the native labels take the text colours of the theme in
+  effect (without a theme: the platform's). Native buttons, edits and grids keep the platform
+  look, which is readable on a light and on a dark form. }
+procedure TFormMain.ThemeChanged(Sender: TObject);
+var
+  t: TTMSFNCResolvedTheme;
+  txt, sec: TAlphaColor;
+begin
+  t := TTMSFNCTheme.Resolve(TTMSFNCTheme.Current);
+  if Assigned(t) then
+  begin
+    txt := t[ttText];
+    sec := t[ttTextSecondary];
+  end
+  else
+  begin
+    txt := TAlphaColorRec.Black;
+    sec := $FF5B6470;
+  end;
+  DemoTitle.FontColor := txt;
+  LabelFilter.FontColor := txt;
+  LabelField.FontColor := txt;
+  Label1.FontColor := txt;
+  DemoDescription.FontColor := sec;
+  LabelStatus.FontColor := sec;
+end;
+
+procedure TFormMain.DemoThemeComboChange(Sender: TObject);
+begin
+  if DemoThemeCombo.ItemIndex >= 0 then
+    ThemeManager.Theme := DemoThemeCombo.Items[DemoThemeCombo.ItemIndex];
 end;
 
 end.

@@ -6,12 +6,17 @@ uses
   Winapi.Windows, Winapi.Messages, System.SysUtils, System.Variants, System.Classes, Vcl.Graphics,
   Vcl.Controls, Vcl.Forms, Vcl.Dialogs, Vcl.ComCtrls, Vcl.StdCtrls, Vcl.ExtCtrls,
   VCL.TMSFNCTypes, VCL.TMSFNCUtils, VCL.TMSFNCGraphics, VCL.TMSFNCGraphicsTypes,
-  VCL.TMSFNCCustomControl, VCL.TMSFNCWebBrowser, VCL.TMSFNCEdgeWebBrowser;
+  VCL.TMSFNCCustomControl, VCL.TMSFNCWebBrowser, VCL.TMSFNCEdgeWebBrowser, VCL.TMSFNCTheme;
 
 type
   TForm3 = class(TForm)
-    Splitter2: TSplitter;
-    Panel2: TPanel;
+    ThemeManager: TTMSFNCThemeManager;
+    DemoHeader: TPanel;
+    DemoTitle: TLabel;
+    DemoDescription: TLabel;
+    DemoThemeCombo: TComboBox;
+    SettingsPanel: TPanel;
+    AddressBar: TPanel;
     InfoBtn: TButton;
     PageControl1: TPageControl;
     TabSheet1: TTabSheet;
@@ -47,8 +52,12 @@ type
       AEventName, AJSONResponse: string);
     procedure TMSFNCEdgeWebBrowser1DevToolsSubscribedEvent(Sender: TObject;
       AEventName, AJSONResponse: string);
+    procedure FormCreate(Sender: TObject);
+    procedure FormDestroy(Sender: TObject);
+    procedure DemoThemeComboChange(Sender: TObject);
   private
     { Private declarations }
+    procedure ThemeChanged(Sender: TObject);
   public
     { Public declarations }
   end;
@@ -120,6 +129,47 @@ begin
   end;
   LoggingMemo.Lines.Add(lvl + ': ' + ALogEntry.Text);
   LoggingMemo.Lines.Add('----------------------')
+end;
+
+procedure TForm3.FormCreate(Sender: TObject);
+begin
+  TTMSFNCTheme.AddChangeListener(ThemeChanged);
+  ThemeChanged(nil);
+end;
+
+procedure TForm3.FormDestroy(Sender: TObject);
+begin
+  TTMSFNCTheme.RemoveChangeListener(ThemeChanged);
+end;
+
+{ Core has no FNC label: the native labels take the text colours of the theme in effect (without
+  a theme: the platform's). The theme manager colours the form; native buttons, edits, lists and
+  memos keep the platform look, which is readable on a light and on a dark form. The page in the
+  browser is not themed. }
+procedure TForm3.ThemeChanged(Sender: TObject);
+var
+  t: TTMSFNCResolvedTheme;
+  txt, sec: TColor;
+begin
+  t := TTMSFNCTheme.Resolve(TTMSFNCTheme.Current);
+  if Assigned(t) then
+  begin
+    txt := t[ttText];
+    sec := t[ttTextSecondary];
+  end
+  else
+  begin
+    txt := clWindowText;
+    sec := clGrayText;
+  end;
+  DemoTitle.Font.Color := txt;
+  DemoDescription.Font.Color := sec;
+end;
+
+procedure TForm3.DemoThemeComboChange(Sender: TObject);
+begin
+  if DemoThemeCombo.ItemIndex >= 0 then
+    ThemeManager.Theme := DemoThemeCombo.Items[DemoThemeCombo.ItemIndex];
 end;
 
 end.

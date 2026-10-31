@@ -1,105 +1,186 @@
 object Form2: TForm2
   Left = 0
   Top = 0
-  Caption = 'EdgeWebBrowser Navigate with Data'
-  ClientHeight = 518
-  ClientWidth = 1128
+  Caption = 'TMS FNC Core - Edge Web Browser Navigate with POST'
+  ClientHeight = 640
+  ClientWidth = 1100
+  Position = ScreenCenter
   FormFactor.Width = 320
   FormFactor.Height = 480
   FormFactor.Devices = [Desktop]
   OnCreate = FormCreate
+  OnDestroy = FormDestroy
   DesignerMasterStyle = 0
-  object TMSFNCEdgeWebBrowser1: TTMSFNCEdgeWebBrowser
-    Anchors = [akLeft, akTop, akRight, akBottom]
-    Position.X = 16.000000000000000000
-    Position.Y = 24.000000000000000000
-    Size.Width = 633.000000000000000000
-    Size.Height = 469.000000000000000000
+  object DemoHeader: TLayout
+    Align = Top
+    Size.Width = 1100.000000000000000000
+    Size.Height = 72.000000000000000000
     Size.PlatformDefault = False
     TabOrder = 0
+    object DemoTitle: TLabel
+      Anchors = [akLeft, akTop, akRight]
+      StyledSettings = [Family]
+      Position.X = 24.000000000000000000
+      Position.Y = 12.000000000000000000
+      Size.Width = 886.000000000000000000
+      Size.Height = 30.000000000000000000
+      Size.PlatformDefault = False
+      TextSettings.Font.Size = 20.000000000000000000
+      TextSettings.Font.StyleExt = {00060000000000000004000000}
+      Text = 'Navigate with POST data'
+    end
+    object DemoDescription: TLabel
+      Anchors = [akLeft, akTop, akRight]
+      StyledSettings = [Family, Style]
+      Position.X = 24.000000000000000000
+      Position.Y = 44.000000000000000000
+      Size.Width = 1052.000000000000000000
+      Size.Height = 20.000000000000000000
+      Size.PlatformDefault = False
+      TextSettings.Font.Size = 13.000000000000000000
+      Text = 'Send a POST request with your own headers and body, and show the response in the browser'
+    end
+    object DemoThemeCombo: TComboBox
+      Anchors = [akTop, akRight]
+      Items.Strings = (
+        'Fluent Light'
+        'Fluent Dark')
+      ItemIndex = 0
+      Position.X = 926.000000000000000000
+      Position.Y = 10.000000000000000000
+      Size.Width = 150.000000000000000000
+      Size.Height = 32.000000000000000000
+      Size.PlatformDefault = False
+      TabOrder = 2
+      OnChange = DemoThemeComboChange
+    end
+  end
+  object SettingsPanel: TLayout
+    Align = Left
+    Margins.Left = 24.000000000000000000
+    Margins.Bottom = 24.000000000000000000
+    Position.X = 24.000000000000000000
+    Position.Y = 72.000000000000000000
+    Size.Width = 320.000000000000000000
+    Size.Height = 544.000000000000000000
+    Size.PlatformDefault = False
+    TabOrder = 1
+    object RequestCaption: TLabel
+      Align = Top
+      Margins.Bottom = 8.000000000000000000
+      Position.Y = 0.000000000000000000
+      Size.Width = 320.000000000000000000
+      Size.Height = 24.000000000000000000
+      Size.PlatformDefault = False
+      StyledSettings = [Family]
+      TextSettings.Font.Size = 13.000000000000000000
+      TextSettings.Font.StyleExt = {00060000000000000004000000}
+      Text = 'Request'
+    end
+    object Label1: TLabel
+      Align = Top
+      Margins.Bottom = 4.000000000000000000
+      Position.Y = 32.000000000000000000
+      Size.Width = 320.000000000000000000
+      Size.Height = 20.000000000000000000
+      Size.PlatformDefault = False
+      StyledSettings = [Family, Size, Style]
+      Text = 'URI'
+    end
+    object URIEdit: TEdit
+      Align = Top
+      Margins.Bottom = 16.000000000000000000
+      Position.Y = 56.000000000000000000
+      Size.Width = 320.000000000000000000
+      Size.Height = 32.000000000000000000
+      Size.PlatformDefault = False
+      TabOrder = 0
+      Touch.InteractiveGestures = [LongTap, DoubleTap]
+      Text = 'https://www.tmssoftware.com'
+    end
+    object Label3: TLabel
+      Align = Top
+      Margins.Bottom = 4.000000000000000000
+      Position.Y = 104.000000000000000000
+      Size.Width = 320.000000000000000000
+      Size.Height = 20.000000000000000000
+      Size.PlatformDefault = False
+      StyledSettings = [Family, Size, Style]
+      Text = 'Headers'
+    end
+    object HeaderGrid: TStringGrid
+      Align = Top
+      Margins.Bottom = 16.000000000000000000
+      Position.Y = 128.000000000000000000
+      Size.Width = 320.000000000000000000
+      Size.Height = 110.000000000000000000
+      Size.PlatformDefault = False
+      TabOrder = 1
+      CanFocus = True
+      ClipChildren = True
+      RowCount = 3
+      object StringColumn1: TStringColumn
+        Header = 'Name'
+        Size.Width = 220.000000000000000000
+      end
+      object StringColumn2: TStringColumn
+        Header = 'Value'
+        Size.Width = 220.000000000000000000
+      end
+    end
+    object Label2: TLabel
+      Align = Top
+      Margins.Bottom = 4.000000000000000000
+      Position.Y = 254.000000000000000000
+      Size.Width = 320.000000000000000000
+      Size.Height = 20.000000000000000000
+      Size.PlatformDefault = False
+      StyledSettings = [Family, Size, Style]
+      Text = 'POST data'
+    end
+    object BodyMemo: TMemo
+      Align = Top
+      Margins.Bottom = 16.000000000000000000
+      Position.Y = 278.000000000000000000
+      Size.Width = 320.000000000000000000
+      Size.Height = 160.000000000000000000
+      Size.PlatformDefault = False
+      TabOrder = 2
+      Touch.InteractiveGestures = [Pan, LongTap, DoubleTap]
+      DataDetectorTypes = []
+      Lines.Strings = (
+        'testData=Me')
+    end
+    object NavigateBtn: TButton
+      Align = Top
+      Margins.Bottom = 8.000000000000000000
+      Position.Y = 454.000000000000000000
+      Size.Width = 320.000000000000000000
+      Size.Height = 32.000000000000000000
+      Size.PlatformDefault = False
+      Default = True
+      TabOrder = 3
+      Text = 'Navigate with POST'
+      OnClick = NavigateBtnClick
+    end
+  end
+  object TMSFNCEdgeWebBrowser1: TTMSFNCEdgeWebBrowser
+    Align = Client
+    Margins.Left = 16.000000000000000000
+    Margins.Right = 24.000000000000000000
+    Margins.Bottom = 24.000000000000000000
+    Size.Width = 716.000000000000000000
+    Size.Height = 544.000000000000000000
+    Size.PlatformDefault = False
+    TabOrder = 2
     Settings.EnableContextMenu = True
     Settings.EnableShowDebugConsole = True
     Settings.EnableAcceleratorKeys = True
     Settings.UsePopupMenuAsContextMenu = False
   end
-  object BodyMemo: TMemo
-    Touch.InteractiveGestures = [Pan, LongTap, DoubleTap]
-    DataDetectorTypes = []
-    Lines.Strings = (
-      'testData=Me')
-    Anchors = [akTop, akRight, akBottom]
-    Position.X = 657.000000000000000000
-    Position.Y = 244.000000000000000000
-    Size.Width = 456.000000000000000000
-    Size.Height = 193.000000000000000000
-    Size.PlatformDefault = False
-    TabOrder = 1
-    Viewport.Width = 452.000000000000000000
-    Viewport.Height = 189.000000000000000000
-  end
-  object NavigateBtn: TButton
-    Anchors = [akRight, akBottom]
-    Position.X = 657.000000000000000000
-    Position.Y = 445.000000000000000000
-    Size.Width = 456.000000000000000000
-    Size.Height = 48.000000000000000000
-    Size.PlatformDefault = False
-    TabOrder = 2
-    Text = 'Navigate with Post'
-    OnClick = NavigateBtnClick
-  end
-  object URIEdit: TEdit
-    Touch.InteractiveGestures = [LongTap, DoubleTap]
-    Anchors = [akTop, akRight]
-    TabOrder = 3
-    Text = 'https://www.tmssoftware.com'
-    Position.X = 657.000000000000000000
-    Position.Y = 48.000000000000000000
-    Size.Width = 456.000000000000000000
-    Size.Height = 22.000000000000000000
-    Size.PlatformDefault = False
-  end
-  object Label1: TLabel
-    Anchors = [akTop, akRight]
-    Position.X = 657.000000000000000000
-    Position.Y = 24.000000000000000000
-    Text = 'URI:'
-    TabOrder = 6
-  end
-  object Label2: TLabel
-    Anchors = [akTop, akRight]
-    Position.X = 657.000000000000000000
-    Position.Y = 219.000000000000000000
-    Text = 'PostData:'
-    TabOrder = 4
-  end
-  object HeaderGrid: TStringGrid
-    Anchors = [akTop, akRight]
-    CanFocus = True
-    ClipChildren = True
-    Position.X = 657.000000000000000000
-    Position.Y = 111.000000000000000000
-    Size.Width = 456.000000000000000000
-    Size.Height = 100.000000000000000000
-    Size.PlatformDefault = False
-    TabOrder = 7
-    RowCount = 3
-    Viewport.Width = 452.000000000000000000
-    Viewport.Height = 75.000000000000000000
-    object StringColumn1: TStringColumn
-      Header = 'Name'
-      Size.Width = 220.000000000000000000
-    end
-    object StringColumn2: TStringColumn
-      Header = 'Value'
-      Size.Width = 220.000000000000000000
-    end
-  end
-  object Label3: TLabel
-    Anchors = [akTop, akRight]
-    Position.X = 657.000000000000000000
-    Position.Y = 86.000000000000000000
-    Text = 'Headers:'
-    TabOrder = 5
+  object ThemeManager: TTMSFNCThemeManager
+    Theme = 'Fluent Light'
+    Left = 8
+    Top = 8
   end
 end

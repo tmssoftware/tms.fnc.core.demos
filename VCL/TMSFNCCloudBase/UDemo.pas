@@ -5,7 +5,7 @@ interface
 uses
   Winapi.Windows, Winapi.Messages, System.SysUtils, System.Variants, System.Classes, Vcl.Graphics,
   Vcl.Controls, Vcl.Forms, Vcl.Dialogs, Generics.Collections, VCL.TMSFNCCloudBase, VCL.TMSFNCUtils, JSON,
-  Vcl.StdCtrls, Vcl.ExtCtrls;
+  Vcl.StdCtrls, Vcl.ExtCtrls, VCL.TMSFNCTheme;
 
 type
   TMovie = class(TPersistent)
@@ -20,6 +20,13 @@ type
   TMovies = class(TObjectList<TMovie>);
 
   TForm3 = class(TForm)
+    ThemeManager: TTMSFNCThemeManager;
+    DemoHeader: TPanel;
+    DemoTitle: TLabel;
+    DemoDescription: TLabel;
+    DemoThemeCombo: TComboBox;
+    SettingsPanel: TPanel;
+    SearchCaption: TLabel;
     Edit1: TEdit;
     Button1: TButton;
     ListBox1: TListBox;
@@ -28,10 +35,13 @@ type
     procedure Button1Click(Sender: TObject);
     procedure ListBox1Click(Sender: TObject);
     procedure FormDestroy(Sender: TObject);
+    procedure FormCreate(Sender: TObject);
+    procedure DemoThemeComboChange(Sender: TObject);
   private
     { Private declarations }
     cb: TTMSFNCCloudBase;
     movies: TMovies;
+    procedure ThemeChanged(Sender: TObject);
     procedure UpdateList;
     procedure DoGetMovies(const ARequestResult: TTMSFNCCloudBaseRequestResult);
     procedure DoGetMovieImage(const ARequestResult: TTMSFNCCloudBaseRequestResult);
@@ -134,8 +144,15 @@ begin
   UpdateList;
 end;
 
+procedure TForm3.FormCreate(Sender: TObject);
+begin
+  TTMSFNCTheme.AddChangeListener(ThemeChanged);
+  ThemeChanged(nil);
+end;
+
 procedure TForm3.FormDestroy(Sender: TObject);
 begin
+  TTMSFNCTheme.RemoveChangeListener(ThemeChanged);
   movies.Free;
   cb.Free;
 end;
@@ -154,6 +171,37 @@ begin
 
     cb.ExecuteRequest(DoGetMovieImage);
   end;
+end;
+
+{ Core has no FNC label: the native labels take the text colours of the theme in effect (without
+  a theme: the platform's). The theme manager colours the form; native buttons, edits and lists
+  keep the platform look, which is readable on a light and on a dark form. }
+procedure TForm3.ThemeChanged(Sender: TObject);
+var
+  t: TTMSFNCResolvedTheme;
+  txt, sec: TColor;
+begin
+  t := TTMSFNCTheme.Resolve(TTMSFNCTheme.Current);
+  if Assigned(t) then
+  begin
+    txt := t[ttText];
+    sec := t[ttTextSecondary];
+  end
+  else
+  begin
+    txt := clWindowText;
+    sec := clGrayText;
+  end;
+  DemoTitle.Font.Color := txt;
+  SearchCaption.Font.Color := txt;
+  DemoDescription.Font.Color := sec;
+  Label1.Font.Color := sec;
+end;
+
+procedure TForm3.DemoThemeComboChange(Sender: TObject);
+begin
+  if DemoThemeCombo.ItemIndex >= 0 then
+    ThemeManager.Theme := DemoThemeCombo.Items[DemoThemeCombo.ItemIndex];
 end;
 
 procedure TForm3.UpdateList;

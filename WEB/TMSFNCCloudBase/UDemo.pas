@@ -8,7 +8,7 @@ uses
   WEBLib.TMSFNCCloudBase, WEBLib.TMSFNCUtils, Vcl.StdCtrls, WEBLib.JSON, Contnrs,
   WEBLib.StdCtrls, WEBLib.TMSFNCTypes, VCL.TMSFNCTypes, VCL.TMSFNCUtils,
   VCL.TMSFNCGraphics, VCL.TMSFNCGraphicsTypes, VCL.TMSFNCCustomControl,
-  VCL.TMSFNCImage;
+  VCL.TMSFNCImage, WEBLib.TMSFNCTheme;
 
 type
   TMovie = class(TPersistent)
@@ -29,6 +29,9 @@ type
   end;
 
   TForm1 = class(TWebForm)
+    ThemeManager: TTMSFNCThemeManager;
+    ThemeLabel: TWebLabel;
+    ThemeCombo: TWebComboBox;
     WebEdit1: TWebEdit;
     WebButton1: TWebButton;
     WebListBox1: TWebListBox;
@@ -37,10 +40,12 @@ type
     procedure WebButton1Click(Sender: TObject);
     procedure WebFormCreate(Sender: TObject);
     procedure WebListBox1Click(Sender: TObject);
+    procedure ThemeComboChange(Sender: TObject);
   private
     { Private declarations }
     cb: TTMSFNCCloudBase;
     movies: TMovies;
+    procedure ThemeChanged(Sender: TObject);
     procedure UpdateList;
     procedure DoGetMovies(const ARequestResult: TTMSFNCCloudBaseRequestResult);
     procedure DoGetMovieImage(const ARequestResult: TTMSFNCCloudBaseRequestResult);
@@ -175,11 +180,43 @@ begin
   FormContainer := 'appcontent';
   lbl := TWebLabel.Create(Self);
   lbl.ElementID := 'title';
-  lbl.Caption := 'TMSFNCCloudBase Demo';
+  lbl.Caption := 'REST requests';
 
   lbl := TWebLabel.Create(Self);
   lbl.ElementID := 'description';
-  lbl.Caption := 'Seamless access to cloud services from Windows, cross-platform and the web';
+  lbl.Caption := 'Searches the TVmaze API with TTMSFNCCloudBase; select a show to download its poster';
+
+  TTMSFNCTheme.AddChangeListener(@ThemeChanged);
+  ThemeChanged(nil);
+end;
+
+{ Core has no FNC label or button: the page's own controls take the colours of the theme in
+  effect (without a theme: the browser's). }
+procedure TForm1.ThemeChanged(Sender: TObject);
+var
+  t: TTMSFNCResolvedTheme;
+begin
+  t := nil;
+  if TTMSFNCTheme.Current <> '' then
+    t := TTMSFNCTheme.Resolve(TTMSFNCTheme.Current);
+  if Assigned(t) then
+  begin
+    Color := t[ttWindowBackground];
+    ThemeLabel.Font.Color := t[ttText];
+    WebLabel1.Font.Color := t[ttTextSecondary];
+  end
+  else
+  begin
+    Color := clBtnFace;
+    ThemeLabel.Font.Color := clWindowText;
+    WebLabel1.Font.Color := clGrayText;
+  end;
+end;
+
+procedure TForm1.ThemeComboChange(Sender: TObject);
+begin
+  if ThemeCombo.ItemIndex >= 0 then
+    ThemeManager.Theme := ThemeCombo.Items[ThemeCombo.ItemIndex];
 end;
 
 procedure TForm1.WebListBox1Click(Sender: TObject);

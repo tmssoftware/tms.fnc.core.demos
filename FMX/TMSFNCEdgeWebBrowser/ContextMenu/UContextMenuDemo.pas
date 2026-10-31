@@ -8,10 +8,19 @@ uses
   FMX.TMSFNCTypes, FMX.TMSFNCUtils, FMX.TMSFNCGraphics, FMX.TMSFNCGraphicsTypes,
   FMX.TMSFNCCustomControl, FMX.TMSFNCWebBrowser, FMX.TMSFNCEdgeWebBrowser,
   FMX.Controls.Presentation, FMX.StdCtrls, FMX.Memo.Types, FMX.Edit,
-  FMX.ScrollBox, FMX.Memo, System.Rtti, FMX.Grid.Style, FMX.Grid, FMX.Menus, Generics.Collections;
+  FMX.ScrollBox, FMX.Memo, System.Rtti, FMX.Grid.Style, FMX.Grid, FMX.Menus, Generics.Collections, FMX.Layouts, FMX.ListBox, FMX.TMSFNCTheme;
 
 type
   TContextMenuForm = class(TForm)
+    ThemeManager: TTMSFNCThemeManager;
+    DemoHeader: TLayout;
+    DemoTitle: TLabel;
+    DemoDescription: TLabel;
+    DemoThemeCombo: TComboBox;
+    SettingsPanel: TLayout;
+    NativeCaption: TLabel;
+    PopupCaption: TLabel;
+    AddressBar: TLayout;
     TMSFNCEdgeWebBrowser1: TTMSFNCEdgeWebBrowser;
     SelectedMemo: TMemo;
     NavigateBtn: TButton;
@@ -40,8 +49,11 @@ type
     procedure MenuItem4Click(Sender: TObject);
     procedure MenuItem5Click(Sender: TObject);
     procedure TMSFNCEdgeWebBrowser1Initialized(Sender: TObject);
+    procedure FormDestroy(Sender: TObject);
+    procedure DemoThemeComboChange(Sender: TObject);
   private
     { Private declarations }
+    procedure ThemeChanged(Sender: TObject);
   public
     { Public declarations }
   end;
@@ -160,7 +172,51 @@ end;
 
 procedure TContextMenuForm.FormCreate(Sender: TObject);
 begin
+  TTMSFNCTheme.AddChangeListener(ThemeChanged);
+  ThemeChanged(nil);
   ReportMemoryLeaksOnShutdown := True;
+end;
+
+procedure TContextMenuForm.FormDestroy(Sender: TObject);
+begin
+  TTMSFNCTheme.RemoveChangeListener(ThemeChanged);
+end;
+
+{ Core has no FNC label: the native labels take the text colours of the theme in effect (without
+  a theme: the platform's). The theme manager colours the form; native buttons, edits, lists and
+  memos keep the platform look, which is readable on a light and on a dark form. The page in the
+  browser is not themed. }
+procedure TContextMenuForm.ThemeChanged(Sender: TObject);
+var
+  t: TTMSFNCResolvedTheme;
+  txt, sec: TAlphaColor;
+begin
+  t := TTMSFNCTheme.Resolve(TTMSFNCTheme.Current);
+  if Assigned(t) then
+  begin
+    txt := t[ttText];
+    sec := t[ttTextSecondary];
+  end
+  else
+  begin
+    txt := TAlphaColorRec.Black;
+    sec := $FF5B6470;
+  end;
+  DemoTitle.FontColor := txt;
+  NativeCaption.FontColor := txt;
+  PopupCaption.FontColor := txt;
+  Label1.FontColor := txt;
+  NormalRadio.FontColor := txt;
+  CustomRadio.FontColor := txt;
+  DefaultRadio.FontColor := txt;
+  NativeRadio.FontColor := txt;
+  DemoDescription.FontColor := sec;
+end;
+
+procedure TContextMenuForm.DemoThemeComboChange(Sender: TObject);
+begin
+  if DemoThemeCombo.ItemIndex >= 0 then
+    ThemeManager.Theme := DemoThemeCombo.Items[DemoThemeCombo.ItemIndex];
 end;
 
 end.

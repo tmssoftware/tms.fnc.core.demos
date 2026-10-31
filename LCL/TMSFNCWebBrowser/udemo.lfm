@@ -1,12 +1,12 @@
 object Form1: TForm1
   Left = 766
-  Height = 1125
+  Height = 720
   Top = 258
-  Width = 1799
-  Caption = 'TMS FNC Listbox Demo'
-  ClientHeight = 1125
-  ClientWidth = 1799
-  DesignTimePPI = 144
+  Width = 1200
+  Caption = 'TMS FNC Core - Web Browser'
+  ClientHeight = 720
+  ClientWidth = 1200
+  DesignTimePPI = 96
   Icon.Data = {
     BE1000000000010001002020000001002000A810000016000000280000002000
     0000400000000100200000000000001000006400000064000000000000000000
@@ -147,160 +147,280 @@ object Form1: TForm1
   OnCreate = FormCreate
   Position = poScreenCenter
   LCLVersion = '2.0.6.0'
-  object iBack: TImage
-    Left = 12
-    Height = 36
-    Top = 20
-    Width = 36
-    OnClick = iBackClick
-    Stretch = True
-  end
-  object iForward: TImage
-    Left = 57
-    Height = 36
-    Top = 20
-    Width = 36
-    OnClick = iForwardClick
-    Stretch = True
-  end
-  object iReload: TImage
-    Left = 111
-    Height = 36
-    Top = 20
-    Width = 36
-    OnClick = iReloadClick
-    Stretch = True
-  end
-  object iGo: TImage
-    Left = 1225
-    Height = 36
-    Top = 20
-    Width = 36
-    Anchors = [akTop, akRight]
-    OnClick = iGoClick
-    Stretch = True
-  end
-  object Edit1: TEdit
-    Left = 162
-    Height = 32
-    Top = 20
-    Width = 1053
-    Anchors = [akTop, akLeft, akRight]
-    Font.Color = clWindowText
-    Font.Height = -20
-    Font.Name = 'Tahoma'
-    OnKeyUp = Edit1KeyUp
-    ParentFont = False
+  object DemoHeader: TPanel
+    Left = 0
+    Height = 72
+    Top = 0
+    Width = 1200
+    Align = alTop
+    BevelOuter = bvNone
+    ClientHeight = 72
+    ClientWidth = 1200
     TabOrder = 0
-    Text = 'Edit1'
+    object DemoTitle: TLabel
+      Left = 24
+      Height = 30
+      Top = 12
+      Width = 1152
+      Anchors = [akTop, akLeft, akRight]
+      AutoSize = False
+      Caption = 'Web browser'
+      Font.Height = -20
+      Font.Style = [fsBold]
+      ParentColor = False
+      ParentFont = False
+    end
+    object DemoDescription: TLabel
+      Left = 24
+      Height = 20
+      Top = 44
+      Width = 1152
+      Anchors = [akTop, akLeft, akRight]
+      AutoSize = False
+      Caption = 'Browse with back, forward and reload, follow the history, or talk to a page through a JavaScript bridge'
+      Font.Color = clGrayText
+      ParentColor = False
+      ParentFont = False
+    end
+  end
+  object SettingsPanel: TPanel
+    Left = 24
+    Height = 624
+    Top = 72
+    Width = 260
+    Align = alLeft
+    BevelOuter = bvNone
+    BorderSpacing.Left = 24
+    BorderSpacing.Bottom = 24
+    ClientHeight = 624
+    ClientWidth = 260
+    TabOrder = 1
+    object SidePanelCaption: TLabel
+      Left = 0
+      Height = 24
+      Top = 0
+      Width = 260
+      Align = alTop
+      AutoSize = False
+      BorderSpacing.Bottom = 8
+      Caption = 'Side panel'
+      Font.Height = -13
+      Font.Style = [fsBold]
+      ParentColor = False
+      ParentFont = False
+    end
+    object Button1: TButton
+      Left = 0
+      Height = 32
+      Top = 32
+      Width = 260
+      Align = alTop
+      BorderSpacing.Bottom = 8
+      TabOrder = 0
+      Caption = 'History'
+      Enabled = False
+      OnClick = Button1Click
+      ParentFont = False
+    end
+    object Button2: TButton
+      Left = 0
+      Height = 32
+      Top = 72
+      Width = 260
+      Align = alTop
+      BorderSpacing.Bottom = 16
+      Caption = 'JavaScript bridge'
+      TabOrder = 1
+      OnClick = Button2Click
+      ParentFont = False
+    end
+    object ListBox1: TListBox
+      Left = 0
+      Height = 504
+      Top = 120
+      Width = 260
+      Align = alClient
+      TabOrder = 2
+      ItemHeight = 0
+      OnClick = ListBox1Click
+      ParentFont = False
+    end
+    object Panel1: TPanel
+      Left = 0
+      Height = 504
+      Top = 120
+      Width = 260
+      Align = alClient
+      BevelOuter = bvNone
+      ClientHeight = 504
+      ClientWidth = 260
+      TabOrder = 3
+      Visible = False
+      object BridgeHint: TLabel
+        Left = 0
+        Height = 64
+        Top = 0
+        Width = 260
+        Align = alTop
+        AutoSize = False
+        BorderSpacing.Bottom = 8
+        Caption = 'The Yes and No buttons in the page call back into the application through a bridge object; the buttons below run JavaScript in the page.'
+        Font.Color = clGrayText
+        ParentColor = False
+        ParentFont = False
+        WordWrap = True
+      end
+      object Label1: TLabel
+        Left = 0
+        Height = 20
+        Top = 72
+        Width = 260
+        Align = alTop
+        AutoSize = False
+        BorderSpacing.Bottom = 4
+        Caption = 'Yes clicked: 0'
+        ParentColor = False
+        ParentFont = False
+      end
+      object Label2: TLabel
+        Left = 0
+        Height = 20
+        Top = 96
+        Width = 260
+        Align = alTop
+        AutoSize = False
+        BorderSpacing.Bottom = 8
+        Caption = 'No clicked: 0'
+        ParentColor = False
+        ParentFont = False
+      end
+      object Button3: TButton
+        Left = 0
+        Height = 32
+        Top = 124
+        Width = 260
+        Align = alTop
+        BorderSpacing.Bottom = 16
+        Caption = 'Show the ratio in the page'
+        OnClick = Button3Click
+        ParentFont = False
+        TabOrder = 0
+      end
+      object Edit2: TEdit
+        Left = 0
+        Height = 32
+        Top = 172
+        Width = 260
+        Align = alTop
+        BorderSpacing.Bottom = 8
+        TabOrder = 1
+        Text = 'New Item'
+        ParentFont = False
+      end
+      object Button4: TButton
+        Left = 0
+        Height = 32
+        Top = 212
+        Width = 260
+        Align = alTop
+        Caption = 'Add the item to the page list'
+        TabOrder = 2
+        OnClick = Button4Click
+        ParentFont = False
+      end
+    end
+  end
+  object AddressBar: TPanel
+    Left = 24
+    Height = 32
+    Top = 72
+    Width = 876
+    Align = alTop
+    BevelOuter = bvNone
+    BorderSpacing.Left = 24
+    BorderSpacing.Right = 24
+    BorderSpacing.Bottom = 8
+    ClientHeight = 32
+    ClientWidth = 876
+    TabOrder = 2
+    object iBack: TImage
+      Left = 0
+      Height = 24
+      Top = 4
+      Width = 24
+      Align = alLeft
+      BorderSpacing.Top = 4
+      BorderSpacing.Right = 8
+      BorderSpacing.Bottom = 4
+      OnClick = iBackClick
+      Stretch = True
+    end
+    object iForward: TImage
+      Left = 32
+      Height = 24
+      Top = 4
+      Width = 24
+      Align = alLeft
+      BorderSpacing.Top = 4
+      BorderSpacing.Right = 8
+      BorderSpacing.Bottom = 4
+      OnClick = iForwardClick
+      Stretch = True
+    end
+    object iReload: TImage
+      Left = 64
+      Height = 24
+      Top = 4
+      Width = 24
+      Align = alLeft
+      BorderSpacing.Top = 4
+      BorderSpacing.Right = 8
+      BorderSpacing.Bottom = 4
+      OnClick = iReloadClick
+      Stretch = True
+    end
+    object iGo: TImage
+      Left = 852
+      Height = 24
+      Top = 4
+      Width = 24
+      Align = alRight
+      BorderSpacing.Left = 8
+      BorderSpacing.Top = 4
+      BorderSpacing.Bottom = 4
+      OnClick = iGoClick
+      Stretch = True
+    end
+    object Edit1: TEdit
+      Left = 96
+      Height = 32
+      Top = 0
+      Width = 748
+      Align = alClient
+      OnKeyUp = Edit1KeyUp
+      TabOrder = 0
+      Text = 'Edit1'
+    end
   end
   object TMSFNCWebBrowser1: TTMSFNCWebBrowser
-    Left = 12
-    Height = 1034
-    Top = 75
-    Width = 1250
-    Anchors = [akTop, akLeft, akRight, akBottom]
+    Left = 300
+    Height = 584
+    Top = 112
+    Width = 876
+    Align = alClient
+    BorderSpacing.Left = 16
+    BorderSpacing.Right = 24
+    BorderSpacing.Bottom = 24
+    TabOrder = 3
     DoubleBuffered = True
     ParentFont = False
-    TabOrder = 1
     URL = 'https://www.tmssoftware.com/site/default.asp'
     OnNavigateComplete = TMSFNCWebBrowser1NavigateComplete
   end
-  object ListBox1: TListBox
-    Left = 1270
-    Height = 1034
-    Top = 75
-    Width = 518
-    ItemHeight = 0
-    OnClick = ListBox1Click
-    ParentFont = False
-    TabOrder = 2
-  end
-  object Button1: TButton
-    Left = 1270
-    Height = 36
-    Top = 20
-    Width = 159
-    Anchors = [akTop, akRight]
-    Caption = 'History'
-    Enabled = False
-    OnClick = Button1Click
-    ParentFont = False
-    TabOrder = 3
-  end
-  object Button2: TButton
-    Left = 1629
-    Height = 36
-    Top = 20
-    Width = 159
-    Anchors = [akTop, akRight]
-    Caption = 'Bridge Adapter'
-    OnClick = Button2Click
-    ParentFont = False
-    TabOrder = 4
-  end
-  object Panel1: TPanel
-    Left = 1272
-    Height = 1034
-    Top = 72
-    Width = 518
-    Anchors = [akTop]
-    ClientHeight = 1034
-    ClientWidth = 518
-    ParentFont = False
-    TabOrder = 5
-    object Label1: TLabel
-      Left = 36
-      Height = 25
-      Top = 72
-      Width = 102
-      Caption = 'Yes clicked: 0'
-      ParentColor = False
-      ParentFont = False
-    end
-    object Label2: TLabel
-      Left = 36
-      Height = 25
-      Top = 120
-      Width = 101
-      Caption = 'No clicked: 0'
-      ParentColor = False
-      ParentFont = False
-    end
-    object Button3: TButton
-      Left = 336
-      Height = 38
-      Top = 180
-      Width = 158
-      Caption = 'Set Ratio'
-      OnClick = Button3Click
-      ParentFont = False
-      TabOrder = 0
-    end
-    object Button4: TButton
-      Left = 336
-      Height = 38
-      Top = 288
-      Width = 158
-      Caption = 'Add Item'
-      OnClick = Button4Click
-      ParentFont = False
-      TabOrder = 1
-    end
-    object Edit2: TEdit
-      Left = 36
-      Height = 33
-      Top = 291
-      Width = 266
-      ParentFont = False
-      TabOrder = 2
-      Text = 'New Edit'
-    end
-  end
   object TMSFNCBitmapContainer1: TTMSFNCBitmapContainer
-    Left = 888
+    Left = 8
+    Top = 8
     Height = 26
-    Top = 576
     Width = 26
     Visible = True
     Items = <    

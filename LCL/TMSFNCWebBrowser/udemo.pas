@@ -20,6 +20,13 @@ type
   { TForm1 }
 
   TForm1 = class(TForm)
+    DemoHeader: TPanel;
+    DemoTitle: TLabel;
+    DemoDescription: TLabel;
+    SettingsPanel: TPanel;
+    SidePanelCaption: TLabel;
+    BridgeHint: TLabel;
+    AddressBar: TPanel;
     iBack: TImage;
     iForward: TImage;
     iReload: TImage;

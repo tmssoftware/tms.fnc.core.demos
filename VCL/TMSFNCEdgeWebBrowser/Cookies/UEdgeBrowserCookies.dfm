@@ -1,13 +1,13 @@
 object Form2: TForm2
   Left = 0
   Top = 0
-  Caption = 'EdgeWebBrowser Cookies Demo'
-  ClientHeight = 857
-  ClientWidth = 1462
+  Caption = 'TMS FNC Core - Edge Web Browser Cookies'
+  ClientHeight = 720
+  ClientWidth = 1200
   Color = clBtnFace
   Font.Charset = DEFAULT_CHARSET
   Font.Color = clWindowText
-  Font.Height = -18
+  Font.Height = -12
   Font.Name = 'Segoe UI'
   Font.Style = []
   Icon.Data = {
@@ -145,65 +145,482 @@ object Form2: TForm2
     0000000000000000000000000000000000000000000000000000000000000000
     0000000000000000000000000000000000000000000000000000000000000000
     000000000000000000000000000000000000000000000000000000000000}
+  Position = poScreenCenter
   OnCreate = FormCreate
-  PixelsPerInch = 144
-  TextHeight = 25
-  object Splitter1: TSplitter
-    Left = 637
-    Top = 0
-    Width = 20
-    Height = 857
-    Margins.Left = 5
-    Margins.Top = 5
-    Margins.Right = 5
-    Margins.Bottom = 5
-    MinSize = 400
-    ExplicitLeft = 1463
-    ExplicitHeight = 1286
-  end
-  object Panel1: TPanel
+  OnDestroy = FormDestroy
+  PixelsPerInch = 96
+  TextHeight = 15
+  object DemoHeader: TPanel
     Left = 0
     Top = 0
-    Width = 637
-    Height = 857
-    Margins.Left = 5
-    Margins.Top = 5
-    Margins.Right = 5
-    Margins.Bottom = 5
-    Align = alLeft
-    Caption = 'Panel1'
+    Width = 1200
+    Height = 72
+    Align = alTop
+    BevelOuter = bvNone
+    ParentColor = True
+    ShowCaption = False
     TabOrder = 0
-    DesignSize = (
-      637
-      857)
-    object NavigateBtn: TButton
-      Left = 514
-      Top = 24
-      Width = 113
-      Height = 33
-      Margins.Left = 5
-      Margins.Top = 5
-      Margins.Right = 5
-      Margins.Bottom = 5
+    object DemoTitle: TLabel
+      Left = 24
+      Top = 12
+      Width = 986
+      Height = 30
+      Anchors = [akLeft, akTop, akRight]
+      AutoSize = False
+      Caption = 'Cookies'
+      Font.Charset = DEFAULT_CHARSET
+      Font.Color = clWindowText
+      Font.Height = -20
+      Font.Name = 'Segoe UI Semibold'
+      Font.Style = []
+      ParentFont = False
+    end
+    object DemoDescription: TLabel
+      Left = 24
+      Top = 44
+      Width = 1152
+      Height = 20
+      Anchors = [akLeft, akTop, akRight]
+      AutoSize = False
+      Caption = 'Browse to a site, then read, add, update and delete the cookies of the browser'
+    end
+    object DemoThemeCombo: TComboBox
+      Left = 1026
+      Top = 16
+      Width = 150
+      Height = 23
+      Style = csDropDownList
       Anchors = [akTop, akRight]
-      Caption = 'Navigate'
+      ItemIndex = 0
       TabOrder = 0
+      Text = 'Fluent Light'
+      OnChange = DemoThemeComboChange
+      Items.Strings = (
+        'Fluent Light'
+        'Fluent Dark')
+    end
+  end
+  object SettingsPanel: TPanel
+    AlignWithMargins = True
+    Left = 24
+    Top = 112
+    Width = 300
+    Height = 584
+    Margins.Left = 24
+    Margins.Top = 0
+    Margins.Right = 0
+    Margins.Bottom = 24
+    Align = alLeft
+    BevelOuter = bvNone
+    ParentColor = True
+    ShowCaption = False
+    TabOrder = 1
+    object CookieCaption: TLabel
+      AlignWithMargins = True
+      Left = 0
+      Top = 0
+      Width = 300
+      Height = 20
+      Margins.Left = 0
+      Margins.Top = 0
+      Margins.Right = 0
+      Margins.Bottom = 8
+      Align = alTop
+      AutoSize = False
+      Caption = 'Cookie'
+      Font.Charset = DEFAULT_CHARSET
+      Font.Color = clWindowText
+      Font.Height = -13
+      Font.Name = 'Segoe UI Semibold'
+      Font.Style = []
+      ParentFont = False
+    end
+    object NameRow: TPanel
+      AlignWithMargins = True
+      Left = 0
+      Top = 28
+      Width = 300
+      Height = 32
+      Margins.Left = 0
+      Margins.Top = 0
+      Margins.Right = 0
+      Margins.Bottom = 8
+      Align = alTop
+      BevelOuter = bvNone
+      ParentColor = True
+      ShowCaption = False
+      TabOrder = 0
+      object Label2: TLabel
+        Left = 0
+        Top = 0
+        Width = 72
+        Height = 32
+        Align = alLeft
+        AutoSize = False
+        Caption = 'Name'
+        Layout = tlCenter
+      end
+      object NameEdit: TEdit
+        AlignWithMargins = True
+        Left = 72
+        Top = 4
+        Width = 228
+        Height = 23
+        Margins.Left = 0
+        Margins.Top = 4
+        Margins.Right = 0
+        Margins.Bottom = 4
+        Align = alClient
+        TabOrder = 0
+      end
+    end
+    object DomainRow: TPanel
+      AlignWithMargins = True
+      Left = 0
+      Top = 68
+      Width = 300
+      Height = 32
+      Margins.Left = 0
+      Margins.Top = 0
+      Margins.Right = 0
+      Margins.Bottom = 8
+      Align = alTop
+      BevelOuter = bvNone
+      ParentColor = True
+      ShowCaption = False
+      TabOrder = 0
+      object Label3: TLabel
+        Left = 0
+        Top = 0
+        Width = 72
+        Height = 32
+        Align = alLeft
+        AutoSize = False
+        Caption = 'Domain'
+        Layout = tlCenter
+      end
+      object DomainEdit: TEdit
+        AlignWithMargins = True
+        Left = 72
+        Top = 4
+        Width = 228
+        Height = 23
+        Margins.Left = 0
+        Margins.Top = 4
+        Margins.Right = 0
+        Margins.Bottom = 4
+        Align = alClient
+        TabOrder = 0
+      end
+    end
+    object PathRow: TPanel
+      AlignWithMargins = True
+      Left = 0
+      Top = 108
+      Width = 300
+      Height = 32
+      Margins.Left = 0
+      Margins.Top = 0
+      Margins.Right = 0
+      Margins.Bottom = 8
+      Align = alTop
+      BevelOuter = bvNone
+      ParentColor = True
+      ShowCaption = False
+      TabOrder = 0
+      object Label4: TLabel
+        Left = 0
+        Top = 0
+        Width = 72
+        Height = 32
+        Align = alLeft
+        AutoSize = False
+        Caption = 'Path'
+        Layout = tlCenter
+      end
+      object PathEdit: TEdit
+        AlignWithMargins = True
+        Left = 72
+        Top = 4
+        Width = 228
+        Height = 23
+        Margins.Left = 0
+        Margins.Top = 4
+        Margins.Right = 0
+        Margins.Bottom = 4
+        Align = alClient
+        TabOrder = 0
+      end
+    end
+    object ValueRow: TPanel
+      AlignWithMargins = True
+      Left = 0
+      Top = 148
+      Width = 300
+      Height = 32
+      Margins.Left = 0
+      Margins.Top = 0
+      Margins.Right = 0
+      Margins.Bottom = 8
+      Align = alTop
+      BevelOuter = bvNone
+      ParentColor = True
+      ShowCaption = False
+      TabOrder = 0
+      object Label5: TLabel
+        Left = 0
+        Top = 0
+        Width = 72
+        Height = 32
+        Align = alLeft
+        AutoSize = False
+        Caption = 'Value'
+        Layout = tlCenter
+      end
+      object ValueEdit: TEdit
+        AlignWithMargins = True
+        Left = 72
+        Top = 4
+        Width = 228
+        Height = 23
+        Margins.Left = 0
+        Margins.Top = 4
+        Margins.Right = 0
+        Margins.Bottom = 4
+        Align = alClient
+        TabOrder = 0
+      end
+    end
+    object ExpiresRow: TPanel
+      AlignWithMargins = True
+      Left = 0
+      Top = 188
+      Width = 300
+      Height = 32
+      Margins.Left = 0
+      Margins.Top = 0
+      Margins.Right = 0
+      Margins.Bottom = 8
+      Align = alTop
+      BevelOuter = bvNone
+      ParentColor = True
+      ShowCaption = False
+      TabOrder = 0
+      object Label6: TLabel
+        Left = 0
+        Top = 0
+        Width = 72
+        Height = 32
+        Align = alLeft
+        AutoSize = False
+        Caption = 'Expires'
+        Layout = tlCenter
+      end
+      object ExpiresDate: TDateTimePicker
+        AlignWithMargins = True
+        Left = 72
+        Top = 4
+        Width = 228
+        Height = 23
+        Margins.Left = 0
+        Margins.Top = 4
+        Margins.Right = 0
+        Margins.Bottom = 4
+        Align = alClient
+        TabOrder = 0
+        Date = 45044.000000000000000000
+        Time = 0.452469861113058900
+        Kind = dtkDateTime
+      end
+    end
+    object AddCookieBtn: TButton
+      AlignWithMargins = True
+      Left = 0
+      Top = 228
+      Width = 300
+      Height = 32
+      Margins.Left = 0
+      Margins.Top = 0
+      Margins.Right = 0
+      Margins.Bottom = 8
+      Align = alTop
+      Caption = 'Add or update cookie'
+      TabOrder = 5
+      OnClick = AddCookieBtnClick
+    end
+    object DeleteCookieBtn: TButton
+      AlignWithMargins = True
+      Left = 0
+      Top = 268
+      Width = 300
+      Height = 32
+      Margins.Left = 0
+      Margins.Top = 0
+      Margins.Right = 0
+      Margins.Bottom = 24
+      Align = alTop
+      Caption = 'Delete cookie'
+      TabOrder = 6
+      OnClick = DeleteCookieBtnClick
+    end
+    object Label1: TLabel
+      AlignWithMargins = True
+      Left = 0
+      Top = 324
+      Width = 300
+      Height = 20
+      Margins.Left = 0
+      Margins.Top = 0
+      Margins.Right = 0
+      Margins.Bottom = 8
+      Align = alTop
+      AutoSize = False
+      Caption = 'All cookies'
+      Font.Charset = DEFAULT_CHARSET
+      Font.Color = clWindowText
+      Font.Height = -13
+      Font.Name = 'Segoe UI Semibold'
+      Font.Style = []
+      ParentFont = False
+    end
+    object GetCookiesBtn: TButton
+      AlignWithMargins = True
+      Left = 0
+      Top = 352
+      Width = 300
+      Height = 32
+      Margins.Left = 0
+      Margins.Top = 0
+      Margins.Right = 0
+      Margins.Bottom = 8
+      Align = alTop
+      Caption = 'Refresh the cookie list'
+      TabOrder = 7
+      OnClick = GetCookiesBtnClick
+    end
+    object DeleteAllCookiesBtn: TButton
+      AlignWithMargins = True
+      Left = 0
+      Top = 392
+      Width = 300
+      Height = 32
+      Margins.Left = 0
+      Margins.Top = 0
+      Margins.Right = 0
+      Margins.Bottom = 16
+      Align = alTop
+      Caption = 'Delete all cookies'
+      TabOrder = 8
+      OnClick = DeleteAllCookiesBtnClick
+    end
+    object CookiesHint: TLabel
+      AlignWithMargins = True
+      Left = 0
+      Top = 440
+      Width = 300
+      Height = 40
+      Margins.Left = 0
+      Margins.Top = 0
+      Margins.Right = 0
+      Margins.Bottom = 8
+      Align = alTop
+      AutoSize = False
+      Caption = 'Select a cookie in the list to edit it.'
+      WordWrap = True
+    end
+  end
+  object AddressBar: TPanel
+    AlignWithMargins = True
+    Left = 24
+    Top = 72
+    Width = 1152
+    Height = 32
+    Margins.Left = 24
+    Margins.Top = 0
+    Margins.Right = 24
+    Margins.Bottom = 8
+    Align = alTop
+    BevelOuter = bvNone
+    ParentColor = True
+    ShowCaption = False
+    TabOrder = 2
+    object NavigateBtn: TButton
+      AlignWithMargins = True
+      Left = 1072
+      Top = 0
+      Width = 80
+      Height = 32
+      Margins.Left = 8
+      Margins.Top = 0
+      Margins.Right = 0
+      Margins.Bottom = 0
+      Align = alRight
+      Caption = 'Go'
+      Default = True
+      TabOrder = 1
       OnClick = NavigateBtnClick
-      ExplicitLeft = 852
+    end
+    object URLEdit: TEdit
+      AlignWithMargins = True
+      Left = 0
+      Top = 4
+      Width = 1064
+      Height = 23
+      Margins.Left = 0
+      Margins.Top = 4
+      Margins.Right = 0
+      Margins.Bottom = 4
+      Align = alClient
+      TabOrder = 0
+      Text = 'https://www.google.com'
+    end
+  end
+  object ContentPanel: TPanel
+    AlignWithMargins = True
+    Left = 340
+    Top = 112
+    Width = 836
+    Height = 584
+    Margins.Left = 16
+    Margins.Top = 0
+    Margins.Right = 24
+    Margins.Bottom = 24
+    Align = alClient
+    BevelOuter = bvNone
+    ParentColor = True
+    ShowCaption = False
+    TabOrder = 3
+    object CookieGrid: TStringGrid
+      Left = 0
+      Top = 384
+      Width = 836
+      Height = 200
+      Align = alBottom
+      DefaultColWidth = 160
+      DefaultRowHeight = 24
+      TabOrder = 1
+      FixedCols = 0
+      RowCount = 8
+      Options = [goFixedVertLine, goFixedHorzLine, goVertLine, goHorzLine, goRangeSelect, goColSizing, goRowSelect, goFixedRowDefAlign]
+      OnSelectCell = CookieGridSelectCell
+    end
+    object Splitter1: TSplitter
+      Left = 0
+      Top = 376
+      Width = 836
+      Height = 8
+      Cursor = crVSplit
+      Align = alBottom
     end
     object TMSFNCEdgeWebBrowser1: TTMSFNCEdgeWebBrowser
-      Left = 21
-      Top = 67
-      Width = 606
-      Height = 768
-      Margins.Left = 5
-      Margins.Top = 5
-      Margins.Right = 5
-      Margins.Bottom = 5
+      Left = 0
+      Top = 0
+      Width = 836
+      Height = 376
+      Align = alClient
+      TabOrder = 0
       ParentDoubleBuffered = False
-      Anchors = [akLeft, akTop, akRight, akBottom]
       DoubleBuffered = True
-      TabOrder = 1
       OnInitialized = TMSFNCEdgeWebBrowser1Initialized
       URL = 'https://www.google.com'
       OnNavigateComplete = TMSFNCEdgeWebBrowser1NavigateComplete
@@ -212,258 +629,11 @@ object Form2: TForm2
       Settings.EnableAcceleratorKeys = True
       Settings.UsePopupMenuAsContextMenu = False
       OnGetCookies = TMSFNCEdgeWebBrowser1GetCookies
-      ExplicitWidth = 944
-      ExplicitHeight = 766
-    end
-    object URLEdit: TEdit
-      Left = 21
-      Top = 24
-      Width = 483
-      Height = 33
-      Margins.Left = 5
-      Margins.Top = 5
-      Margins.Right = 5
-      Margins.Bottom = 5
-      Anchors = [akLeft, akTop, akRight]
-      TabOrder = 2
-      Text = 'https://www.google.com'
-      ExplicitWidth = 821
     end
   end
-  object Panel2: TPanel
-    Left = 657
-    Top = 0
-    Width = 805
-    Height = 857
-    Margins.Left = 5
-    Margins.Top = 5
-    Margins.Right = 5
-    Margins.Bottom = 5
-    Align = alClient
-    Caption = 'Panel2'
-    TabOrder = 1
-    ExplicitLeft = 995
-    ExplicitWidth = 1039
-    ExplicitHeight = 855
-    DesignSize = (
-      805
-      857)
-    object Label1: TLabel
-      Left = 20
-      Top = 27
-      Width = 67
-      Height = 25
-      Margins.Left = 5
-      Margins.Top = 5
-      Margins.Right = 5
-      Margins.Bottom = 5
-      Caption = 'Cookies:'
-    end
-    object Label2: TLabel
-      Left = 20
-      Top = 455
-      Width = 51
-      Height = 25
-      Margins.Left = 5
-      Margins.Top = 5
-      Margins.Right = 5
-      Margins.Bottom = 5
-      Anchors = [akLeft, akBottom]
-      Caption = 'Name:'
-    end
-    object Label3: TLabel
-      Left = 20
-      Top = 498
-      Width = 67
-      Height = 25
-      Margins.Left = 5
-      Margins.Top = 5
-      Margins.Right = 5
-      Margins.Bottom = 5
-      Anchors = [akLeft, akBottom]
-      Caption = 'Domain:'
-    end
-    object Label4: TLabel
-      Left = 20
-      Top = 541
-      Width = 38
-      Height = 25
-      Margins.Left = 5
-      Margins.Top = 5
-      Margins.Right = 5
-      Margins.Bottom = 5
-      Anchors = [akLeft, akBottom]
-      Caption = 'Path:'
-    end
-    object Label5: TLabel
-      Left = 20
-      Top = 584
-      Width = 46
-      Height = 25
-      Margins.Left = 5
-      Margins.Top = 5
-      Margins.Right = 5
-      Margins.Bottom = 5
-      Anchors = [akLeft, akBottom]
-      Caption = 'Value:'
-    end
-    object Label6: TLabel
-      Left = 20
-      Top = 628
-      Width = 59
-      Height = 25
-      Margins.Left = 5
-      Margins.Top = 5
-      Margins.Right = 5
-      Margins.Bottom = 5
-      Anchors = [akLeft, akBottom]
-      Caption = 'Expires:'
-    end
-    object AddCookieBtn: TButton
-      Left = 20
-      Top = 672
-      Width = 759
-      Height = 46
-      Margins.Left = 5
-      Margins.Top = 5
-      Margins.Right = 5
-      Margins.Bottom = 5
-      Anchors = [akLeft, akRight, akBottom]
-      Caption = 'Add or Update Cookie'
-      TabOrder = 0
-      OnClick = AddCookieBtnClick
-      ExplicitTop = 670
-      ExplicitWidth = 993
-    end
-    object CookieGrid: TStringGrid
-      Left = 20
-      Top = 67
-      Width = 761
-      Height = 378
-      Margins.Left = 5
-      Margins.Top = 5
-      Margins.Right = 5
-      Margins.Bottom = 5
-      Anchors = [akLeft, akTop, akRight, akBottom]
-      DefaultColWidth = 188
-      DefaultRowHeight = 36
-      FixedCols = 0
-      RowCount = 8
-      Options = [goFixedVertLine, goFixedHorzLine, goVertLine, goHorzLine, goRangeSelect, goColSizing, goRowSelect, goFixedRowDefAlign]
-      TabOrder = 1
-      OnSelectCell = CookieGridSelectCell
-      ExplicitWidth = 995
-      ExplicitHeight = 376
-    end
-    object DeleteAllCookiesBtn: TButton
-      Left = 20
-      Top = 784
-      Width = 759
-      Height = 46
-      Margins.Left = 5
-      Margins.Top = 5
-      Margins.Right = 5
-      Margins.Bottom = 5
-      Anchors = [akLeft, akRight, akBottom]
-      Caption = 'Delete All Cookies'
-      TabOrder = 2
-      OnClick = DeleteAllCookiesBtnClick
-      ExplicitTop = 782
-      ExplicitWidth = 993
-    end
-    object DeleteCookieBtn: TButton
-      Left = 20
-      Top = 728
-      Width = 759
-      Height = 46
-      Margins.Left = 5
-      Margins.Top = 5
-      Margins.Right = 5
-      Margins.Bottom = 5
-      Anchors = [akLeft, akRight, akBottom]
-      Caption = 'Delete Cookie'
-      TabOrder = 3
-      OnClick = DeleteCookieBtnClick
-      ExplicitTop = 726
-      ExplicitWidth = 993
-    end
-    object DomainEdit: TEdit
-      Left = 126
-      Top = 500
-      Width = 655
-      Height = 33
-      Margins.Left = 5
-      Margins.Top = 5
-      Margins.Right = 5
-      Margins.Bottom = 5
-      Anchors = [akLeft, akRight, akBottom]
-      TabOrder = 4
-    end
-    object ExpiresDate: TDateTimePicker
-      Left = 126
-      Top = 629
-      Width = 658
-      Height = 33
-      Margins.Left = 5
-      Margins.Top = 5
-      Margins.Right = 5
-      Margins.Bottom = 5
-      Anchors = [akLeft, akRight, akBottom]
-      Date = 45044.000000000000000000
-      Time = 0.452469861113058900
-      Kind = dtkDateTime
-      TabOrder = 5
-    end
-    object GetCookiesBtn: TButton
-      Left = 529
-      Top = 24
-      Width = 252
-      Height = 33
-      Margins.Left = 5
-      Margins.Top = 5
-      Margins.Right = 5
-      Margins.Bottom = 5
-      Anchors = [akTop, akRight]
-      Caption = 'Refresh Cookies'
-      TabOrder = 6
-      OnClick = GetCookiesBtnClick
-      ExplicitLeft = 763
-    end
-    object NameEdit: TEdit
-      Left = 126
-      Top = 457
-      Width = 655
-      Height = 33
-      Margins.Left = 5
-      Margins.Top = 5
-      Margins.Right = 5
-      Margins.Bottom = 5
-      Anchors = [akLeft, akRight, akBottom]
-      TabOrder = 7
-    end
-    object PathEdit: TEdit
-      Left = 126
-      Top = 543
-      Width = 655
-      Height = 33
-      Margins.Left = 5
-      Margins.Top = 5
-      Margins.Right = 5
-      Margins.Bottom = 5
-      Anchors = [akLeft, akRight, akBottom]
-      TabOrder = 8
-    end
-    object ValueEdit: TEdit
-      Left = 126
-      Top = 586
-      Width = 658
-      Height = 33
-      Margins.Left = 5
-      Margins.Top = 5
-      Margins.Right = 5
-      Margins.Bottom = 5
-      Anchors = [akLeft, akRight, akBottom]
-      TabOrder = 9
-    end
+  object ThemeManager: TTMSFNCThemeManager
+    Theme = 'Fluent Light'
+    Left = 8
+    Top = 8
   end
 end

@@ -7,7 +7,7 @@ uses
   Vcl.Controls, Vcl.Forms, Vcl.Dialogs, VCL.TMSFNCTypes, VCL.TMSFNCUtils,
   VCL.TMSFNCGraphics, VCL.TMSFNCGraphicsTypes, Vcl.StdCtrls,
   VCL.TMSFNCCustomControl, VCL.TMSFNCWebBrowser, Vcl.ExtCtrls,
-  VCL.TMSFNCCustomComponent, VCL.TMSFNCBitmapContainer;
+  VCL.TMSFNCCustomComponent, VCL.TMSFNCBitmapContainer, VCL.TMSFNCTheme;
 
 type
   TMyBridgeObject = class(TInterfacedPersistent, ITMSFNCCustomWebBrowserBridge)
@@ -19,6 +19,15 @@ type
   end;
 
   TForm3 = class(TForm)
+    ThemeManager: TTMSFNCThemeManager;
+    DemoHeader: TPanel;
+    DemoTitle: TLabel;
+    DemoDescription: TLabel;
+    DemoThemeCombo: TComboBox;
+    SettingsPanel: TPanel;
+    SidePanelCaption: TLabel;
+    BridgeHint: TLabel;
+    AddressBar: TPanel;
     iBack: TImage;
     iForward: TImage;
     iReload: TImage;
@@ -47,6 +56,8 @@ type
     procedure Button2Click(Sender: TObject);
     procedure Button3Click(Sender: TObject);
     procedure Button4Click(Sender: TObject);
+    procedure FormDestroy(Sender: TObject);
+    procedure DemoThemeComboChange(Sender: TObject);
   private
     { Private declarations }
     o: TMyBridgeObject;
@@ -55,6 +66,7 @@ type
     procedure NavigateFNCWebBrowser(AURL: string);
     procedure SetVisibleComponents(AValue: Boolean);
     procedure UpdateLabels(AYes: Boolean);
+    procedure ThemeChanged(Sender: TObject);
   public
     { Public declarations }
   end;
@@ -123,6 +135,9 @@ procedure TForm3.FormCreate(Sender: TObject);
 begin
   ReportMemoryLeaksOnShutdown := True;
 
+  TTMSFNCTheme.AddChangeListener(ThemeChanged);
+  ThemeChanged(nil);
+
   yCnt := 0;
   nCnt := 0;
 
@@ -132,6 +147,45 @@ begin
   iReload.Picture.Assign(TMSFNCBitmapContainer1.Bitmaps[4]);
 
   TMSFNCWebBrowser1.Navigate;
+end;
+
+procedure TForm3.FormDestroy(Sender: TObject);
+begin
+  TTMSFNCTheme.RemoveChangeListener(ThemeChanged);
+end;
+
+{ Core has no FNC label: the native labels take the text colours of the theme in effect (without
+  a theme: the platform's). The theme manager colours the form; native buttons, edits and lists
+  keep the platform look, which is readable on a light and on a dark form. The page in the browser
+  is not themed. }
+procedure TForm3.ThemeChanged(Sender: TObject);
+var
+  t: TTMSFNCResolvedTheme;
+  txt, sec: TColor;
+begin
+  t := TTMSFNCTheme.Resolve(TTMSFNCTheme.Current);
+  if Assigned(t) then
+  begin
+    txt := t[ttText];
+    sec := t[ttTextSecondary];
+  end
+  else
+  begin
+    txt := clWindowText;
+    sec := clGrayText;
+  end;
+  DemoTitle.Font.Color := txt;
+  SidePanelCaption.Font.Color := txt;
+  Label1.Font.Color := txt;
+  Label2.Font.Color := txt;
+  DemoDescription.Font.Color := sec;
+  BridgeHint.Font.Color := sec;
+end;
+
+procedure TForm3.DemoThemeComboChange(Sender: TObject);
+begin
+  if DemoThemeCombo.ItemIndex >= 0 then
+    ThemeManager.Theme := DemoThemeCombo.Items[DemoThemeCombo.ItemIndex];
 end;
 
 procedure TForm3.iBackClick(Sender: TObject);

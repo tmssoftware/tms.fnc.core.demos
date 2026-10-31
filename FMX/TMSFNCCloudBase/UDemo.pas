@@ -6,7 +6,7 @@ uses
   System.SysUtils, System.Types, System.UITypes, System.Classes, System.Variants, JSON,
   FMX.Types, FMX.Controls, FMX.Forms, FMX.Graphics, FMX.Dialogs, FMX.TMSFNCCloudBase, FMX.TMSFNCUtils,
   FMX.Layouts, FMX.ListBox, FMX.StdCtrls, FMX.Controls.Presentation, FMX.Edit, Generics.Collections,
-  FMX.Objects;
+  FMX.Objects, FMX.TMSFNCTheme;
 
 type
   TMovie = class(TPersistent)
@@ -21,6 +21,13 @@ type
   TMovies = class(TObjectList<TMovie>);
 
   TForm3 = class(TForm)
+    ThemeManager: TTMSFNCThemeManager;
+    DemoHeader: TLayout;
+    DemoTitle: TLabel;
+    DemoDescription: TLabel;
+    DemoThemeCombo: TComboBox;
+    SettingsPanel: TLayout;
+    SearchCaption: TLabel;
     Edit1: TEdit;
     Button1: TButton;
     ListBox1: TListBox;
@@ -31,10 +38,12 @@ type
       const Item: TListBoxItem);
     procedure FormDestroy(Sender: TObject);
     procedure FormCreate(Sender: TObject);
+    procedure DemoThemeComboChange(Sender: TObject);
   private
     { Private declarations }
     cb: TTMSFNCCloudBase;
     movies: TMovies;
+    procedure ThemeChanged(Sender: TObject);
     procedure UpdateList;
     procedure DoGetMovies(const ARequestResult: TTMSFNCCloudBaseRequestResult);
     procedure DoGetMovieImage(const ARequestResult: TTMSFNCCloudBaseRequestResult);
@@ -131,6 +140,9 @@ end;
 
 procedure TForm3.FormCreate(Sender: TObject);
 begin
+  TTMSFNCTheme.AddChangeListener(ThemeChanged);
+  ThemeChanged(nil);
+
   cb := TTMSFNCCloudBase.Create;
 
   movies := TMovies.Create;
@@ -138,6 +150,7 @@ end;
 
 procedure TForm3.FormDestroy(Sender: TObject);
 begin
+  TTMSFNCTheme.RemoveChangeListener(ThemeChanged);
   movies.Free;
   cb.Free;
 end;
@@ -151,6 +164,37 @@ begin
   cb.Request.Host := (Item.Data as TMovie).ImageUrl;
 
   cb.ExecuteRequest(DoGetMovieImage);
+end;
+
+{ Core has no FNC label: the native labels take the text colours of the theme in effect (without
+  a theme: the platform's). The theme manager colours the form; native buttons, edits and lists
+  keep the platform look, which is readable on a light and on a dark form. }
+procedure TForm3.ThemeChanged(Sender: TObject);
+var
+  t: TTMSFNCResolvedTheme;
+  txt, sec: TAlphaColor;
+begin
+  t := TTMSFNCTheme.Resolve(TTMSFNCTheme.Current);
+  if Assigned(t) then
+  begin
+    txt := t[ttText];
+    sec := t[ttTextSecondary];
+  end
+  else
+  begin
+    txt := TAlphaColorRec.Black;
+    sec := $FF5B6470;
+  end;
+  DemoTitle.FontColor := txt;
+  SearchCaption.FontColor := txt;
+  DemoDescription.FontColor := sec;
+  Label1.FontColor := sec;
+end;
+
+procedure TForm3.DemoThemeComboChange(Sender: TObject);
+begin
+  if DemoThemeCombo.ItemIndex >= 0 then
+    ThemeManager.Theme := DemoThemeCombo.Items[DemoThemeCombo.ItemIndex];
 end;
 
 procedure TForm3.UpdateList;

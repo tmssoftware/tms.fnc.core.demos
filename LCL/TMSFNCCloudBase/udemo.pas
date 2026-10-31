@@ -27,6 +27,11 @@ type
   { TForm1 }
 
   TForm1 = class(TForm)
+    DemoHeader: TPanel;
+    DemoTitle: TLabel;
+    DemoDescription: TLabel;
+    SettingsPanel: TPanel;
+    SearchCaption: TLabel;
     Button1: TButton;
     Edit1: TEdit;
     Image1: TImage;

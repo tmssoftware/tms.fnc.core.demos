@@ -8,16 +8,20 @@ uses
   FMX.TMSFNCTypes, FMX.TMSFNCUtils, FMX.TMSFNCGraphics, FMX.TMSFNCGraphicsTypes,
   FMX.Edit, FMX.StdCtrls, FMX.TMSFNCCustomControl, FMX.TMSFNCWebBrowser,
   FMX.TMSFNCEdgeWebBrowser, FMX.Controls.Presentation, FMX.TabControl,
-  FMX.Memo.Types, FMX.ScrollBox, FMX.Memo;
+  FMX.Memo.Types, FMX.ScrollBox, FMX.Memo, FMX.Layouts, FMX.ListBox, FMX.TMSFNCTheme;
 
 type
   TDevToolsForm = class(TForm)
-    Panel1: TPanel;
+    ThemeManager: TTMSFNCThemeManager;
+    DemoHeader: TLayout;
+    DemoTitle: TLabel;
+    DemoDescription: TLabel;
+    DemoThemeCombo: TComboBox;
+    SettingsPanel: TLayout;
+    AddressBar: TLayout;
     TMSFNCEdgeWebBrowser1: TTMSFNCEdgeWebBrowser;
     NavBtn: TButton;
     NavEdit: TEdit;
-    Panel2: TPanel;
-    Splitter1: TSplitter;
     TabControl1: TTabControl;
     TabItem1: TTabItem;
     TabItem2: TTabItem;
@@ -50,8 +54,12 @@ type
     procedure ClrEventBtnClick(Sender: TObject);
     procedure SubscribeBtnClick(Sender: TObject);
     procedure NavBtnClick(Sender: TObject);
+    procedure FormCreate(Sender: TObject);
+    procedure FormDestroy(Sender: TObject);
+    procedure DemoThemeComboChange(Sender: TObject);
   private
     { Private declarations }
+    procedure ThemeChanged(Sender: TObject);
   public
     { Public declarations }
   end;
@@ -125,4 +133,45 @@ procedure TDevToolsForm.NavBtnClick(Sender: TObject);
 begin
   TMSFNCEdgeWebBrowser1.Navigate(NavEdit.Text);
 end;
+procedure TDevToolsForm.FormCreate(Sender: TObject);
+begin
+  TTMSFNCTheme.AddChangeListener(ThemeChanged);
+  ThemeChanged(nil);
+end;
+
+procedure TDevToolsForm.FormDestroy(Sender: TObject);
+begin
+  TTMSFNCTheme.RemoveChangeListener(ThemeChanged);
+end;
+
+{ Core has no FNC label: the native labels take the text colours of the theme in effect (without
+  a theme: the platform's). The theme manager colours the form; native buttons, edits, lists and
+  memos keep the platform look, which is readable on a light and on a dark form. The page in the
+  browser is not themed. }
+procedure TDevToolsForm.ThemeChanged(Sender: TObject);
+var
+  t: TTMSFNCResolvedTheme;
+  txt, sec: TAlphaColor;
+begin
+  t := TTMSFNCTheme.Resolve(TTMSFNCTheme.Current);
+  if Assigned(t) then
+  begin
+    txt := t[ttText];
+    sec := t[ttTextSecondary];
+  end
+  else
+  begin
+    txt := TAlphaColorRec.Black;
+    sec := $FF5B6470;
+  end;
+  DemoTitle.FontColor := txt;
+  DemoDescription.FontColor := sec;
+end;
+
+procedure TDevToolsForm.DemoThemeComboChange(Sender: TObject);
+begin
+  if DemoThemeCombo.ItemIndex >= 0 then
+    ThemeManager.Theme := DemoThemeCombo.Items[DemoThemeCombo.ItemIndex];
+end;
+
 end.

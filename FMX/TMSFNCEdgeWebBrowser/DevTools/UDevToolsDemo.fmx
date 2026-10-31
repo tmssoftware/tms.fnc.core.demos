@@ -1,120 +1,126 @@
 object DevToolsForm: TDevToolsForm
   Left = 0
   Top = 0
-  Caption = 'DevTools Demo'
-  ClientHeight = 404
-  ClientWidth = 714
+  Caption = 'TMS FNC Core - Edge Web Browser DevTools'
+  ClientHeight = 720
+  ClientWidth = 1200
+  Position = ScreenCenter
   FormFactor.Width = 320
   FormFactor.Height = 480
   FormFactor.Devices = [Desktop]
+  OnCreate = FormCreate
+  OnDestroy = FormDestroy
   DesignerMasterStyle = 0
-  object Panel1: TPanel
-    Align = Client
-    Size.Width = 381.000000000000000000
-    Size.Height = 382.000000000000000000
+  object DemoHeader: TLayout
+    Align = Top
+    Size.Width = 1200.000000000000000000
+    Size.Height = 72.000000000000000000
     Size.PlatformDefault = False
     TabOrder = 0
-    object TMSFNCEdgeWebBrowser1: TTMSFNCEdgeWebBrowser
-      Anchors = [akLeft, akTop, akRight, akBottom]
-      Position.X = 8.000000000000000000
-      Position.Y = 38.000000000000000000
-      Size.Width = 365.000000000000000000
-      Size.Height = 336.000000000000000000
-      Size.PlatformDefault = False
-      TabOrder = 0
-      URL = 'https://www.google.com'
-      Settings.EnableContextMenu = True
-      Settings.EnableShowDebugConsole = True
-      Settings.EnableAcceleratorKeys = True
-      Settings.UsePopupMenuAsContextMenu = False
-      OnDevToolsMethodCompleted = TMSFNCEdgeWebBrowser1DevToolsMethodCompleted
-      OnDevToolsSubscribedEvent = TMSFNCEdgeWebBrowser1DevToolsSubscribedEvent
-      OnGetConsoleMessage = TMSFNCEdgeWebBrowser1GetConsoleMessage
-    end
-    object NavEdit: TEdit
-      Touch.InteractiveGestures = [LongTap, DoubleTap]
+    object DemoTitle: TLabel
       Anchors = [akLeft, akTop, akRight]
-      TabOrder = 1
-      Text = 'https://www.google.com'
-      Position.X = 96.000000000000000000
-      Position.Y = 8.000000000000000000
-      Size.Width = 277.000000000000000000
-      Size.Height = 22.000000000000000000
+      StyledSettings = [Family]
+      Position.X = 24.000000000000000000
+      Position.Y = 12.000000000000000000
+      Size.Width = 986.000000000000000000
+      Size.Height = 30.000000000000000000
       Size.PlatformDefault = False
+      TextSettings.Font.Size = 20.000000000000000000
+      TextSettings.Font.StyleExt = {00060000000000000004000000}
+      Text = 'DevTools protocol'
     end
-    object NavBtn: TButton
-      Position.X = 8.000000000000000000
-      Position.Y = 8.000000000000000000
+    object DemoDescription: TLabel
+      Anchors = [akLeft, akTop, akRight]
+      StyledSettings = [Family, Style]
+      Position.X = 24.000000000000000000
+      Position.Y = 44.000000000000000000
+      Size.Width = 1152.000000000000000000
+      Size.Height = 20.000000000000000000
+      Size.PlatformDefault = False
+      TextSettings.Font.Size = 13.000000000000000000
+      Text = 'Read the console log of the page, call Chrome DevTools protocol methods and subscribe to protocol events'
+    end
+    object DemoThemeCombo: TComboBox
+      Anchors = [akTop, akRight]
+      Items.Strings = (
+        'Fluent Light'
+        'Fluent Dark')
+      ItemIndex = 0
+      Position.X = 1026.000000000000000000
+      Position.Y = 10.000000000000000000
+      Size.Width = 150.000000000000000000
+      Size.Height = 32.000000000000000000
+      Size.PlatformDefault = False
       TabOrder = 2
-      Text = 'Navigate'
-      OnClick = NavBtnClick
+      OnChange = DemoThemeComboChange
     end
   end
-  object Panel2: TPanel
-    Align = Right
-    Position.X = 394.000000000000000000
-    Position.Y = 22.000000000000000000
-    Size.Width = 320.000000000000000000
-    Size.Height = 382.000000000000000000
+  object SettingsPanel: TLayout
+    Align = Left
+    Margins.Left = 24.000000000000000000
+    Margins.Bottom = 24.000000000000000000
+    Position.X = 24.000000000000000000
+    Position.Y = 112.000000000000000000
+    Size.Width = 360.000000000000000000
+    Size.Height = 584.000000000000000000
     Size.PlatformDefault = False
     TabOrder = 1
     object TabControl1: TTabControl
       Align = Client
-      Size.Width = 320.000000000000000000
-      Size.Height = 382.000000000000000000
+      Size.Width = 360.000000000000000000
+      Size.Height = 544.000000000000000000
       Size.PlatformDefault = False
       TabIndex = 0
       TabOrder = 0
       TabPosition = PlatformDefault
-      Sizes = (
-        320s
-        356s
-        320s
-        356s
-        320s
-        356s)
       object TabItem1: TTabItem
         CustomIcon = <
           item
           end>
         IsSelected = True
-        Size.Width = 105.000000000000000000
+        Size.Width = 90.000000000000000000
         Size.Height = 26.000000000000000000
         Size.PlatformDefault = False
         StyleLookup = ''
         TabOrder = 0
-        Text = 'Default Logging'
-        ExplicitSize.cx = 105.000000000000000000
+        Text = 'Console log'
+        ExplicitSize.cx = 90.000000000000000000
         ExplicitSize.cy = 26.000000000000000000
-        object LoggingMemo: TMemo
-          Touch.InteractiveGestures = [Pan, LongTap, DoubleTap]
-          DataDetectorTypes = []
-          Anchors = [akLeft, akTop, akRight, akBottom]
-          Position.X = 8.000000000000000000
-          Position.Y = 33.000000000000000000
-          Size.Width = 305.000000000000000000
-          Size.Height = 285.000000000000000000
+        object Label5: TLabel
+          Align = Top
+          Margins.Bottom = 4.000000000000000000
+          Position.Y = 0.000000000000000000
+          Size.Width = 344.000000000000000000
+          Size.Height = 24.000000000000000000
           Size.PlatformDefault = False
-          TabOrder = 0
-          Viewport.Width = 301.000000000000000000
-          Viewport.Height = 281.000000000000000000
+          Margins.Left = 8.000000000000000000
+          Margins.Top = 8.000000000000000000
+          Margins.Right = 8.000000000000000000
+          Text = 'Console messages of the page'
         end
         object ClrLogBtn: TButton
-          Anchors = [akLeft, akRight, akBottom]
-          Position.X = 8.000000000000000000
-          Position.Y = 326.000000000000000000
-          Size.Width = 305.000000000000000000
-          Size.Height = 22.000000000000000000
+          Align = Bottom
+          Margins.Left = 8.000000000000000000
+          Margins.Top = 8.000000000000000000
+          Margins.Right = 8.000000000000000000
+          Margins.Bottom = 8.000000000000000000
+          Size.Width = 344.000000000000000000
+          Size.Height = 32.000000000000000000
           Size.PlatformDefault = False
           TabOrder = 1
-          Text = 'Clear Text'
+          Text = 'Clear the log'
           OnClick = ClrLogBtnClick
         end
-        object Label5: TLabel
-          Position.X = 8.000000000000000000
-          Position.Y = 8.000000000000000000
-          Text = 'Console Entries:'
-          TabOrder = 2
+        object LoggingMemo: TMemo
+          Align = Client
+          Margins.Left = 8.000000000000000000
+          Margins.Right = 8.000000000000000000
+          Size.Width = 344.000000000000000000
+          Size.Height = 400.000000000000000000
+          Size.PlatformDefault = False
+          TabOrder = 0
+          Touch.InteractiveGestures = [Pan, LongTap, DoubleTap]
+          DataDetectorTypes = []
         end
       end
       object TabItem2: TTabItem
@@ -122,79 +128,98 @@ object DevToolsForm: TDevToolsForm
           item
           end>
         IsSelected = False
-        Size.Width = 113.000000000000000000
+        Size.Width = 70.000000000000000000
         Size.Height = 26.000000000000000000
         Size.PlatformDefault = False
         StyleLookup = ''
-        TabOrder = 0
-        Text = 'DevTool Methods'
-        ExplicitSize.cx = 113.000000000000000000
+        TabOrder = 1
+        Text = 'Methods'
+        ExplicitSize.cx = 70.000000000000000000
         ExplicitSize.cy = 26.000000000000000000
-        object MethodResponseMemo: TMemo
-          Touch.InteractiveGestures = [Pan, LongTap, DoubleTap]
-          DataDetectorTypes = []
-          Anchors = [akLeft, akTop, akRight, akBottom]
-          Position.X = 8.000000000000000000
-          Position.Y = 208.000000000000000000
-          Size.Width = 305.000000000000000000
-          Size.Height = 139.000000000000000000
+        object Label2: TLabel
+          Align = Top
+          Margins.Bottom = 4.000000000000000000
+          Position.Y = 8.000000000000000000
+          Size.Width = 344.000000000000000000
+          Size.Height = 24.000000000000000000
           Size.PlatformDefault = False
-          TabOrder = 1
-          Viewport.Width = 301.000000000000000000
-          Viewport.Height = 135.000000000000000000
+          Margins.Left = 8.000000000000000000
+          Margins.Top = 8.000000000000000000
+          Margins.Right = 8.000000000000000000
+          Text = 'Method name'
         end
         object MethodEdit: TEdit
-          Touch.InteractiveGestures = [LongTap, DoubleTap]
-          Anchors = [akLeft, akTop, akRight]
-          TabOrder = 2
-          Text = 'Browser.getVersion'
-          Position.X = 8.000000000000000000
-          Position.Y = 33.000000000000000000
-          Size.Width = 305.000000000000000000
-          Size.Height = 22.000000000000000000
+          Align = Top
+          Margins.Bottom = 8.000000000000000000
+          Position.Y = 36.000000000000000000
+          Size.Width = 344.000000000000000000
+          Size.Height = 32.000000000000000000
           Size.PlatformDefault = False
-        end
-        object Label1: TLabel
-          Position.X = 8.000000000000000000
-          Position.Y = 183.000000000000000000
-          Text = 'JSON Response:'
-          TabOrder = 5
-        end
-        object Label2: TLabel
-          Position.X = 8.000000000000000000
-          Position.Y = 8.000000000000000000
-          Text = 'Method Name:'
-          TabOrder = 4
-        end
-        object ExeMethodBtn: TButton
-          Anchors = [akTop, akRight]
-          Position.X = 216.000000000000000000
-          Position.Y = 164.000000000000000000
-          Size.Width = 96.000000000000000000
-          Size.Height = 22.000000000000000000
-          Size.PlatformDefault = False
-          TabOrder = 6
-          Text = 'Execute'
-          OnClick = ExeMethodBtnClick
-        end
-        object MethodParamMemo: TMemo
-          Touch.InteractiveGestures = [Pan, LongTap, DoubleTap]
-          DataDetectorTypes = []
-          Anchors = [akLeft, akTop, akRight]
-          Position.X = 8.000000000000000000
-          Position.Y = 88.000000000000000000
-          Size.Width = 305.000000000000000000
-          Size.Height = 68.000000000000000000
-          Size.PlatformDefault = False
+          Margins.Left = 8.000000000000000000
+          Margins.Right = 8.000000000000000000
           TabOrder = 0
-          Viewport.Width = 301.000000000000000000
-          Viewport.Height = 64.000000000000000000
+          Touch.InteractiveGestures = [LongTap, DoubleTap]
+          Text = 'Browser.getVersion'
         end
         object Label3: TLabel
-          Position.X = 8.000000000000000000
-          Position.Y = 63.000000000000000000
-          Text = 'JSON Parameters:'
+          Align = Top
+          Margins.Bottom = 4.000000000000000000
+          Position.Y = 76.000000000000000000
+          Size.Width = 344.000000000000000000
+          Size.Height = 24.000000000000000000
+          Size.PlatformDefault = False
+          Margins.Left = 8.000000000000000000
+          Margins.Right = 8.000000000000000000
+          Text = 'JSON parameters'
+        end
+        object MethodParamMemo: TMemo
+          Align = Top
+          Margins.Bottom = 8.000000000000000000
+          Position.Y = 104.000000000000000000
+          Size.Width = 344.000000000000000000
+          Size.Height = 80.000000000000000000
+          Size.PlatformDefault = False
+          Margins.Left = 8.000000000000000000
+          Margins.Right = 8.000000000000000000
+          TabOrder = 1
+          Touch.InteractiveGestures = [Pan, LongTap, DoubleTap]
+          DataDetectorTypes = []
+        end
+        object ExeMethodBtn: TButton
+          Align = Top
+          Margins.Bottom = 16.000000000000000000
+          Position.Y = 192.000000000000000000
+          Size.Width = 344.000000000000000000
+          Size.Height = 32.000000000000000000
+          Size.PlatformDefault = False
+          Margins.Left = 8.000000000000000000
+          Margins.Right = 8.000000000000000000
+          TabOrder = 2
+          Text = 'Call the method'
+          OnClick = ExeMethodBtnClick
+        end
+        object Label1: TLabel
+          Align = Top
+          Margins.Bottom = 4.000000000000000000
+          Position.Y = 240.000000000000000000
+          Size.Width = 344.000000000000000000
+          Size.Height = 24.000000000000000000
+          Size.PlatformDefault = False
+          Margins.Left = 8.000000000000000000
+          Margins.Right = 8.000000000000000000
+          Text = 'JSON response'
+        end
+        object MethodResponseMemo: TMemo
+          Align = Client
+          Margins.Left = 8.000000000000000000
+          Margins.Right = 8.000000000000000000
+          Margins.Bottom = 8.000000000000000000
+          Size.Width = 344.000000000000000000
+          Size.Height = 200.000000000000000000
+          Size.PlatformDefault = False
           TabOrder = 3
+          Touch.InteractiveGestures = [Pan, LongTap, DoubleTap]
+          DataDetectorTypes = []
         end
       end
       object TabItem3: TTabItem
@@ -202,86 +227,144 @@ object DevToolsForm: TDevToolsForm
           item
           end>
         IsSelected = False
-        Size.Width = 100.000000000000000000
+        Size.Width = 60.000000000000000000
         Size.Height = 26.000000000000000000
         Size.PlatformDefault = False
         StyleLookup = ''
-        TabOrder = 0
-        Text = 'DevTool Events'
-        ExplicitSize.cx = 100.000000000000000000
+        TabOrder = 2
+        Text = 'Events'
+        ExplicitSize.cx = 60.000000000000000000
         ExplicitSize.cy = 26.000000000000000000
         object Label4: TLabel
-          Position.X = 8.000000000000000000
+          Align = Top
+          Margins.Bottom = 4.000000000000000000
           Position.Y = 8.000000000000000000
-          Text = 'Event Name:'
-          TabOrder = 4
+          Size.Width = 344.000000000000000000
+          Size.Height = 24.000000000000000000
+          Size.PlatformDefault = False
+          Margins.Left = 8.000000000000000000
+          Margins.Top = 8.000000000000000000
+          Margins.Right = 8.000000000000000000
+          Text = 'Event name'
         end
         object SubscribeEdit: TEdit
-          Touch.InteractiveGestures = [LongTap, DoubleTap]
-          Anchors = [akLeft, akTop, akRight]
-          TabOrder = 2
-          Text = 'Network.dataReceived'
-          Position.X = 8.000000000000000000
-          Position.Y = 33.000000000000000000
-          Size.Width = 305.000000000000000000
-          Size.Height = 22.000000000000000000
+          Align = Top
+          Margins.Bottom = 8.000000000000000000
+          Position.Y = 36.000000000000000000
+          Size.Width = 344.000000000000000000
+          Size.Height = 32.000000000000000000
           Size.PlatformDefault = False
+          Margins.Left = 8.000000000000000000
+          Margins.Right = 8.000000000000000000
+          TabOrder = 0
+          Touch.InteractiveGestures = [LongTap, DoubleTap]
+          Text = 'Network.dataReceived'
         end
         object SubscribeBtn: TButton
-          Anchors = [akTop, akRight]
-          Position.X = 217.000000000000000000
-          Position.Y = 63.000000000000000000
-          Size.Width = 96.000000000000000000
-          Size.Height = 22.000000000000000000
+          Align = Top
+          Margins.Bottom = 16.000000000000000000
+          Position.Y = 76.000000000000000000
+          Size.Width = 344.000000000000000000
+          Size.Height = 32.000000000000000000
           Size.PlatformDefault = False
-          TabOrder = 6
-          Text = 'Subscribe'
+          Margins.Left = 8.000000000000000000
+          Margins.Right = 8.000000000000000000
+          TabOrder = 1
+          Text = 'Subscribe to the event'
           OnClick = SubscribeBtnClick
         end
+        object ClrEventBtn: TButton
+          Align = Bottom
+          Margins.Left = 8.000000000000000000
+          Margins.Top = 8.000000000000000000
+          Margins.Right = 8.000000000000000000
+          Margins.Bottom = 8.000000000000000000
+          Size.Width = 344.000000000000000000
+          Size.Height = 32.000000000000000000
+          Size.PlatformDefault = False
+          TabOrder = 3
+          Text = 'Clear the events'
+          OnClick = ClrEventBtnClick
+        end
         object EventMemo: TMemo
+          Align = Client
+          Margins.Left = 8.000000000000000000
+          Margins.Right = 8.000000000000000000
+          Size.Width = 344.000000000000000000
+          Size.Height = 300.000000000000000000
+          Size.PlatformDefault = False
+          TabOrder = 2
           Touch.InteractiveGestures = [Pan, LongTap, DoubleTap]
           DataDetectorTypes = []
-          Anchors = [akLeft, akTop, akRight, akBottom]
-          Position.X = 8.000000000000000000
-          Position.Y = 93.000000000000000000
-          Size.Width = 306.000000000000000000
-          Size.Height = 225.000000000000000000
-          Size.PlatformDefault = False
-          TabOrder = 7
-          Viewport.Width = 302.000000000000000000
-          Viewport.Height = 221.000000000000000000
-        end
-        object ClrEventBtn: TButton
-          Anchors = [akLeft, akRight, akBottom]
-          Position.X = 8.000000000000000000
-          Position.Y = 326.000000000000000000
-          Size.Width = 305.000000000000000000
-          Size.Height = 22.000000000000000000
-          Size.PlatformDefault = False
-          TabOrder = 8
-          Text = 'Clear Events'
-          OnClick = ClrEventBtnClick
         end
       end
     end
+    object InfoBtn: TButton
+      Align = Bottom
+      Margins.Top = 8.000000000000000000
+      Position.Y = 552.000000000000000000
+      Size.Width = 360.000000000000000000
+      Size.Height = 32.000000000000000000
+      Size.PlatformDefault = False
+      TabOrder = 1
+      Text = 'Open the DevTools protocol reference'
+      OnClick = InfoBtnClick
+    end
   end
-  object Splitter1: TSplitter
-    Align = Right
-    Cursor = crHSplit
-    MinSize = 100.000000000000000000
-    Position.X = 381.000000000000000000
-    Position.Y = 22.000000000000000000
-    Size.Width = 13.000000000000000000
-    Size.Height = 382.000000000000000000
-    Size.PlatformDefault = False
-  end
-  object InfoBtn: TButton
+  object AddressBar: TLayout
     Align = Top
-    Size.Width = 714.000000000000000000
-    Size.Height = 22.000000000000000000
+    Margins.Left = 24.000000000000000000
+    Margins.Right = 24.000000000000000000
+    Margins.Bottom = 8.000000000000000000
+    Position.X = 24.000000000000000000
+    Position.Y = 72.000000000000000000
+    Size.Width = 1152.000000000000000000
+    Size.Height = 32.000000000000000000
+    Size.PlatformDefault = False
+    TabOrder = 2
+    object NavBtn: TButton
+      Align = Right
+      Margins.Left = 8.000000000000000000
+      Position.X = 1072.000000000000000000
+      Size.Width = 80.000000000000000000
+      Size.Height = 32.000000000000000000
+      Size.PlatformDefault = False
+      Default = True
+      TabOrder = 1
+      Text = 'Go'
+      OnClick = NavBtnClick
+    end
+    object NavEdit: TEdit
+      Align = Client
+      Size.Width = 1064.000000000000000000
+      Size.Height = 32.000000000000000000
+      Size.PlatformDefault = False
+      TabOrder = 0
+      Touch.InteractiveGestures = [LongTap, DoubleTap]
+      Text = 'https://www.google.com'
+    end
+  end
+  object TMSFNCEdgeWebBrowser1: TTMSFNCEdgeWebBrowser
+    Align = Client
+    Margins.Left = 16.000000000000000000
+    Margins.Right = 24.000000000000000000
+    Margins.Bottom = 24.000000000000000000
+    Size.Width = 776.000000000000000000
+    Size.Height = 584.000000000000000000
     Size.PlatformDefault = False
     TabOrder = 3
-    Text = 'DevTools Information'
-    OnClick = InfoBtnClick
+    URL = 'https://www.google.com'
+    Settings.EnableContextMenu = True
+    Settings.EnableShowDebugConsole = True
+    Settings.EnableAcceleratorKeys = True
+    Settings.UsePopupMenuAsContextMenu = False
+    OnDevToolsMethodCompleted = TMSFNCEdgeWebBrowser1DevToolsMethodCompleted
+    OnDevToolsSubscribedEvent = TMSFNCEdgeWebBrowser1DevToolsSubscribedEvent
+    OnGetConsoleMessage = TMSFNCEdgeWebBrowser1GetConsoleMessage
+  end
+  object ThemeManager: TTMSFNCThemeManager
+    Theme = 'Fluent Light'
+    Left = 8
+    Top = 8
   end
 end

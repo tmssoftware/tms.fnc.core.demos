@@ -1,13 +1,13 @@
 object Form3: TForm3
   Left = 0
   Top = 0
-  Caption = 'DevTools Demo'
-  ClientHeight = 664
-  ClientWidth = 1064
+  Caption = 'TMS FNC Core - Edge Web Browser DevTools'
+  ClientHeight = 720
+  ClientWidth = 1200
   Color = clBtnFace
   Font.Charset = DEFAULT_CHARSET
   Font.Color = clWindowText
-  Font.Height = -18
+  Font.Height = -12
   Font.Name = 'Segoe UI'
   Font.Style = []
   Icon.Data = {
@@ -145,339 +145,384 @@ object Form3: TForm3
     0000000000000000000000000000000000000000000000000000000000000000
     0000000000000000000000000000000000000000000000000000000000000000
     000000000000000000000000000000000000000000000000000000000000}
-  PixelsPerInch = 144
-  TextHeight = 25
-  object Splitter2: TSplitter
-    Left = 601
-    Top = 38
-    Width = 23
-    Height = 626
-    Margins.Left = 5
-    Margins.Top = 5
-    Margins.Right = 5
-    Margins.Bottom = 5
-    Align = alRight
-    MinSize = 100
-    ExplicitLeft = 612
-    ExplicitTop = 0
-    ExplicitHeight = 666
-  end
-  object Panel2: TPanel
+  Position = poScreenCenter
+  OnCreate = FormCreate
+  OnDestroy = FormDestroy
+  PixelsPerInch = 96
+  TextHeight = 15
+  object DemoHeader: TPanel
     Left = 0
-    Top = 38
-    Width = 601
-    Height = 626
-    Margins.Left = 5
-    Margins.Top = 5
-    Margins.Right = 5
-    Margins.Bottom = 5
-    Align = alClient
-    Caption = 'Panel2'
+    Top = 0
+    Width = 1200
+    Height = 72
+    Align = alTop
+    BevelOuter = bvNone
+    ParentColor = True
+    ShowCaption = False
     TabOrder = 0
-    ExplicitWidth = 591
-    ExplicitHeight = 624
-    DesignSize = (
-      601
-      626)
-    object Button2: TButton
-      Left = 10
-      Top = 10
-      Width = 99
-      Height = 39
-      Margins.Left = 5
-      Margins.Top = 5
-      Margins.Right = 5
-      Margins.Bottom = 5
-      Caption = 'Navigate'
+    object DemoTitle: TLabel
+      Left = 24
+      Top = 12
+      Width = 986
+      Height = 30
+      Anchors = [akLeft, akTop, akRight]
+      AutoSize = False
+      Caption = 'DevTools protocol'
+      Font.Charset = DEFAULT_CHARSET
+      Font.Color = clWindowText
+      Font.Height = -20
+      Font.Name = 'Segoe UI Semibold'
+      Font.Style = []
+      ParentFont = False
+    end
+    object DemoDescription: TLabel
+      Left = 24
+      Top = 44
+      Width = 1152
+      Height = 20
+      Anchors = [akLeft, akTop, akRight]
+      AutoSize = False
+      Caption = 'Read the console log of the page, call Chrome DevTools protocol methods and subscribe to protocol events'
+    end
+    object DemoThemeCombo: TComboBox
+      Left = 1026
+      Top = 16
+      Width = 150
+      Height = 23
+      Style = csDropDownList
+      Anchors = [akTop, akRight]
+      ItemIndex = 0
       TabOrder = 0
+      Text = 'Fluent Light'
+      OnChange = DemoThemeComboChange
+      Items.Strings = (
+        'Fluent Light'
+        'Fluent Dark')
+    end
+  end
+  object SettingsPanel: TPanel
+    AlignWithMargins = True
+    Left = 24
+    Top = 112
+    Width = 360
+    Height = 584
+    Margins.Left = 24
+    Margins.Top = 0
+    Margins.Right = 0
+    Margins.Bottom = 24
+    Align = alLeft
+    BevelOuter = bvNone
+    ParentColor = True
+    ShowCaption = False
+    TabOrder = 1
+    object PageControl1: TPageControl
+      Left = 0
+      Top = 0
+      Width = 360
+      Height = 544
+      ActivePage = TabSheet1
+      Align = alClient
+      TabOrder = 0
+      object TabSheet1: TTabSheet
+        BorderWidth = 8
+        Caption = 'Console log'
+        object Label5: TLabel
+          AlignWithMargins = True
+          Left = 0
+          Top = 0
+          Width = 336
+          Height = 20
+          Margins.Left = 0
+          Margins.Top = 0
+          Margins.Right = 0
+          Margins.Bottom = 4
+          Align = alTop
+          AutoSize = False
+          Caption = 'Console messages of the page'
+        end
+        object ClrLogBtn: TButton
+          AlignWithMargins = True
+          Left = 0
+          Top = 474
+          Width = 336
+          Height = 32
+          Margins.Left = 0
+          Margins.Top = 8
+          Margins.Right = 0
+          Margins.Bottom = 0
+          Align = alBottom
+          Caption = 'Clear the log'
+          TabOrder = 1
+          OnClick = ClrLogBtnClick
+        end
+        object LoggingMemo: TMemo
+          Left = 0
+          Top = 24
+          Width = 336
+          Height = 442
+          Align = alClient
+          TabOrder = 0
+        end
+      end
+      object TabSheet2: TTabSheet
+        BorderWidth = 8
+        Caption = 'Methods'
+        ImageIndex = 1
+        object Label2: TLabel
+          AlignWithMargins = True
+          Left = 0
+          Top = 0
+          Width = 336
+          Height = 20
+          Margins.Left = 0
+          Margins.Top = 0
+          Margins.Right = 0
+          Margins.Bottom = 4
+          Align = alTop
+          AutoSize = False
+          Caption = 'Method name'
+        end
+        object MethodEdit: TEdit
+          AlignWithMargins = True
+          Left = 0
+          Top = 24
+          Width = 336
+          Height = 23
+          Margins.Left = 0
+          Margins.Top = 0
+          Margins.Right = 0
+          Margins.Bottom = 8
+          Align = alTop
+          TabOrder = 0
+          Text = 'Browser.getVersion'
+        end
+        object Label3: TLabel
+          AlignWithMargins = True
+          Left = 0
+          Top = 55
+          Width = 336
+          Height = 20
+          Margins.Left = 0
+          Margins.Top = 0
+          Margins.Right = 0
+          Margins.Bottom = 4
+          Align = alTop
+          AutoSize = False
+          Caption = 'JSON parameters'
+        end
+        object MethodParamMemo: TMemo
+          AlignWithMargins = True
+          Left = 0
+          Top = 79
+          Width = 336
+          Height = 80
+          Margins.Left = 0
+          Margins.Top = 0
+          Margins.Right = 0
+          Margins.Bottom = 8
+          Align = alTop
+          TabOrder = 1
+        end
+        object ExeMethodBtn: TButton
+          AlignWithMargins = True
+          Left = 0
+          Top = 167
+          Width = 336
+          Height = 32
+          Margins.Left = 0
+          Margins.Top = 0
+          Margins.Right = 0
+          Margins.Bottom = 16
+          Align = alTop
+          Caption = 'Call the method'
+          TabOrder = 2
+          OnClick = ExeMethodBtnClick
+        end
+        object Label4: TLabel
+          AlignWithMargins = True
+          Left = 0
+          Top = 215
+          Width = 336
+          Height = 20
+          Margins.Left = 0
+          Margins.Top = 0
+          Margins.Right = 0
+          Margins.Bottom = 4
+          Align = alTop
+          AutoSize = False
+          Caption = 'JSON response'
+        end
+        object MethodResponseMemo: TMemo
+          Left = 0
+          Top = 240
+          Width = 336
+          Height = 266
+          Align = alClient
+          TabOrder = 3
+          Lines.Strings = (
+            'Memo1')
+        end
+      end
+      object TabSheet3: TTabSheet
+        BorderWidth = 8
+        Caption = 'Events'
+        ImageIndex = 2
+        object Label1: TLabel
+          AlignWithMargins = True
+          Left = 0
+          Top = 0
+          Width = 336
+          Height = 20
+          Margins.Left = 0
+          Margins.Top = 0
+          Margins.Right = 0
+          Margins.Bottom = 4
+          Align = alTop
+          AutoSize = False
+          Caption = 'Event name'
+        end
+        object SubscribeEdit: TEdit
+          AlignWithMargins = True
+          Left = 0
+          Top = 24
+          Width = 336
+          Height = 23
+          Margins.Left = 0
+          Margins.Top = 0
+          Margins.Right = 0
+          Margins.Bottom = 8
+          Align = alTop
+          TabOrder = 0
+          Text = 'Network.dataReceived'
+        end
+        object SubscribeBtn: TButton
+          AlignWithMargins = True
+          Left = 0
+          Top = 55
+          Width = 336
+          Height = 32
+          Margins.Left = 0
+          Margins.Top = 0
+          Margins.Right = 0
+          Margins.Bottom = 16
+          Align = alTop
+          Caption = 'Subscribe to the event'
+          TabOrder = 1
+          OnClick = SubscribeBtnClick
+        end
+        object ClrEventBtn: TButton
+          AlignWithMargins = True
+          Left = 0
+          Top = 474
+          Width = 336
+          Height = 32
+          Margins.Left = 0
+          Margins.Top = 8
+          Margins.Right = 0
+          Margins.Bottom = 0
+          Align = alBottom
+          Caption = 'Clear the events'
+          TabOrder = 3
+          OnClick = ClrEventBtnClick
+        end
+        object EventMemo: TMemo
+          Left = 0
+          Top = 103
+          Width = 336
+          Height = 363
+          Align = alClient
+          TabOrder = 2
+        end
+      end
+    end
+    object InfoBtn: TButton
+      AlignWithMargins = True
+      Left = 0
+      Top = 552
+      Width = 360
+      Height = 32
+      Margins.Left = 0
+      Margins.Top = 8
+      Margins.Right = 0
+      Margins.Bottom = 0
+      Align = alBottom
+      Caption = 'Open the DevTools protocol reference'
+      TabOrder = 1
+      OnClick = InfoBtnClick
+    end
+  end
+  object AddressBar: TPanel
+    AlignWithMargins = True
+    Left = 24
+    Top = 72
+    Width = 1152
+    Height = 32
+    Margins.Left = 24
+    Margins.Top = 0
+    Margins.Right = 24
+    Margins.Bottom = 8
+    Align = alTop
+    BevelOuter = bvNone
+    ParentColor = True
+    ShowCaption = False
+    TabOrder = 2
+    object Button2: TButton
+      AlignWithMargins = True
+      Left = 1072
+      Top = 0
+      Width = 80
+      Height = 32
+      Margins.Left = 8
+      Margins.Top = 0
+      Margins.Right = 0
+      Margins.Bottom = 0
+      Align = alRight
+      Caption = 'Go'
+      Default = True
+      TabOrder = 1
       OnClick = Button2Click
     end
     object NavEdit: TEdit
-      Left = 119
-      Top = 13
-      Width = 472
-      Height = 33
-      Margins.Left = 5
-      Margins.Top = 5
-      Margins.Right = 5
-      Margins.Bottom = 5
-      Anchors = [akLeft, akTop, akRight]
-      TabOrder = 1
+      AlignWithMargins = True
+      Left = 0
+      Top = 4
+      Width = 1064
+      Height = 23
+      Margins.Left = 0
+      Margins.Top = 4
+      Margins.Right = 0
+      Margins.Bottom = 4
+      Align = alClient
+      TabOrder = 0
       Text = 'https://www.google.com'
-      ExplicitWidth = 462
-    end
-    object TMSFNCEdgeWebBrowser1: TTMSFNCEdgeWebBrowser
-      Left = 10
-      Top = 56
-      Width = 581
-      Height = 557
-      Margins.Left = 5
-      Margins.Top = 5
-      Margins.Right = 5
-      Margins.Bottom = 5
-      ParentDoubleBuffered = False
-      Anchors = [akLeft, akTop, akRight, akBottom]
-      DoubleBuffered = True
-      TabOrder = 2
-      URL = 'https://www.google.com'
-      Settings.EnableContextMenu = True
-      Settings.EnableShowDebugConsole = True
-      Settings.EnableAcceleratorKeys = True
-      Settings.UsePopupMenuAsContextMenu = False
-      OnDevToolsMethodCompleted = TMSFNCEdgeWebBrowser1DevToolsMethodCompleted
-      OnDevToolsSubscribedEvent = TMSFNCEdgeWebBrowser1DevToolsSubscribedEvent
-      OnGetConsoleMessage = TMSFNCEdgeWebBrowser1GetConsoleMessage
-      ExplicitWidth = 571
-      ExplicitHeight = 555
     end
   end
-  object InfoBtn: TButton
-    Left = 0
-    Top = 0
-    Width = 1064
-    Height = 38
-    Margins.Left = 5
-    Margins.Top = 5
-    Margins.Right = 5
-    Margins.Bottom = 5
-    Align = alTop
-    Caption = 'DevTools Information'
-    TabOrder = 1
-    OnClick = InfoBtnClick
-    ExplicitWidth = 1054
+  object TMSFNCEdgeWebBrowser1: TTMSFNCEdgeWebBrowser
+    AlignWithMargins = True
+    Left = 400
+    Top = 112
+    Width = 776
+    Height = 584
+    Margins.Left = 16
+    Margins.Top = 0
+    Margins.Right = 24
+    Margins.Bottom = 24
+    Align = alClient
+    TabOrder = 3
+    ParentDoubleBuffered = False
+    DoubleBuffered = True
+    URL = 'https://www.google.com'
+    Settings.EnableContextMenu = True
+    Settings.EnableShowDebugConsole = True
+    Settings.EnableAcceleratorKeys = True
+    Settings.UsePopupMenuAsContextMenu = False
+    OnDevToolsMethodCompleted = TMSFNCEdgeWebBrowser1DevToolsMethodCompleted
+    OnDevToolsSubscribedEvent = TMSFNCEdgeWebBrowser1DevToolsSubscribedEvent
+    OnGetConsoleMessage = TMSFNCEdgeWebBrowser1GetConsoleMessage
   end
-  object PageControl1: TPageControl
-    Left = 624
-    Top = 38
-    Width = 440
-    Height = 626
-    Margins.Left = 5
-    Margins.Top = 5
-    Margins.Right = 5
-    Margins.Bottom = 5
-    ActivePage = TabSheet1
-    Align = alRight
-    TabOrder = 2
-    ExplicitLeft = 614
-    ExplicitHeight = 624
-    object TabSheet1: TTabSheet
-      Margins.Left = 5
-      Margins.Top = 5
-      Margins.Right = 5
-      Margins.Bottom = 5
-      Caption = 'Default Logging'
-      DesignSize = (
-        432
-        586)
-      object Label5: TLabel
-        Left = 6
-        Top = 5
-        Width = 125
-        Height = 25
-        Margins.Left = 5
-        Margins.Top = 5
-        Margins.Right = 5
-        Margins.Bottom = 5
-        Caption = 'Console entries:'
-      end
-      object LoggingMemo: TMemo
-        Left = 6
-        Top = 36
-        Width = 421
-        Height = 497
-        Margins.Left = 5
-        Margins.Top = 5
-        Margins.Right = 5
-        Margins.Bottom = 5
-        Anchors = [akLeft, akTop, akRight, akBottom]
-        TabOrder = 0
-        ExplicitHeight = 495
-      end
-      object ClrLogBtn: TButton
-        Left = 6
-        Top = 543
-        Width = 421
-        Height = 38
-        Margins.Left = 5
-        Margins.Top = 5
-        Margins.Right = 5
-        Margins.Bottom = 5
-        Anchors = [akLeft, akRight, akBottom]
-        Caption = 'Clear Logging'
-        TabOrder = 1
-        OnClick = ClrLogBtnClick
-        ExplicitTop = 541
-      end
-    end
-    object TabSheet2: TTabSheet
-      Margins.Left = 5
-      Margins.Top = 5
-      Margins.Right = 5
-      Margins.Bottom = 5
-      Caption = 'DevTool Methods'
-      ImageIndex = 1
-      DesignSize = (
-        432
-        586)
-      object Label2: TLabel
-        Left = 6
-        Top = 5
-        Width = 119
-        Height = 25
-        Margins.Left = 5
-        Margins.Top = 5
-        Margins.Right = 5
-        Margins.Bottom = 5
-        Caption = 'Method Name:'
-      end
-      object Label3: TLabel
-        Left = 6
-        Top = 83
-        Width = 139
-        Height = 25
-        Margins.Left = 5
-        Margins.Top = 5
-        Margins.Right = 5
-        Margins.Bottom = 5
-        Caption = 'JSON Parameters:'
-      end
-      object Label4: TLabel
-        Left = 10
-        Top = 299
-        Width = 148
-        Height = 25
-        Margins.Left = 5
-        Margins.Top = 5
-        Margins.Right = 5
-        Margins.Bottom = 5
-        Caption = 'Method Response:'
-      end
-      object MethodEdit: TEdit
-        Left = 6
-        Top = 40
-        Width = 418
-        Height = 33
-        Margins.Left = 5
-        Margins.Top = 5
-        Margins.Right = 5
-        Margins.Bottom = 5
-        TabOrder = 0
-        Text = 'Browser.getVersion'
-      end
-      object MethodParamMemo: TMemo
-        Left = 6
-        Top = 118
-        Width = 418
-        Height = 134
-        Margins.Left = 5
-        Margins.Top = 5
-        Margins.Right = 5
-        Margins.Bottom = 5
-        TabOrder = 1
-      end
-      object MethodResponseMemo: TMemo
-        Left = 6
-        Top = 334
-        Width = 418
-        Height = 236
-        Margins.Left = 5
-        Margins.Top = 5
-        Margins.Right = 5
-        Margins.Bottom = 5
-        Anchors = [akLeft, akTop, akRight, akBottom]
-        Lines.Strings = (
-          'Memo1')
-        TabOrder = 2
-      end
-      object ExeMethodBtn: TButton
-        Left = 252
-        Top = 262
-        Width = 175
-        Height = 38
-        Margins.Left = 5
-        Margins.Top = 5
-        Margins.Right = 5
-        Margins.Bottom = 5
-        Anchors = [akTop, akRight]
-        Caption = 'Execute'
-        TabOrder = 3
-        OnClick = ExeMethodBtnClick
-      end
-    end
-    object TabSheet3: TTabSheet
-      Margins.Left = 5
-      Margins.Top = 5
-      Margins.Right = 5
-      Margins.Bottom = 5
-      Caption = 'DevTool Events'
-      ImageIndex = 2
-      DesignSize = (
-        432
-        586)
-      object Label1: TLabel
-        Left = 6
-        Top = 5
-        Width = 99
-        Height = 25
-        Margins.Left = 5
-        Margins.Top = 5
-        Margins.Right = 5
-        Margins.Bottom = 5
-        Caption = 'Event Name:'
-      end
-      object SubscribeEdit: TEdit
-        Left = 6
-        Top = 40
-        Width = 414
-        Height = 33
-        Margins.Left = 5
-        Margins.Top = 5
-        Margins.Right = 5
-        Margins.Bottom = 5
-        Anchors = [akLeft, akTop, akRight]
-        TabOrder = 0
-        Text = 'Network.dataReceived'
-      end
-      object SubscribeBtn: TButton
-        Left = 276
-        Top = 83
-        Width = 145
-        Height = 38
-        Margins.Left = 5
-        Margins.Top = 5
-        Margins.Right = 5
-        Margins.Bottom = 5
-        Anchors = [akTop, akRight]
-        Caption = 'Subscribe'
-        TabOrder = 1
-        OnClick = SubscribeBtnClick
-      end
-      object EventMemo: TMemo
-        Left = 6
-        Top = 131
-        Width = 415
-        Height = 402
-        Margins.Left = 5
-        Margins.Top = 5
-        Margins.Right = 5
-        Margins.Bottom = 5
-        Anchors = [akLeft, akTop, akRight, akBottom]
-        TabOrder = 2
-      end
-      object ClrEventBtn: TButton
-        Left = 6
-        Top = 543
-        Width = 415
-        Height = 38
-        Margins.Left = 5
-        Margins.Top = 5
-        Margins.Right = 5
-        Margins.Bottom = 5
-        Anchors = [akLeft, akRight, akBottom]
-        Caption = 'Execute'
-        TabOrder = 3
-        OnClick = ClrEventBtnClick
-      end
-    end
+  object ThemeManager: TTMSFNCThemeManager
+    Theme = 'Fluent Light'
+    Left = 8
+    Top = 8
   end
 end

@@ -1,14 +1,14 @@
 object Form3: TForm3
   Left = 0
   Top = 0
-  Caption = 'TMSFNCCloudBase Demo'
-  ClientHeight = 577
-  ClientWidth = 326
+  Caption = 'TMS FNC Core - Cloud Base'
+  ClientHeight = 600
+  ClientWidth = 900
   Color = clBtnFace
   Font.Charset = DEFAULT_CHARSET
   Font.Color = clWindowText
-  Font.Height = -11
-  Font.Name = 'Tahoma'
+  Font.Height = -12
+  Font.Name = 'Segoe UI'
   Font.Style = []
   Icon.Data = {
     0000010001002020000001002000A81000001600000028000000200000004000
@@ -147,62 +147,174 @@ object Form3: TForm3
     000000000000000000000000000000000000000000000000000000000000}
   OldCreateOrder = False
   Position = poScreenCenter
+  OnCreate = FormCreate
   OnDestroy = FormDestroy
-  DesignSize = (
-    326
-    577)
   PixelsPerInch = 96
-  TextHeight = 13
-  object Image1: TImage
-    Left = 8
-    Top = 423
-    Width = 105
-    Height = 146
-    Anchors = [akLeft, akBottom]
-    Center = True
-    Stretch = True
-  end
-  object Label1: TLabel
-    Left = 128
-    Top = 423
-    Width = 190
-    Height = 146
-    Anchors = [akLeft, akRight, akBottom]
-    AutoSize = False
-    Caption = 
-      'Search for the show you want. TMSFNCCloudBase will send a messag' +
-      'e to the API and will retrieve a list of shows. Once you select ' +
-      'one of them a simple GET request will be send with the same TMSF' +
-      'NCCloudBase to retrieve the image of the show.'
-    WordWrap = True
-  end
-  object Edit1: TEdit
-    Left = 8
-    Top = 8
-    Width = 217
-    Height = 21
-    Anchors = [akLeft, akTop, akRight]
+  TextHeight = 15
+  object DemoHeader: TPanel
+    Left = 0
+    Top = 0
+    Width = 900
+    Height = 72
+    Align = alTop
+    BevelOuter = bvNone
+    ParentColor = True
+    ShowCaption = False
     TabOrder = 0
-    Text = 'CSI'
+    object DemoTitle: TLabel
+      Left = 24
+      Top = 12
+      Width = 686
+      Height = 30
+      Anchors = [akLeft, akTop, akRight]
+      AutoSize = False
+      Caption = 'REST requests'
+      Font.Charset = DEFAULT_CHARSET
+      Font.Color = clWindowText
+      Font.Height = -20
+      Font.Name = 'Segoe UI Semibold'
+      Font.Style = []
+      ParentFont = False
+    end
+    object DemoDescription: TLabel
+      Left = 24
+      Top = 44
+      Width = 852
+      Height = 20
+      Anchors = [akLeft, akTop, akRight]
+      AutoSize = False
+      Caption = 'Searches the TVmaze API with TTMSFNCCloudBase; select a show to download its poster'
+    end
+    object DemoThemeCombo: TComboBox
+      Left = 726
+      Top = 16
+      Width = 150
+      Height = 23
+      Style = csDropDownList
+      Anchors = [akTop, akRight]
+      ItemIndex = 0
+      TabOrder = 0
+      Text = 'Fluent Light'
+      OnChange = DemoThemeComboChange
+      Items.Strings = (
+        'Fluent Light'
+        'Fluent Dark')
+    end
   end
-  object Button1: TButton
-    Left = 234
-    Top = 6
-    Width = 84
-    Height = 25
-    Anchors = [akTop, akRight]
-    Caption = 'Search Show'
+  object SettingsPanel: TPanel
+    AlignWithMargins = True
+    Left = 24
+    Top = 72
+    Width = 260
+    Height = 504
+    Margins.Left = 24
+    Margins.Top = 0
+    Margins.Right = 0
+    Margins.Bottom = 24
+    Align = alLeft
+    BevelOuter = bvNone
+    ParentColor = True
+    ShowCaption = False
     TabOrder = 1
-    OnClick = Button1Click
+    object SearchCaption: TLabel
+      AlignWithMargins = True
+      Left = 0
+      Top = 0
+      Width = 260
+      Height = 20
+      Margins.Left = 0
+      Margins.Top = 0
+      Margins.Right = 0
+      Margins.Bottom = 8
+      Align = alTop
+      AutoSize = False
+      Caption = 'Search'
+      Font.Charset = DEFAULT_CHARSET
+      Font.Color = clWindowText
+      Font.Height = -13
+      Font.Name = 'Segoe UI Semibold'
+      Font.Style = []
+      ParentFont = False
+    end
+    object Edit1: TEdit
+      AlignWithMargins = True
+      Left = 0
+      Top = 28
+      Width = 260
+      Height = 23
+      Margins.Left = 0
+      Margins.Top = 0
+      Margins.Right = 0
+      Margins.Bottom = 8
+      Align = alTop
+      TabOrder = 0
+      Text = 'CSI'
+    end
+    object Button1: TButton
+      AlignWithMargins = True
+      Left = 0
+      Top = 59
+      Width = 260
+      Height = 32
+      Margins.Left = 0
+      Margins.Top = 0
+      Margins.Right = 0
+      Margins.Bottom = 16
+      Align = alTop
+      Caption = 'Search shows'
+      Default = True
+      TabOrder = 1
+      OnClick = Button1Click
+    end
+    object Label1: TLabel
+      AlignWithMargins = True
+      Left = 0
+      Top = 107
+      Width = 260
+      Height = 140
+      Margins.Left = 0
+      Margins.Top = 0
+      Margins.Right = 0
+      Margins.Bottom = 0
+      Align = alTop
+      Caption = 'TTMSFNCCloudBase sends the search to the TVmaze REST API and parses the JSON list of shows. Selecting a show sends a second GET request with the same component, this time for the poster image as a stream.'
+      AutoSize = False
+      WordWrap = True
+    end
   end
   object ListBox1: TListBox
-    Left = 8
-    Top = 35
-    Width = 310
-    Height = 382
-    Anchors = [akLeft, akTop, akRight, akBottom]
-    ItemHeight = 13
+    AlignWithMargins = True
+    Left = 300
+    Top = 72
+    Width = 300
+    Height = 504
+    Margins.Left = 16
+    Margins.Top = 0
+    Margins.Right = 0
+    Margins.Bottom = 24
+    Align = alClient
+    ItemHeight = 15
     TabOrder = 2
     OnClick = ListBox1Click
+  end
+  object Image1: TImage
+    AlignWithMargins = True
+    Left = 596
+    Top = 72
+    Width = 280
+    Height = 504
+    Margins.Left = 16
+    Margins.Top = 0
+    Margins.Right = 24
+    Margins.Bottom = 24
+    Align = alRight
+    Proportional = True
+    Stretch = True
+    Center = True
+  end
+  object ThemeManager: TTMSFNCThemeManager
+    Theme = 'Fluent Light'
+    Left = 8
+    Top = 8
   end
 end

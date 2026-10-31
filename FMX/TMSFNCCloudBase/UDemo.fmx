@@ -1,46 +1,126 @@
 object Form3: TForm3
-  Left = 3400
-  Top = 1000
-  Caption = 'TMSFNCCloudBase Demo'
-  ClientHeight = 522
-  ClientWidth = 354
+  Left = 0
+  Top = 0
+  Caption = 'TMS FNC Core - Cloud Base'
+  ClientHeight = 600
+  ClientWidth = 900
   Position = ScreenCenter
   FormFactor.Width = 320
   FormFactor.Height = 480
   FormFactor.Devices = [Desktop]
   OnCreate = FormCreate
   OnDestroy = FormDestroy
-  Left = 3400
-  Top = 1000
   DesignerMasterStyle = 0
-  object Edit1: TEdit
-    Touch.InteractiveGestures = [LongTap, DoubleTap]
-    Anchors = [akLeft, akTop, akRight]
-    TabOrder = 1
-    Text = 'CSI'
-    Position.X = 8.000000000000000000
-    Position.Y = 8.000000000000000000
-    Size.Width = 225.000000000000000000
-    Size.Height = 22.000000000000000000
+  object DemoHeader: TLayout
+    Align = Top
+    Size.Width = 900.000000000000000000
+    Size.Height = 72.000000000000000000
     Size.PlatformDefault = False
+    TabOrder = 0
+    object DemoTitle: TLabel
+      Anchors = [akLeft, akTop, akRight]
+      StyledSettings = [Family]
+      Position.X = 24.000000000000000000
+      Position.Y = 12.000000000000000000
+      Size.Width = 686.000000000000000000
+      Size.Height = 30.000000000000000000
+      Size.PlatformDefault = False
+      TextSettings.Font.Size = 20.000000000000000000
+      TextSettings.Font.StyleExt = {00060000000000000004000000}
+      Text = 'REST requests'
+    end
+    object DemoDescription: TLabel
+      Anchors = [akLeft, akTop, akRight]
+      StyledSettings = [Family, Style]
+      Position.X = 24.000000000000000000
+      Position.Y = 44.000000000000000000
+      Size.Width = 852.000000000000000000
+      Size.Height = 20.000000000000000000
+      Size.PlatformDefault = False
+      TextSettings.Font.Size = 13.000000000000000000
+      Text = 'Searches the TVmaze API with TTMSFNCCloudBase; select a show to download its poster'
+    end
+    object DemoThemeCombo: TComboBox
+      Anchors = [akTop, akRight]
+      Items.Strings = (
+        'Fluent Light'
+        'Fluent Dark')
+      ItemIndex = 0
+      Position.X = 726.000000000000000000
+      Position.Y = 10.000000000000000000
+      Size.Width = 150.000000000000000000
+      Size.Height = 32.000000000000000000
+      Size.PlatformDefault = False
+      TabOrder = 2
+      OnChange = DemoThemeComboChange
+    end
   end
-  object Button1: TButton
-    Anchors = [akTop, akRight]
-    Position.X = 248.000000000000000000
-    Position.Y = 8.000000000000000000
-    Size.Width = 96.000000000000000000
-    Size.Height = 22.000000000000000000
+  object SettingsPanel: TLayout
+    Align = Left
+    Margins.Left = 24.000000000000000000
+    Margins.Bottom = 24.000000000000000000
+    Position.X = 24.000000000000000000
+    Position.Y = 72.000000000000000000
+    Size.Width = 260.000000000000000000
+    Size.Height = 504.000000000000000000
     Size.PlatformDefault = False
-    TabOrder = 2
-    Text = 'Search Show'
-    OnClick = Button1Click
+    TabOrder = 1
+    object SearchCaption: TLabel
+      Align = Top
+      StyledSettings = [Family]
+      Margins.Bottom = 8.000000000000000000
+      Size.Width = 260.000000000000000000
+      Size.Height = 24.000000000000000000
+      Size.PlatformDefault = False
+      TextSettings.Font.Size = 13.000000000000000000
+      TextSettings.Font.StyleExt = {00060000000000000004000000}
+      Text = 'Search'
+    end
+    object Edit1: TEdit
+      Align = Top
+      Margins.Bottom = 8.000000000000000000
+      Position.Y = 32.000000000000000000
+      Size.Width = 260.000000000000000000
+      Size.Height = 32.000000000000000000
+      Size.PlatformDefault = False
+      Touch.InteractiveGestures = [LongTap, DoubleTap]
+      TabOrder = 1
+      Text = 'CSI'
+    end
+    object Button1: TButton
+      Align = Top
+      Margins.Bottom = 16.000000000000000000
+      Position.Y = 72.000000000000000000
+      Size.Width = 260.000000000000000000
+      Size.Height = 36.000000000000000000
+      Size.PlatformDefault = False
+      Default = True
+      Text = 'Search shows'
+      TabOrder = 2
+      OnClick = Button1Click
+    end
+    object Label1: TLabel
+      Align = Top
+      StyledSettings = [Family, Style]
+      Position.Y = 124.000000000000000000
+      Size.Width = 260.000000000000000000
+      Size.Height = 160.000000000000000000
+      Size.PlatformDefault = False
+      TextSettings.Font.Size = 13.000000000000000000
+      TextSettings.WordWrap = True
+      TextSettings.VertAlign = Leading
+      Text = 'TTMSFNCCloudBase sends the search to the TVmaze REST API and parses the JSON list of shows. Selecting a show sends a second GET request with the same component, this time for the poster image as a stream.'
+      TabOrder = 6
+    end
   end
   object ListBox1: TListBox
-    Anchors = [akLeft, akTop, akRight, akBottom]
-    Position.X = 8.000000000000000000
-    Position.Y = 40.000000000000000000
-    Size.Width = 337.000000000000000000
-    Size.Height = 337.000000000000000000
+    Align = Client
+    Margins.Left = 16.000000000000000000
+    Margins.Bottom = 24.000000000000000000
+    Position.X = 300.000000000000000000
+    Position.Y = 72.000000000000000000
+    Size.Width = 300.000000000000000000
+    Size.Height = 504.000000000000000000
     Size.PlatformDefault = False
     TabOrder = 3
     CanFocus = False
@@ -49,32 +129,25 @@ object Form3: TForm3
     DefaultItemStyles.GroupHeaderStyle = ''
     DefaultItemStyles.GroupFooterStyle = ''
     OnItemClick = ListBox1ItemClick
-    Viewport.Width = 333.000000000000000000
-    Viewport.Height = 333.000000000000000000
   end
   object Image1: TImage
+    Align = Right
+    Margins.Left = 16.000000000000000000
+    Margins.Right = 24.000000000000000000
+    Margins.Bottom = 24.000000000000000000
+    Position.X = 596.000000000000000000
+    Position.Y = 72.000000000000000000
+    Size.Width = 280.000000000000000000
+    Size.Height = 504.000000000000000000
+    Size.PlatformDefault = False
+    WrapMode = Fit
     MultiResBitmap = <
       item
       end>
-    Anchors = [akLeft, akBottom]
-    Position.X = 8.000000000000000000
-    Position.Y = 384.000000000000000000
-    Size.Width = 129.000000000000000000
-    Size.Height = 129.000000000000000000
-    Size.PlatformDefault = False
   end
-  object Label1: TLabel
-    Anchors = [akLeft, akRight, akBottom]
-    Position.X = 152.000000000000000000
-    Position.Y = 384.000000000000000000
-    Size.Width = 193.000000000000000000
-    Size.Height = 129.000000000000000000
-    Size.PlatformDefault = False
-    Text = 
-      'Search for the show you want. TMSFNCCloudBase will send a messag' +
-      'e to the API and will retrieve a list of shows. Once you select ' +
-      'one of them a simple GET request will be send with the same TMSF' +
-      'NCCloudBase to retrieve the image of the show.'
-    TabOrder = 6
+  object ThemeManager: TTMSFNCThemeManager
+    Theme = 'Fluent Light'
+    Left = 8
+    Top = 8
   end
 end

@@ -1,8 +1,8 @@
 object Form20: TForm20
   Left = 0
   Top = 0
-  Caption = 'TMS FNC Responsive Manager Demo'
-  ClientHeight = 627
+  Caption = 'TMS FNC Core - Responsive manager'
+  ClientHeight = 717
   ClientWidth = 649
   Color = clBtnFace
   Font.Charset = DEFAULT_CHARSET
@@ -12,6 +12,58 @@ object Form20: TForm20
   Font.Style = []
   PixelsPerInch = 120
   TextHeight = 20
+  OnCreate = FormCreate
+  OnDestroy = FormDestroy
+  object DemoHeader: TPanel
+    Left = 0
+    Top = 0
+    Width = 649
+    Height = 90
+    Align = alTop
+    BevelOuter = bvNone
+    ParentColor = True
+    ShowCaption = False
+    TabOrder = 0
+    object DemoTitle: TLabel
+      Left = 30
+      Top = 15
+      Width = 381
+      Height = 38
+      Anchors = [akLeft, akTop, akRight]
+      AutoSize = False
+      Caption = 'Responsive manager'
+      Font.Charset = DEFAULT_CHARSET
+      Font.Color = clWindowText
+      Font.Height = -25
+      Font.Name = 'Segoe UI Semibold'
+      Font.Style = []
+      ParentFont = False
+    end
+    object DemoDescription: TLabel
+      Left = 30
+      Top = 55
+      Width = 589
+      Height = 25
+      Anchors = [akLeft, akTop, akRight]
+      AutoSize = False
+      Caption = 'Resize the window: the manager switches between three saved layouts of the controls'
+    end
+    object DemoThemeCombo: TComboBox
+      Left = 431
+      Top = 20
+      Width = 188
+      Height = 29
+      Style = csDropDownList
+      Anchors = [akTop, akRight]
+      ItemIndex = 0
+      TabOrder = 2
+      Text = 'Fluent Light'
+      OnChange = DemoThemeComboChange
+      Items.Strings = (
+        'Fluent Light'
+        'Fluent Dark')
+    end
+  end
   object Memo1: TMemo
     Left = 0
     Top = 55
@@ -794,5 +846,10 @@ object Form20: TForm20
     Height = 32
     Left = 248
     Top = 318
+  end
+  object ThemeManager: TTMSFNCThemeManager
+    Theme = 'Fluent Light'
+    Left = 8
+    Top = 8
   end
 end

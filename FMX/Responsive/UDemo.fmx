@@ -1,14 +1,61 @@
 object Form20: TForm20
   Left = 0
   Top = 0
-  Caption = 'TMS FNC Responsive Manager Demo'
-  ClientHeight = 516
+  Caption = 'TMS FNC Core - Responsive manager'
+  ClientHeight = 588
   ClientWidth = 648
   StyleBook = StyleBook1
+  Position = ScreenCenter
   FormFactor.Width = 320
   FormFactor.Height = 480
   FormFactor.Devices = [Desktop]
+  OnCreate = FormCreate
+  OnDestroy = FormDestroy
   DesignerMasterStyle = 0
+  object DemoHeader: TLayout
+    Align = Top
+    Size.Width = 648.000000000000000000
+    Size.Height = 72.000000000000000000
+    Size.PlatformDefault = False
+    TabOrder = 0
+    object DemoTitle: TLabel
+      Anchors = [akLeft, akTop, akRight]
+      StyledSettings = [Family]
+      Position.X = 24.000000000000000000
+      Position.Y = 12.000000000000000000
+      Size.Width = 434.000000000000000000
+      Size.Height = 30.000000000000000000
+      Size.PlatformDefault = False
+      TextSettings.Font.Size = 20.000000000000000000
+      TextSettings.Font.StyleExt = {00060000000000000004000000}
+      Text = 'Responsive manager'
+    end
+    object DemoDescription: TLabel
+      Anchors = [akLeft, akTop, akRight]
+      StyledSettings = [Family, Style]
+      Position.X = 24.000000000000000000
+      Position.Y = 44.000000000000000000
+      Size.Width = 600.000000000000000000
+      Size.Height = 20.000000000000000000
+      Size.PlatformDefault = False
+      TextSettings.Font.Size = 13.000000000000000000
+      Text = 'Resize the window: the manager switches between three saved layouts of the controls'
+    end
+    object DemoThemeCombo: TComboBox
+      Anchors = [akTop, akRight]
+      Items.Strings = (
+        'Fluent Light'
+        'Fluent Dark')
+      ItemIndex = 0
+      Position.X = 474.000000000000000000
+      Position.Y = 10.000000000000000000
+      Size.Width = 150.000000000000000000
+      Size.Height = 32.000000000000000000
+      Size.PlatformDefault = False
+      TabOrder = 2
+      OnChange = DemoThemeComboChange
+    end
+  end
   object Memo1: TMemo
     Touch.InteractiveGestures = [Pan, LongTap, DoubleTap]
     DataDetectorTypes = []
@@ -934,5 +981,10 @@ object Form20: TForm20
       end>
     Left = 72
     Top = 272
+  end
+  object ThemeManager: TTMSFNCThemeManager
+    Theme = 'Fluent Light'
+    Left = 8
+    Top = 8
   end
 end

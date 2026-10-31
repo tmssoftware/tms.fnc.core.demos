@@ -1,13 +1,13 @@
 object Form2: TForm2
   Left = 0
   Top = 0
-  Caption = 'EdgeWebBrowser Context Menu'
-  ClientHeight = 631
-  ClientWidth = 1340
+  Caption = 'TMS FNC Core - Edge Web Browser Context Menu'
+  ClientHeight = 640
+  ClientWidth = 1100
   Color = clBtnFace
   Font.Charset = DEFAULT_CHARSET
   Font.Color = clWindowText
-  Font.Height = -18
+  Font.Height = -12
   Font.Name = 'Segoe UI'
   Font.Style = []
   Icon.Data = {
@@ -145,156 +145,355 @@ object Form2: TForm2
     0000000000000000000000000000000000000000000000000000000000000000
     0000000000000000000000000000000000000000000000000000000000000000
     000000000000000000000000000000000000000000000000000000000000}
-  PixelsPerInch = 144
-  DesignSize = (
-    1340
-    631)
-  TextHeight = 25
-  object Label1: TLabel
-    Left = 852
-    Top = 312
-    Width = 186
-    Height = 25
-    Margins.Left = 5
-    Margins.Top = 5
-    Margins.Right = 5
-    Margins.Bottom = 5
-    Anchors = [akTop, akRight]
-    Caption = 'Selected Custom Items:'
-  end
-  object Label2: TLabel
-    Left = 852
-    Top = 67
-    Width = 321
-    Height = 25
-    Margins.Left = 5
-    Margins.Top = 5
-    Margins.Right = 5
-    Margins.Bottom = 5
-    Caption = 'Native context menu of the webbrowser:'
-  end
-  object Label3: TLabel
-    Left = 852
-    Top = 187
-    Width = 174
-    Height = 25
-    Margins.Left = 5
-    Margins.Top = 5
-    Margins.Right = 5
-    Margins.Bottom = 5
-    Caption = 'Using a TPopupMenu:'
-  end
-  object URLEdit: TEdit
-    Left = 24
-    Top = 24
-    Width = 638
-    Height = 33
-    Margins.Left = 5
-    Margins.Top = 5
-    Margins.Right = 5
-    Margins.Bottom = 5
-    Anchors = [akLeft, akTop, akRight]
+  Position = poScreenCenter
+  OnCreate = FormCreate
+  OnDestroy = FormDestroy
+  PixelsPerInch = 96
+  TextHeight = 15
+  object DemoHeader: TPanel
+    Left = 0
+    Top = 0
+    Width = 1100
+    Height = 72
+    Align = alTop
+    BevelOuter = bvNone
+    ParentColor = True
+    ShowCaption = False
     TabOrder = 0
-    Text = 'https://www.tmssoftware.com'
-    ExplicitWidth = 628
+    object DemoTitle: TLabel
+      Left = 24
+      Top = 12
+      Width = 886
+      Height = 30
+      Anchors = [akLeft, akTop, akRight]
+      AutoSize = False
+      Caption = 'Context menu'
+      Font.Charset = DEFAULT_CHARSET
+      Font.Color = clWindowText
+      Font.Height = -20
+      Font.Name = 'Segoe UI Semibold'
+      Font.Style = []
+      ParentFont = False
+    end
+    object DemoDescription: TLabel
+      Left = 24
+      Top = 44
+      Width = 1052
+      Height = 20
+      Anchors = [akLeft, akTop, akRight]
+      AutoSize = False
+      Caption = 'Right-click the page: keep, trim or extend the native menu of the browser, or show a TPopupMenu instead'
+    end
+    object DemoThemeCombo: TComboBox
+      Left = 926
+      Top = 16
+      Width = 150
+      Height = 23
+      Style = csDropDownList
+      Anchors = [akTop, akRight]
+      ItemIndex = 0
+      TabOrder = 0
+      Text = 'Fluent Light'
+      OnChange = DemoThemeComboChange
+      Items.Strings = (
+        'Fluent Light'
+        'Fluent Dark')
+    end
   end
-  object NavigationBtn: TButton
-    Left = 672
-    Top = 24
-    Width = 113
-    Height = 33
-    Margins.Left = 5
-    Margins.Top = 5
-    Margins.Right = 5
-    Margins.Bottom = 5
-    Anchors = [akTop, akRight]
-    Caption = 'Navigate'
+  object SettingsPanel: TPanel
+    AlignWithMargins = True
+    Left = 24
+    Top = 112
+    Width = 280
+    Height = 504
+    Margins.Left = 24
+    Margins.Top = 0
+    Margins.Right = 0
+    Margins.Bottom = 24
+    Align = alLeft
+    BevelOuter = bvNone
+    ParentColor = True
+    ShowCaption = False
     TabOrder = 1
-    ExplicitLeft = 662
+    object Label2: TLabel
+      AlignWithMargins = True
+      Left = 0
+      Top = 0
+      Width = 280
+      Height = 20
+      Margins.Left = 0
+      Margins.Top = 0
+      Margins.Right = 0
+      Margins.Bottom = 8
+      Align = alTop
+      AutoSize = False
+      Caption = 'Native context menu'
+      Font.Charset = DEFAULT_CHARSET
+      Font.Color = clWindowText
+      Font.Height = -13
+      Font.Name = 'Segoe UI Semibold'
+      Font.Style = []
+      ParentFont = False
+    end
+    object NormalRadioRow: TPanel
+      AlignWithMargins = True
+      Left = 0
+      Top = 28
+      Width = 280
+      Height = 24
+      Margins.Left = 0
+      Margins.Top = 0
+      Margins.Right = 0
+      Margins.Bottom = 4
+      Align = alTop
+      BevelOuter = bvNone
+      ParentColor = True
+      ShowCaption = False
+      TabOrder = 0
+      object NormalRadio: TRadioButton
+        Left = 0
+        Top = 0
+        Width = 20
+        Height = 24
+        Align = alLeft
+        TabOrder = 0
+        Checked = True
+        TabStop = True
+        OnClick = NormalRadioClick
+      end
+      object NormalRadioLabel: TLabel
+        Left = 20
+        Top = 0
+        Width = 260
+        Height = 24
+        Align = alClient
+        AutoSize = False
+        Caption = 'Default menu of the browser'
+        FocusControl = NormalRadio
+        Layout = tlCenter
+        OnClick = OptionLabelClick
+      end
+    end
+    object CustomRadioRow: TPanel
+      AlignWithMargins = True
+      Left = 0
+      Top = 56
+      Width = 280
+      Height = 24
+      Margins.Left = 0
+      Margins.Top = 0
+      Margins.Right = 0
+      Margins.Bottom = 16
+      Align = alTop
+      BevelOuter = bvNone
+      ParentColor = True
+      ShowCaption = False
+      TabOrder = 0
+      object CustomRadio: TRadioButton
+        Left = 0
+        Top = 0
+        Width = 20
+        Height = 24
+        Align = alLeft
+        TabOrder = 0
+        OnClick = CustomRadioClick
+      end
+      object CustomRadioLabel: TLabel
+        Left = 20
+        Top = 0
+        Width = 260
+        Height = 24
+        Align = alClient
+        AutoSize = False
+        Caption = 'Only Reload, plus custom items'
+        FocusControl = CustomRadio
+        Layout = tlCenter
+        OnClick = OptionLabelClick
+      end
+    end
+    object Label3: TLabel
+      AlignWithMargins = True
+      Left = 0
+      Top = 96
+      Width = 280
+      Height = 20
+      Margins.Left = 0
+      Margins.Top = 0
+      Margins.Right = 0
+      Margins.Bottom = 8
+      Align = alTop
+      AutoSize = False
+      Caption = 'TPopupMenu'
+      Font.Charset = DEFAULT_CHARSET
+      Font.Color = clWindowText
+      Font.Height = -13
+      Font.Name = 'Segoe UI Semibold'
+      Font.Style = []
+      ParentFont = False
+    end
+    object DefaultRadioRow: TPanel
+      AlignWithMargins = True
+      Left = 0
+      Top = 124
+      Width = 280
+      Height = 24
+      Margins.Left = 0
+      Margins.Top = 0
+      Margins.Right = 0
+      Margins.Bottom = 4
+      Align = alTop
+      BevelOuter = bvNone
+      ParentColor = True
+      ShowCaption = False
+      TabOrder = 0
+      object DefaultRadio: TRadioButton
+        Left = 0
+        Top = 0
+        Width = 20
+        Height = 24
+        Align = alLeft
+        TabOrder = 0
+        OnClick = DefaultRadioClick
+      end
+      object DefaultRadioLabel: TLabel
+        Left = 20
+        Top = 0
+        Width = 260
+        Height = 24
+        Align = alClient
+        AutoSize = False
+        Caption = 'Show the popup menu'
+        FocusControl = DefaultRadio
+        Layout = tlCenter
+        OnClick = OptionLabelClick
+      end
+    end
+    object NativeRadioRow: TPanel
+      AlignWithMargins = True
+      Left = 0
+      Top = 152
+      Width = 280
+      Height = 24
+      Margins.Left = 0
+      Margins.Top = 0
+      Margins.Right = 0
+      Margins.Bottom = 16
+      Align = alTop
+      BevelOuter = bvNone
+      ParentColor = True
+      ShowCaption = False
+      TabOrder = 0
+      object NativeRadio: TRadioButton
+        Left = 0
+        Top = 0
+        Width = 20
+        Height = 24
+        Align = alLeft
+        TabOrder = 0
+        OnClick = NativeRadioClick
+      end
+      object NativeRadioLabel: TLabel
+        Left = 20
+        Top = 0
+        Width = 260
+        Height = 24
+        Align = alClient
+        AutoSize = False
+        Caption = 'Show the popup menu as a native menu'
+        FocusControl = NativeRadio
+        Layout = tlCenter
+        OnClick = OptionLabelClick
+      end
+    end
+    object Label1: TLabel
+      AlignWithMargins = True
+      Left = 0
+      Top = 192
+      Width = 280
+      Height = 20
+      Margins.Left = 0
+      Margins.Top = 0
+      Margins.Right = 0
+      Margins.Bottom = 8
+      Align = alTop
+      AutoSize = False
+      Caption = 'Selected text and custom items'
+      Font.Charset = DEFAULT_CHARSET
+      Font.Color = clWindowText
+      Font.Height = -13
+      Font.Name = 'Segoe UI Semibold'
+      Font.Style = []
+      ParentFont = False
+    end
+    object SelectedMemo: TMemo
+      Left = 0
+      Top = 200
+      Width = 280
+      Height = 304
+      Align = alClient
+      TabOrder = 4
+    end
   end
-  object SelectedMemo: TMemo
-    Left = 852
-    Top = 347
-    Width = 457
-    Height = 253
-    Margins.Left = 5
-    Margins.Top = 5
-    Margins.Right = 5
-    Margins.Bottom = 5
-    Anchors = [akTop, akRight, akBottom]
+  object AddressBar: TPanel
+    AlignWithMargins = True
+    Left = 24
+    Top = 72
+    Width = 1052
+    Height = 32
+    Margins.Left = 24
+    Margins.Top = 0
+    Margins.Right = 24
+    Margins.Bottom = 8
+    Align = alTop
+    BevelOuter = bvNone
+    ParentColor = True
+    ShowCaption = False
     TabOrder = 2
-  end
-  object NativeRadio: TRadioButton
-    Left = 876
-    Top = 258
-    Width = 433
-    Height = 26
-    Margins.Left = 5
-    Margins.Top = 5
-    Margins.Right = 5
-    Margins.Bottom = 5
-    Anchors = [akTop, akRight]
-    Caption = 'Show popup menu as native context menu'
-    TabOrder = 3
-    OnClick = NativeRadioClick
-  end
-  object NormalRadio: TRadioButton
-    Left = 876
-    Top = 102
-    Width = 433
-    Height = 26
-    Margins.Left = 5
-    Margins.Top = 5
-    Margins.Right = 5
-    Margins.Bottom = 5
-    Anchors = [akTop, akRight]
-    Caption = 'Default context menu'
-    Checked = True
-    TabOrder = 4
-    TabStop = True
-    OnClick = NormalRadioClick
-  end
-  object DefaultRadio: TRadioButton
-    Left = 876
-    Top = 222
-    Width = 433
-    Height = 26
-    Margins.Left = 5
-    Margins.Top = 5
-    Margins.Right = 5
-    Margins.Bottom = 5
-    Anchors = [akTop, akRight]
-    Caption = 'Show the normal Popup Menu'
-    TabOrder = 5
-    OnClick = DefaultRadioClick
-  end
-  object CustomRadio: TRadioButton
-    Left = 876
-    Top = 138
-    Width = 433
-    Height = 26
-    Margins.Left = 5
-    Margins.Top = 5
-    Margins.Right = 5
-    Margins.Bottom = 5
-    Anchors = [akTop, akRight]
-    Caption = 'Customized menu'
-    TabOrder = 6
-    OnClick = CustomRadioClick
+    object NavigationBtn: TButton
+      AlignWithMargins = True
+      Left = 972
+      Top = 0
+      Width = 80
+      Height = 32
+      Margins.Left = 8
+      Margins.Top = 0
+      Margins.Right = 0
+      Margins.Bottom = 0
+      Align = alRight
+      Caption = 'Go'
+      Default = True
+      TabOrder = 1
+      OnClick = NavigationBtnClick
+    end
+    object URLEdit: TEdit
+      AlignWithMargins = True
+      Left = 0
+      Top = 4
+      Width = 964
+      Height = 23
+      Margins.Left = 0
+      Margins.Top = 4
+      Margins.Right = 0
+      Margins.Bottom = 4
+      Align = alClient
+      TabOrder = 0
+      Text = 'https://www.tmssoftware.com'
+    end
   end
   object TMSFNCEdgeWebBrowser1: TTMSFNCEdgeWebBrowser
-    Left = 24
-    Top = 67
-    Width = 761
-    Height = 534
-    Margins.Left = 5
-    Margins.Top = 5
-    Margins.Right = 5
-    Margins.Bottom = 5
+    AlignWithMargins = True
+    Left = 320
+    Top = 112
+    Width = 756
+    Height = 504
+    Margins.Left = 16
+    Margins.Top = 0
+    Margins.Right = 24
+    Margins.Bottom = 24
+    Align = alClient
+    TabOrder = 3
     ParentDoubleBuffered = False
-    Anchors = [akLeft, akTop, akRight, akBottom]
     DoubleBuffered = True
-    TabOrder = 7
     OnInitialized = TMSFNCEdgeWebBrowser1Initialized
     URL = 'https://www.tmssoftware.com'
     Settings.EnableContextMenu = True
@@ -303,8 +502,6 @@ object Form2: TForm2
     Settings.UsePopupMenuAsContextMenu = False
     OnGetContextMenu = TMSFNCEdgeWebBrowser1GetContextMenu
     OnCustomContextMenuItemSelected = TMSFNCEdgeWebBrowser1CustomContextMenuItemSelected
-    ExplicitWidth = 751
-    ExplicitHeight = 532
   end
   object ContextMenu: TPopupMenu
     Left = 1236
@@ -6475,5 +6672,10 @@ object Form2: TForm2
         RadioItem = True
       end
     end
+  end
+  object ThemeManager: TTMSFNCThemeManager
+    Theme = 'Fluent Light'
+    Left = 8
+    Top = 8
   end
 end

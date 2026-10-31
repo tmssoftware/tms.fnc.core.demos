@@ -1,22 +1,211 @@
 object ContextMenuForm: TContextMenuForm
   Left = 0
   Top = 0
-  Caption = 'EdgeWebBrowser Context Menu Demo'
-  ClientHeight = 518
-  ClientWidth = 982
   FormFactor.Width = 320
   FormFactor.Height = 480
   FormFactor.Devices = [Desktop]
-  OnCreate = FormCreate
   DesignerMasterStyle = 0
-  object TMSFNCEdgeWebBrowser1: TTMSFNCEdgeWebBrowser
-    Anchors = [akLeft, akTop, akRight, akBottom]
-    Position.X = 16.000000000000000000
-    Position.Y = 48.000000000000000000
-    Size.Width = 571.000000000000000000
-    Size.Height = 445.000000000000000000
+  Caption = 'TMS FNC Core - Edge Web Browser Context Menu'
+  ClientHeight = 640
+  ClientWidth = 1100
+  Position = ScreenCenter
+  OnCreate = FormCreate
+  OnDestroy = FormDestroy
+  object DemoHeader: TLayout
+    Align = Top
+    Size.Width = 1100.000000000000000000
+    Size.Height = 72.000000000000000000
     Size.PlatformDefault = False
     TabOrder = 0
+    object DemoTitle: TLabel
+      Anchors = [akLeft, akTop, akRight]
+      StyledSettings = [Family]
+      Position.X = 24.000000000000000000
+      Position.Y = 12.000000000000000000
+      Size.Width = 886.000000000000000000
+      Size.Height = 30.000000000000000000
+      Size.PlatformDefault = False
+      TextSettings.Font.Size = 20.000000000000000000
+      TextSettings.Font.StyleExt = {00060000000000000004000000}
+      Text = 'Context menu'
+    end
+    object DemoDescription: TLabel
+      Anchors = [akLeft, akTop, akRight]
+      StyledSettings = [Family, Style]
+      Position.X = 24.000000000000000000
+      Position.Y = 44.000000000000000000
+      Size.Width = 1052.000000000000000000
+      Size.Height = 20.000000000000000000
+      Size.PlatformDefault = False
+      TextSettings.Font.Size = 13.000000000000000000
+      Text = 'Right-click the page: keep, trim or extend the native menu of the browser, or show a TPopupMenu instead'
+    end
+    object DemoThemeCombo: TComboBox
+      Anchors = [akTop, akRight]
+      Items.Strings = (
+        'Fluent Light'
+        'Fluent Dark')
+      ItemIndex = 0
+      Position.X = 926.000000000000000000
+      Position.Y = 10.000000000000000000
+      Size.Width = 150.000000000000000000
+      Size.Height = 32.000000000000000000
+      Size.PlatformDefault = False
+      TabOrder = 2
+      OnChange = DemoThemeComboChange
+    end
+  end
+  object SettingsPanel: TLayout
+    Align = Left
+    Margins.Left = 24.000000000000000000
+    Margins.Bottom = 24.000000000000000000
+    Position.X = 24.000000000000000000
+    Position.Y = 112.000000000000000000
+    Size.Width = 280.000000000000000000
+    Size.Height = 504.000000000000000000
+    Size.PlatformDefault = False
+    TabOrder = 1
+    object NativeCaption: TLabel
+      Align = Top
+      Margins.Bottom = 8.000000000000000000
+      Position.Y = 0.000000000000000000
+      Size.Width = 280.000000000000000000
+      Size.Height = 24.000000000000000000
+      Size.PlatformDefault = False
+      StyledSettings = [Family]
+      TextSettings.Font.Size = 13.000000000000000000
+      TextSettings.Font.StyleExt = {00060000000000000004000000}
+      Text = 'Native context menu'
+    end
+    object NormalRadio: TRadioButton
+      Align = Top
+      Margins.Bottom = 4.000000000000000000
+      Position.Y = 32.000000000000000000
+      Size.Width = 280.000000000000000000
+      Size.Height = 24.000000000000000000
+      Size.PlatformDefault = False
+      StyledSettings = [Family, Size, Style]
+      TabOrder = 0
+      Text = 'Default menu of the browser'
+      GroupName = 'contextType'
+      IsChecked = True
+      OnChange = CustomRadioChange
+    end
+    object CustomRadio: TRadioButton
+      Align = Top
+      Margins.Bottom = 16.000000000000000000
+      Position.Y = 60.000000000000000000
+      Size.Width = 280.000000000000000000
+      Size.Height = 24.000000000000000000
+      Size.PlatformDefault = False
+      StyledSettings = [Family, Size, Style]
+      TabOrder = 1
+      Text = 'Only Reload, plus custom items'
+      GroupName = 'contextType'
+      OnChange = CustomRadioChange
+    end
+    object PopupCaption: TLabel
+      Align = Top
+      Margins.Bottom = 8.000000000000000000
+      Position.Y = 100.000000000000000000
+      Size.Width = 280.000000000000000000
+      Size.Height = 24.000000000000000000
+      Size.PlatformDefault = False
+      StyledSettings = [Family]
+      TextSettings.Font.Size = 13.000000000000000000
+      TextSettings.Font.StyleExt = {00060000000000000004000000}
+      Text = 'TPopupMenu'
+    end
+    object DefaultRadio: TRadioButton
+      Align = Top
+      Margins.Bottom = 4.000000000000000000
+      Position.Y = 132.000000000000000000
+      Size.Width = 280.000000000000000000
+      Size.Height = 24.000000000000000000
+      Size.PlatformDefault = False
+      StyledSettings = [Family, Size, Style]
+      TabOrder = 2
+      Text = 'Show the popup menu'
+      GroupName = 'contextType'
+      OnChange = DefaultRadioChange
+    end
+    object NativeRadio: TRadioButton
+      Align = Top
+      Margins.Bottom = 16.000000000000000000
+      Position.Y = 160.000000000000000000
+      Size.Width = 280.000000000000000000
+      Size.Height = 24.000000000000000000
+      Size.PlatformDefault = False
+      StyledSettings = [Family, Size, Style]
+      TabOrder = 3
+      Text = 'Show the popup menu as a native menu'
+      GroupName = 'contextType'
+      OnChange = NativeRadioChange
+    end
+    object Label1: TLabel
+      Align = Top
+      Margins.Bottom = 8.000000000000000000
+      Position.Y = 200.000000000000000000
+      Size.Width = 280.000000000000000000
+      Size.Height = 24.000000000000000000
+      Size.PlatformDefault = False
+      StyledSettings = [Family]
+      TextSettings.Font.Size = 13.000000000000000000
+      TextSettings.Font.StyleExt = {00060000000000000004000000}
+      Text = 'Selected text and custom items'
+    end
+    object SelectedMemo: TMemo
+      Align = Client
+      Size.Width = 280.000000000000000000
+      Size.Height = 300.000000000000000000
+      Size.PlatformDefault = False
+      TabOrder = 4
+      Touch.InteractiveGestures = [Pan, LongTap, DoubleTap]
+      DataDetectorTypes = []
+    end
+  end
+  object AddressBar: TLayout
+    Align = Top
+    Margins.Left = 24.000000000000000000
+    Margins.Right = 24.000000000000000000
+    Margins.Bottom = 8.000000000000000000
+    Position.X = 24.000000000000000000
+    Position.Y = 72.000000000000000000
+    Size.Width = 1052.000000000000000000
+    Size.Height = 32.000000000000000000
+    Size.PlatformDefault = False
+    TabOrder = 2
+    object NavigateBtn: TButton
+      Align = Right
+      Margins.Left = 8.000000000000000000
+      Position.X = 972.000000000000000000
+      Size.Width = 80.000000000000000000
+      Size.Height = 32.000000000000000000
+      Size.PlatformDefault = False
+      Default = True
+      TabOrder = 1
+      Text = 'Go'
+      OnClick = NavigateBtnClick
+    end
+    object URIEdit: TEdit
+      Align = Client
+      Size.Width = 964.000000000000000000
+      Size.Height = 32.000000000000000000
+      Size.PlatformDefault = False
+      TabOrder = 0
+      Touch.InteractiveGestures = [LongTap, DoubleTap]
+      Text = 'https://www.tmssoftware.com'
+    end
+  end
+  object TMSFNCEdgeWebBrowser1: TTMSFNCEdgeWebBrowser
+    Align = Client
+    Margins.Left = 16.000000000000000000
+    Margins.Right = 24.000000000000000000
+    Margins.Bottom = 24.000000000000000000
+    Size.Width = 756.000000000000000000
+    Size.Height = 504.000000000000000000
+    Size.PlatformDefault = False
+    TabOrder = 3
     OnInitialized = TMSFNCEdgeWebBrowser1Initialized
     URL = 'https://www.tmssoftware.com'
     Settings.EnableContextMenu = True
@@ -25,87 +214,6 @@ object ContextMenuForm: TContextMenuForm
     Settings.UsePopupMenuAsContextMenu = False
     OnGetContextMenu = TMSFNCEdgeWebBrowser1GetContextMenu
     OnCustomContextMenuItemSelected = TMSFNCEdgeWebBrowser1CustomContextMenuItemSelected
-  end
-  object SelectedMemo: TMemo
-    Touch.InteractiveGestures = [Pan, LongTap, DoubleTap]
-    DataDetectorTypes = []
-    Anchors = [akTop, akRight, akBottom]
-    Position.X = 616.000000000000000000
-    Position.Y = 300.000000000000000000
-    Size.Width = 348.000000000000000000
-    Size.Height = 193.000000000000000000
-    Size.PlatformDefault = False
-    TabOrder = 1
-    Viewport.Width = 344.000000000000000000
-    Viewport.Height = 189.000000000000000000
-  end
-  object NavigateBtn: TButton
-    Anchors = [akTop, akRight]
-    Position.X = 513.000000000000000000
-    Position.Y = 18.000000000000000000
-    Size.Width = 74.000000000000000000
-    Size.Height = 22.000000000000000000
-    Size.PlatformDefault = False
-    TabOrder = 2
-    Text = 'Navigate'
-    OnClick = NavigateBtnClick
-  end
-  object URIEdit: TEdit
-    Touch.InteractiveGestures = [LongTap, DoubleTap]
-    Anchors = [akTop, akRight]
-    TabOrder = 3
-    Text = 'https://www.tmssoftware.com'
-    Position.X = 16.000000000000000000
-    Position.Y = 18.000000000000000000
-    Size.Width = 489.000000000000000000
-    Size.Height = 22.000000000000000000
-    Size.PlatformDefault = False
-  end
-  object DefaultRadio: TRadioButton
-    Anchors = [akTop, akRight]
-    GroupName = 'contextType'
-    Position.X = 616.000000000000000000
-    Position.Y = 48.000000000000000000
-    Size.Width = 350.000000000000000000
-    Size.Height = 19.000000000000000000
-    Size.PlatformDefault = False
-    TabOrder = 7
-    Text = 'Use Default Popup Menu'
-    OnChange = DefaultRadioChange
-  end
-  object NativeRadio: TRadioButton
-    Anchors = [akTop, akRight]
-    GroupName = 'contextType'
-    Position.X = 616.000000000000000000
-    Position.Y = 75.000000000000000000
-    Size.Width = 350.000000000000000000
-    Size.Height = 19.000000000000000000
-    Size.PlatformDefault = False
-    TabOrder = 6
-    Text = 'Use Popup Menu as Native'
-    OnChange = NativeRadioChange
-  end
-  object CustomRadio: TRadioButton
-    Anchors = [akTop, akRight]
-    GroupName = 'contextType'
-    Position.X = 616.000000000000000000
-    Position.Y = 134.000000000000000000
-    Size.Width = 350.000000000000000000
-    Size.Height = 19.000000000000000000
-    Size.PlatformDefault = False
-    TabOrder = 5
-    Text = 'Manipulate Native Context Menu'
-    OnChange = CustomRadioChange
-  end
-  object Label1: TLabel
-    Anchors = [akTop, akRight]
-    Position.X = 616.000000000000000000
-    Position.Y = 275.000000000000000000
-    Size.Width = 296.000000000000000000
-    Size.Height = 17.000000000000000000
-    Size.PlatformDefault = False
-    Text = 'Selected Custom Items:'
-    TabOrder = 8
   end
   object ContextMenu: TPopupMenu
     Left = 784
@@ -280,17 +388,9 @@ object ContextMenuForm: TContextMenuForm
       end
     end
   end
-  object NormalRadio: TRadioButton
-    Anchors = [akTop, akRight]
-    GroupName = 'contextType'
-    IsChecked = True
-    Position.X = 616.000000000000000000
-    Position.Y = 107.000000000000000000
-    Size.Width = 350.000000000000000000
-    Size.Height = 19.000000000000000000
-    Size.PlatformDefault = False
-    TabOrder = 4
-    Text = 'Normal Native Context Menu'
-    OnChange = CustomRadioChange
+  object ThemeManager: TTMSFNCThemeManager
+    Theme = 'Fluent Light'
+    Left = 8
+    Top = 8
   end
 end

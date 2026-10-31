@@ -1,29 +1,119 @@
 object Form1: TForm1
   Left = 0
   Top = 0
-  Caption = 'Custom data object for TTMSFNCDataSet'
-  ClientHeight = 440
-  ClientWidth = 640
+  Caption = 'TMS FNC Core - Data set'
+  ClientHeight = 520
+  ClientWidth = 860
   Position = ScreenCenter
   FormFactor.Width = 320
   FormFactor.Height = 480
   FormFactor.Devices = [Desktop]
   OnCreate = FormCreate
+  OnDestroy = FormDestroy
   OnClose = FormClose
   DesignerMasterStyle = 0
-  object Button1: TButton
-    Position.X = 8.000000000000000000
-    Position.Y = 8.000000000000000000
+  object DemoHeader: TLayout
+    Align = Top
+    Size.Width = 860.000000000000000000
+    Size.Height = 72.000000000000000000
+    Size.PlatformDefault = False
+    TabOrder = 0
+    object DemoTitle: TLabel
+      Anchors = [akLeft, akTop, akRight]
+      StyledSettings = [Family]
+      Position.X = 24.000000000000000000
+      Position.Y = 12.000000000000000000
+      Size.Width = 646.000000000000000000
+      Size.Height = 30.000000000000000000
+      Size.PlatformDefault = False
+      TextSettings.Font.Size = 20.000000000000000000
+      TextSettings.Font.StyleExt = {00060000000000000004000000}
+      Text = 'Custom data object'
+    end
+    object DemoDescription: TLabel
+      Anchors = [akLeft, akTop, akRight]
+      StyledSettings = [Family, Style]
+      Position.X = 24.000000000000000000
+      Position.Y = 44.000000000000000000
+      Size.Width = 812.000000000000000000
+      Size.Height = 20.000000000000000000
+      Size.PlatformDefault = False
+      TextSettings.Font.Size = 13.000000000000000000
+      Text = 'A custom data object is shown as a data set without a database'
+    end
+    object DemoThemeCombo: TComboBox
+      Anchors = [akTop, akRight]
+      Items.Strings = (
+        'Fluent Light'
+        'Fluent Dark')
+      ItemIndex = 0
+      Position.X = 686.000000000000000000
+      Position.Y = 10.000000000000000000
+      Size.Width = 150.000000000000000000
+      Size.Height = 32.000000000000000000
+      Size.PlatformDefault = False
+      TabOrder = 2
+      OnChange = DemoThemeComboChange
+    end
+  end
+  object SettingsPanel: TLayout
+    Align = Left
+    Margins.Left = 24.000000000000000000
+    Margins.Bottom = 24.000000000000000000
+    Position.X = 24.000000000000000000
+    Position.Y = 72.000000000000000000
+    Size.Width = 260.000000000000000000
+    Size.Height = 400.000000000000000000
+    Size.PlatformDefault = False
     TabOrder = 1
-    Text = 'Connect'
-    OnClick = Button1Click
+    object StepsCaption: TLabel
+      Align = Top
+      StyledSettings = [Family]
+      Margins.Bottom = 8.000000000000000000
+      Position.X = 0.000000000000000000
+      Position.Y = 0.000000000000000000
+      Size.Width = 260.000000000000000000
+      Size.Height = 24.000000000000000000
+      Size.PlatformDefault = False
+      TextSettings.Font.Size = 13.000000000000000000
+      TextSettings.Font.StyleExt = {00060000000000000004000000}
+      Text = 'Data object'
+    end
+    object Button1: TButton
+      Align = Top
+      Margins.Bottom = 8.000000000000000000
+      Position.X = 0.000000000000000000
+      Position.Y = 32.000000000000000000
+      Size.Width = 260.000000000000000000
+      Size.Height = 36.000000000000000000
+      Size.PlatformDefault = False
+      TabOrder = 0
+      Text = 'Connect'
+      TextSettings.Trimming = None
+      OnClick = Button1Click
+    end
+    object StepsHint: TLabel
+      Align = Top
+      StyledSettings = [Family, Style]
+      Margins.Bottom = 8.000000000000000000
+      Position.X = 0.000000000000000000
+      Position.Y = 76.000000000000000000
+      Size.Width = 260.000000000000000000
+      Size.Height = 110.000000000000000000
+      Size.PlatformDefault = False
+      TextSettings.Font.Size = 13.000000000000000000
+      TextSettings.VertAlign = Leading
+      TextSettings.WordWrap = True
+      Text = 'Connect sets the data object of the TTMSFNCDataSet. The grid shows its records through the standard data-aware controls.'
+    end
   end
   object Grid1: TGrid
-    Anchors = [akLeft, akTop, akRight, akBottom]
+    Align = Client
+    Margins.Left = 16.000000000000000000
+    Margins.Right = 24.000000000000000000
+    Margins.Bottom = 24.000000000000000000
     CanFocus = True
     ClipChildren = True
-    Position.X = 8.000000000000000000
-    Position.Y = 40.000000000000000000
     Size.Width = 624.000000000000000000
     Size.Height = 392.000000000000000000
     Size.PlatformDefault = False
@@ -53,5 +143,10 @@ object Form1: TForm1
       GridControl = Grid1
       Columns = <>
     end
+  end
+  object ThemeManager: TTMSFNCThemeManager
+    Theme = 'Fluent Light'
+    Left = 8
+    Top = 8
   end
 end

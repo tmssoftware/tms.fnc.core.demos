@@ -1,13 +1,13 @@
 object Form2: TForm2
   Left = 0
   Top = 0
-  Caption = 'EdgeWebBrowser Printing'
-  ClientHeight = 713
-  ClientWidth = 950
+  Caption = 'TMS FNC Core - Edge Web Browser Printing'
+  ClientHeight = 640
+  ClientWidth = 1100
   Color = clBtnFace
   Font.Charset = DEFAULT_CHARSET
   Font.Color = clWindowText
-  Font.Height = -18
+  Font.Height = -12
   Font.Name = 'Segoe UI'
   Font.Style = []
   Icon.Data = {
@@ -145,114 +145,252 @@ object Form2: TForm2
     0000000000000000000000000000000000000000000000000000000000000000
     0000000000000000000000000000000000000000000000000000000000000000
     000000000000000000000000000000000000000000000000000000000000}
-  PixelsPerInch = 144
-  DesignSize = (
-    950
-    713)
-  TextHeight = 25
-  object PrintUIBtn: TButton
-    Left = 36
-    Top = 647
-    Width = 200
-    Height = 46
-    Margins.Left = 5
-    Margins.Top = 5
-    Margins.Right = 5
-    Margins.Bottom = 5
-    Anchors = [akLeft, akBottom]
-    Caption = 'Print UI'
+  Position = poScreenCenter
+  OnCreate = FormCreate
+  OnDestroy = FormDestroy
+  PixelsPerInch = 96
+  TextHeight = 15
+  object DemoHeader: TPanel
+    Left = 0
+    Top = 0
+    Width = 1100
+    Height = 72
+    Align = alTop
+    BevelOuter = bvNone
+    ParentColor = True
+    ShowCaption = False
     TabOrder = 0
-    OnClick = PrintUIBtnClick
-    ExplicitTop = 645
+    object DemoTitle: TLabel
+      Left = 24
+      Top = 12
+      Width = 886
+      Height = 30
+      Anchors = [akLeft, akTop, akRight]
+      AutoSize = False
+      Caption = 'Printing and PDF'
+      Font.Charset = DEFAULT_CHARSET
+      Font.Color = clWindowText
+      Font.Height = -20
+      Font.Name = 'Segoe UI Semibold'
+      Font.Style = []
+      ParentFont = False
+    end
+    object DemoDescription: TLabel
+      Left = 24
+      Top = 44
+      Width = 1052
+      Height = 20
+      Anchors = [akLeft, akTop, akRight]
+      AutoSize = False
+      Caption = 'Print the page with or without the print dialog, or save it as a PDF file or a PDF stream'
+    end
+    object DemoThemeCombo: TComboBox
+      Left = 926
+      Top = 16
+      Width = 150
+      Height = 23
+      Style = csDropDownList
+      Anchors = [akTop, akRight]
+      ItemIndex = 0
+      TabOrder = 0
+      Text = 'Fluent Light'
+      OnChange = DemoThemeComboChange
+      Items.Strings = (
+        'Fluent Light'
+        'Fluent Dark')
+    end
   end
-  object PrintToPDFStreamBtn: TButton
-    Left = 252
-    Top = 647
-    Width = 200
-    Height = 46
-    Margins.Left = 5
-    Margins.Top = 5
-    Margins.Right = 5
-    Margins.Bottom = 5
-    Anchors = [akRight, akBottom]
-    Caption = 'Print to PDF Stream'
+  object SettingsPanel: TPanel
+    AlignWithMargins = True
+    Left = 24
+    Top = 72
+    Width = 260
+    Height = 544
+    Margins.Left = 24
+    Margins.Top = 0
+    Margins.Right = 0
+    Margins.Bottom = 24
+    Align = alLeft
+    BevelOuter = bvNone
+    ParentColor = True
+    ShowCaption = False
     TabOrder = 1
-    OnClick = PrintToPDFStreamBtnClick
-    ExplicitLeft = 242
-    ExplicitTop = 645
+    object PrintCaption: TLabel
+      AlignWithMargins = True
+      Left = 0
+      Top = 0
+      Width = 260
+      Height = 20
+      Margins.Left = 0
+      Margins.Top = 0
+      Margins.Right = 0
+      Margins.Bottom = 8
+      Align = alTop
+      AutoSize = False
+      Caption = 'Print'
+      Font.Charset = DEFAULT_CHARSET
+      Font.Color = clWindowText
+      Font.Height = -13
+      Font.Name = 'Segoe UI Semibold'
+      Font.Style = []
+      ParentFont = False
+    end
+    object PrintUIBtn: TButton
+      AlignWithMargins = True
+      Left = 0
+      Top = 28
+      Width = 260
+      Height = 32
+      Margins.Left = 0
+      Margins.Top = 0
+      Margins.Right = 0
+      Margins.Bottom = 8
+      Align = alTop
+      Caption = 'Print with the print dialog'
+      TabOrder = 0
+      OnClick = PrintUIBtnClick
+    end
+    object PrintBtn: TButton
+      AlignWithMargins = True
+      Left = 0
+      Top = 68
+      Width = 260
+      Height = 32
+      Margins.Left = 0
+      Margins.Top = 0
+      Margins.Right = 0
+      Margins.Bottom = 24
+      Align = alTop
+      Caption = 'Print landscape, no dialog'
+      TabOrder = 1
+      OnClick = PrintBtnClick
+    end
+    object PDFCaption: TLabel
+      AlignWithMargins = True
+      Left = 0
+      Top = 124
+      Width = 260
+      Height = 20
+      Margins.Left = 0
+      Margins.Top = 0
+      Margins.Right = 0
+      Margins.Bottom = 8
+      Align = alTop
+      AutoSize = False
+      Caption = 'PDF'
+      Font.Charset = DEFAULT_CHARSET
+      Font.Color = clWindowText
+      Font.Height = -13
+      Font.Name = 'Segoe UI Semibold'
+      Font.Style = []
+      ParentFont = False
+    end
+    object PrintToPDFBtn: TButton
+      AlignWithMargins = True
+      Left = 0
+      Top = 152
+      Width = 260
+      Height = 32
+      Margins.Left = 0
+      Margins.Top = 0
+      Margins.Right = 0
+      Margins.Bottom = 8
+      Align = alTop
+      Caption = 'Save as PDF file'
+      TabOrder = 2
+      OnClick = PrintToPDFBtnClick
+    end
+    object PrintToPDFStreamBtn: TButton
+      AlignWithMargins = True
+      Left = 0
+      Top = 192
+      Width = 260
+      Height = 32
+      Margins.Left = 0
+      Margins.Top = 0
+      Margins.Right = 0
+      Margins.Bottom = 16
+      Align = alTop
+      Caption = 'Save as PDF stream'
+      TabOrder = 3
+      OnClick = PrintToPDFStreamBtnClick
+    end
+    object PDFHint: TLabel
+      AlignWithMargins = True
+      Left = 0
+      Top = 240
+      Width = 260
+      Height = 64
+      Margins.Left = 0
+      Margins.Top = 0
+      Margins.Right = 0
+      Margins.Bottom = 8
+      Align = alTop
+      AutoSize = False
+      Caption = 'The PDF file is written as test.pdf, the stream is saved as PDFStream.pdf, both in the current folder.'
+      WordWrap = True
+    end
   end
-  object PrintBtn: TButton
-    Left = 715
-    Top = 647
-    Width = 200
-    Height = 46
-    Margins.Left = 5
-    Margins.Top = 5
-    Margins.Right = 5
-    Margins.Bottom = 5
-    Anchors = [akRight, akBottom]
-    Caption = 'Print'
+  object AddressBar: TPanel
+    AlignWithMargins = True
+    Left = 24
+    Top = 72
+    Width = 776
+    Height = 32
+    Margins.Left = 24
+    Margins.Top = 0
+    Margins.Right = 24
+    Margins.Bottom = 8
+    Align = alTop
+    BevelOuter = bvNone
+    ParentColor = True
+    ShowCaption = False
     TabOrder = 2
-    OnClick = PrintBtnClick
-    ExplicitLeft = 705
-    ExplicitTop = 645
-  end
-  object PrintToPDFBtn: TButton
-    Left = 482
-    Top = 647
-    Width = 200
-    Height = 46
-    Margins.Left = 5
-    Margins.Top = 5
-    Margins.Right = 5
-    Margins.Bottom = 5
-    Anchors = [akRight, akBottom]
-    Caption = 'Print to PDF'
-    TabOrder = 3
-    OnClick = PrintToPDFBtnClick
-    ExplicitLeft = 472
-    ExplicitTop = 645
-  end
-  object NavigateBtn: TButton
-    Left = 803
-    Top = 22
-    Width = 112
-    Height = 33
-    Margins.Left = 5
-    Margins.Top = 5
-    Margins.Right = 5
-    Margins.Bottom = 5
-    Anchors = [akTop, akRight]
-    Caption = 'Navigate'
-    TabOrder = 4
-    OnClick = NavigateBtnClick
-  end
-  object URLEdit: TEdit
-    Left = 36
-    Top = 22
-    Width = 757
-    Height = 33
-    Margins.Left = 5
-    Margins.Top = 5
-    Margins.Right = 5
-    Margins.Bottom = 5
-    Anchors = [akLeft, akTop, akRight]
-    TabOrder = 5
-    Text = 'https://www.tmssoftware.com'
+    object NavigateBtn: TButton
+      AlignWithMargins = True
+      Left = 696
+      Top = 0
+      Width = 80
+      Height = 32
+      Margins.Left = 8
+      Margins.Top = 0
+      Margins.Right = 0
+      Margins.Bottom = 0
+      Align = alRight
+      Caption = 'Go'
+      Default = True
+      TabOrder = 1
+      OnClick = NavigateBtnClick
+    end
+    object URLEdit: TEdit
+      AlignWithMargins = True
+      Left = 0
+      Top = 4
+      Width = 688
+      Height = 23
+      Margins.Left = 0
+      Margins.Top = 4
+      Margins.Right = 0
+      Margins.Bottom = 4
+      Align = alClient
+      TabOrder = 0
+      Text = 'https://www.tmssoftware.com'
+    end
   end
   object TMSFNCEdgeWebBrowser1: TTMSFNCEdgeWebBrowser
-    Left = 36
-    Top = 65
-    Width = 879
-    Height = 572
-    Margins.Left = 5
-    Margins.Top = 5
-    Margins.Right = 5
-    Margins.Bottom = 5
+    AlignWithMargins = True
+    Left = 300
+    Top = 112
+    Width = 776
+    Height = 504
+    Margins.Left = 16
+    Margins.Top = 0
+    Margins.Right = 24
+    Margins.Bottom = 24
+    Align = alClient
+    TabOrder = 3
     ParentDoubleBuffered = False
-    Anchors = [akLeft, akTop, akRight, akBottom]
     DoubleBuffered = True
-    TabOrder = 6
     OnInitialized = TMSFNCEdgeWebBrowser1Initialized
     URL = 'https://www.tmssoftware.com'
     Settings.EnableContextMenu = True
@@ -260,7 +398,10 @@ object Form2: TForm2
     Settings.EnableAcceleratorKeys = True
     Settings.UsePopupMenuAsContextMenu = False
     OnGetPrintPDFStream = TMSFNCEdgeWebBrowser1GetPrintPDFStream
-    ExplicitWidth = 869
-    ExplicitHeight = 570
+  end
+  object ThemeManager: TTMSFNCThemeManager
+    Theme = 'Fluent Light'
+    Left = 8
+    Top = 8
   end
 end

@@ -1,21 +1,192 @@
 object Form2: TForm2
   Left = 0
   Top = 0
-  Caption = 'EdgeWebBrowser Print Demo'
-  ClientHeight = 542
-  ClientWidth = 690
+  Caption = 'TMS FNC Core - Edge Web Browser Printing'
+  ClientHeight = 640
+  ClientWidth = 1100
+  Position = ScreenCenter
   FormFactor.Width = 320
   FormFactor.Height = 480
   FormFactor.Devices = [Desktop]
+  OnCreate = FormCreate
+  OnDestroy = FormDestroy
   DesignerMasterStyle = 0
-  object TMSFNCEdgeWebBrowser1: TTMSFNCEdgeWebBrowser
-    Anchors = [akLeft, akTop, akRight, akBottom]
-    Position.X = 16.000000000000000000
-    Position.Y = 54.000000000000000000
-    Size.Width = 654.000000000000000000
-    Size.Height = 428.000000000000000000
+  object DemoHeader: TLayout
+    Align = Top
+    Size.Width = 1100.000000000000000000
+    Size.Height = 72.000000000000000000
     Size.PlatformDefault = False
     TabOrder = 0
+    object DemoTitle: TLabel
+      Anchors = [akLeft, akTop, akRight]
+      StyledSettings = [Family]
+      Position.X = 24.000000000000000000
+      Position.Y = 12.000000000000000000
+      Size.Width = 886.000000000000000000
+      Size.Height = 30.000000000000000000
+      Size.PlatformDefault = False
+      TextSettings.Font.Size = 20.000000000000000000
+      TextSettings.Font.StyleExt = {00060000000000000004000000}
+      Text = 'Printing and PDF'
+    end
+    object DemoDescription: TLabel
+      Anchors = [akLeft, akTop, akRight]
+      StyledSettings = [Family, Style]
+      Position.X = 24.000000000000000000
+      Position.Y = 44.000000000000000000
+      Size.Width = 1052.000000000000000000
+      Size.Height = 20.000000000000000000
+      Size.PlatformDefault = False
+      TextSettings.Font.Size = 13.000000000000000000
+      Text = 'Print the page with or without the print dialog, or save it as a PDF file or a PDF stream'
+    end
+    object DemoThemeCombo: TComboBox
+      Anchors = [akTop, akRight]
+      Items.Strings = (
+        'Fluent Light'
+        'Fluent Dark')
+      ItemIndex = 0
+      Position.X = 926.000000000000000000
+      Position.Y = 10.000000000000000000
+      Size.Width = 150.000000000000000000
+      Size.Height = 32.000000000000000000
+      Size.PlatformDefault = False
+      TabOrder = 2
+      OnChange = DemoThemeComboChange
+    end
+  end
+  object SettingsPanel: TLayout
+    Align = Left
+    Margins.Left = 24.000000000000000000
+    Margins.Bottom = 24.000000000000000000
+    Position.X = 24.000000000000000000
+    Position.Y = 72.000000000000000000
+    Size.Width = 260.000000000000000000
+    Size.Height = 544.000000000000000000
+    Size.PlatformDefault = False
+    TabOrder = 1
+    object PrintCaption: TLabel
+      Align = Top
+      StyledSettings = [Family]
+      Margins.Bottom = 8.000000000000000000
+      Size.Width = 260.000000000000000000
+      Size.Height = 24.000000000000000000
+      Size.PlatformDefault = False
+      TextSettings.Font.Size = 13.000000000000000000
+      TextSettings.Font.StyleExt = {00060000000000000004000000}
+      Text = 'Print'
+    end
+    object PrintUIBtn: TButton
+      Align = Top
+      Margins.Bottom = 8.000000000000000000
+      Position.Y = 32.000000000000000000
+      Size.Width = 260.000000000000000000
+      Size.Height = 32.000000000000000000
+      Size.PlatformDefault = False
+      TabOrder = 0
+      Text = 'Print with the print dialog'
+      OnClick = PrintUIBtnClick
+    end
+    object PrintBtn: TButton
+      Align = Top
+      Margins.Bottom = 24.000000000000000000
+      Position.Y = 72.000000000000000000
+      Size.Width = 260.000000000000000000
+      Size.Height = 32.000000000000000000
+      Size.PlatformDefault = False
+      TabOrder = 1
+      Text = 'Print landscape, no dialog'
+      OnClick = PrintBtnClick
+    end
+    object PDFCaption: TLabel
+      Align = Top
+      StyledSettings = [Family]
+      Margins.Bottom = 8.000000000000000000
+      Position.Y = 128.000000000000000000
+      Size.Width = 260.000000000000000000
+      Size.Height = 24.000000000000000000
+      Size.PlatformDefault = False
+      TextSettings.Font.Size = 13.000000000000000000
+      TextSettings.Font.StyleExt = {00060000000000000004000000}
+      Text = 'PDF'
+    end
+    object PrintToPDFBtn: TButton
+      Align = Top
+      Margins.Bottom = 8.000000000000000000
+      Position.Y = 160.000000000000000000
+      Size.Width = 260.000000000000000000
+      Size.Height = 32.000000000000000000
+      Size.PlatformDefault = False
+      TabOrder = 2
+      Text = 'Save as PDF file'
+      OnClick = PrintToPDFBtnClick
+    end
+    object PrintToPDFStreamBtn: TButton
+      Align = Top
+      Margins.Bottom = 16.000000000000000000
+      Position.Y = 200.000000000000000000
+      Size.Width = 260.000000000000000000
+      Size.Height = 32.000000000000000000
+      Size.PlatformDefault = False
+      TabOrder = 3
+      Text = 'Save as PDF stream'
+      OnClick = PrintToPDFStreamBtnClick
+    end
+    object PDFHint: TLabel
+      Align = Top
+      StyledSettings = [Family, Style]
+      Position.Y = 248.000000000000000000
+      Size.Width = 260.000000000000000000
+      Size.Height = 80.000000000000000000
+      Size.PlatformDefault = False
+      TextSettings.Font.Size = 13.000000000000000000
+      TextSettings.WordWrap = True
+      TextSettings.VertAlign = Leading
+      Text = 'The PDF file is written as test.pdf, the stream is saved as PDFStream.pdf, both in the current folder.'
+    end
+  end
+  object AddressBar: TLayout
+    Align = Top
+    Margins.Left = 24.000000000000000000
+    Margins.Right = 24.000000000000000000
+    Margins.Bottom = 8.000000000000000000
+    Position.X = 24.000000000000000000
+    Position.Y = 72.000000000000000000
+    Size.Width = 776.000000000000000000
+    Size.Height = 32.000000000000000000
+    Size.PlatformDefault = False
+    TabOrder = 2
+    object NavigateBtn: TButton
+      Align = Right
+      Margins.Left = 8.000000000000000000
+      Position.X = 696.000000000000000000
+      Size.Width = 80.000000000000000000
+      Size.Height = 32.000000000000000000
+      Size.PlatformDefault = False
+      Default = True
+      TabOrder = 1
+      Text = 'Go'
+      OnClick = NavigateBtnClick
+    end
+    object URLEdit: TEdit
+      Align = Client
+      Size.Width = 688.000000000000000000
+      Size.Height = 32.000000000000000000
+      Size.PlatformDefault = False
+      TabOrder = 0
+      Touch.InteractiveGestures = [LongTap, DoubleTap]
+      Text = 'https://www.tmssoftware.com'
+    end
+  end
+  object TMSFNCEdgeWebBrowser1: TTMSFNCEdgeWebBrowser
+    Align = Client
+    Margins.Left = 16.000000000000000000
+    Margins.Right = 24.000000000000000000
+    Margins.Bottom = 24.000000000000000000
+    Size.Width = 776.000000000000000000
+    Size.Height = 496.000000000000000000
+    Size.PlatformDefault = False
+    TabOrder = 3
     OnInitialized = TMSFNCEdgeWebBrowser1Initialized
     URL = 'https://www.tmssoftware.com'
     Settings.EnableContextMenu = True
@@ -24,70 +195,9 @@ object Form2: TForm2
     Settings.UsePopupMenuAsContextMenu = False
     OnGetPrintPDFStream = TMSFNCEdgeWebBrowser1GetPrintPDFStream
   end
-  object PrintUIBtn: TButton
-    Anchors = [akLeft, akBottom]
-    Position.X = 16.000000000000000000
-    Position.Y = 490.000000000000000000
-    Size.Width = 150.000000000000000000
-    Size.Height = 28.000000000000000000
-    Size.PlatformDefault = False
-    TabOrder = 4
-    Text = 'Print UI'
-    OnClick = PrintUIBtnClick
-  end
-  object NavigateBtn: TButton
-    Anchors = [akTop, akRight]
-    Position.X = 605.000000000000000000
-    Position.Y = 24.000000000000000000
-    Size.Width = 65.000000000000000000
-    Size.Height = 22.000000000000000000
-    Size.PlatformDefault = False
-    TabOrder = 5
-    Text = 'Go'
-    OnClick = NavigateBtnClick
-  end
-  object PrintToPDFStreamBtn: TButton
-    Anchors = [akRight, akBottom]
-    Position.X = 184.000000000000000000
-    Position.Y = 490.000000000000000000
-    Size.Width = 150.000000000000000000
-    Size.Height = 28.000000000000000000
-    Size.PlatformDefault = False
-    TabOrder = 1
-    Text = 'Print to PDF Stream'
-    OnClick = PrintToPDFStreamBtnClick
-  end
-  object PrintBtn: TButton
-    Anchors = [akRight, akBottom]
-    Position.X = 352.000000000000000000
-    Position.Y = 490.000000000000000000
-    Size.Width = 150.000000000000000000
-    Size.Height = 28.000000000000000000
-    Size.PlatformDefault = False
-    TabOrder = 3
-    Text = 'Print'
-    OnClick = PrintBtnClick
-  end
-  object PrintToPDFBtn: TButton
-    Anchors = [akRight, akBottom]
-    Position.X = 520.000000000000000000
-    Position.Y = 490.000000000000000000
-    Size.Width = 150.000000000000000000
-    Size.Height = 28.000000000000000000
-    Size.PlatformDefault = False
-    TabOrder = 2
-    Text = 'Print to PDF'
-    OnClick = PrintToPDFBtnClick
-  end
-  object URLEdit: TEdit
-    Touch.InteractiveGestures = [LongTap, DoubleTap]
-    Anchors = [akLeft, akTop, akRight]
-    TabOrder = 6
-    Text = 'https://www.tmssoftware.com'
-    Position.X = 16.000000000000000000
-    Position.Y = 24.000000000000000000
-    Size.Width = 581.000000000000000000
-    Size.Height = 22.000000000000000000
-    Size.PlatformDefault = False
+  object ThemeManager: TTMSFNCThemeManager
+    Theme = 'Fluent Light'
+    Left = 8
+    Top = 8
   end
 end

@@ -1,49 +1,277 @@
 object Form3: TForm3
   Left = 0
   Top = 0
-  Caption = 'TMSFNCWebBrowser Demo'
-  ClientHeight = 748
+  Caption = 'TMS FNC Core - Web Browser'
+  ClientHeight = 720
   ClientWidth = 1200
   Position = ScreenCenter
   FormFactor.Width = 320
   FormFactor.Height = 480
   FormFactor.Devices = [Desktop]
   OnCreate = FormCreate
+  OnDestroy = FormDestroy
   DesignerMasterStyle = 0
-  object Edit1: TEdit
-    Touch.InteractiveGestures = [LongTap, DoubleTap]
-    Anchors = [akLeft, akTop, akRight]
-    TabOrder = 0
-    Position.X = 112.000000000000000000
-    Position.Y = 10.000000000000000000
-    Size.Width = 681.000000000000000000
-    Size.Height = 32.000000000000000000
+  object DemoHeader: TLayout
+    Align = Top
+    Size.Width = 1200.000000000000000000
+    Size.Height = 72.000000000000000000
     Size.PlatformDefault = False
-    OnKeyUp = Edit1KeyUp
+    TabOrder = 0
+    object DemoTitle: TLabel
+      Anchors = [akLeft, akTop, akRight]
+      StyledSettings = [Family]
+      Position.X = 24.000000000000000000
+      Position.Y = 12.000000000000000000
+      Size.Width = 986.000000000000000000
+      Size.Height = 30.000000000000000000
+      Size.PlatformDefault = False
+      TextSettings.Font.Size = 20.000000000000000000
+      TextSettings.Font.StyleExt = {00060000000000000004000000}
+      Text = 'Web browser'
+    end
+    object DemoDescription: TLabel
+      Anchors = [akLeft, akTop, akRight]
+      StyledSettings = [Family, Style]
+      Position.X = 24.000000000000000000
+      Position.Y = 44.000000000000000000
+      Size.Width = 1152.000000000000000000
+      Size.Height = 20.000000000000000000
+      Size.PlatformDefault = False
+      TextSettings.Font.Size = 13.000000000000000000
+      Text = 'Browse with back, forward and reload, follow the history, or talk to a page through a JavaScript bridge'
+    end
+    object DemoThemeCombo: TComboBox
+      Anchors = [akTop, akRight]
+      Items.Strings = (
+        'Fluent Light'
+        'Fluent Dark')
+      ItemIndex = 0
+      Position.X = 1026.000000000000000000
+      Position.Y = 10.000000000000000000
+      Size.Width = 150.000000000000000000
+      Size.Height = 32.000000000000000000
+      Size.PlatformDefault = False
+      TabOrder = 2
+      OnChange = DemoThemeComboChange
+    end
   end
-  object TMSFNCWebBrowser1: TTMSFNCWebBrowser
-    Anchors = [akLeft, akTop, akRight, akBottom]
-    Position.Y = 56.000000000000000000
-    Size.Width = 825.000000000000000000
-    Size.Height = 689.000000000000000000
+  object SettingsPanel: TLayout
+    Align = Left
+    Margins.Left = 24.000000000000000000
+    Margins.Bottom = 24.000000000000000000
+    Position.X = 24.000000000000000000
+    Position.Y = 72.000000000000000000
+    Size.Width = 260.000000000000000000
+    Size.Height = 624.000000000000000000
     Size.PlatformDefault = False
     TabOrder = 1
+    object SidePanelCaption: TLabel
+      Align = Top
+      StyledSettings = [Family]
+      Margins.Bottom = 8.000000000000000000
+      Size.Width = 260.000000000000000000
+      Size.Height = 24.000000000000000000
+      Size.PlatformDefault = False
+      TextSettings.Font.Size = 13.000000000000000000
+      TextSettings.Font.StyleExt = {00060000000000000004000000}
+      Text = 'Side panel'
+    end
+    object Button1: TButton
+      Align = Top
+      Margins.Bottom = 8.000000000000000000
+      Position.Y = 32.000000000000000000
+      Size.Width = 260.000000000000000000
+      Size.Height = 32.000000000000000000
+      Size.PlatformDefault = False
+      TabOrder = 0
+      Enabled = False
+      Text = 'History'
+      OnClick = Button1Click
+    end
+    object Button2: TButton
+      Align = Top
+      Margins.Bottom = 16.000000000000000000
+      Position.Y = 72.000000000000000000
+      Size.Width = 260.000000000000000000
+      Size.Height = 32.000000000000000000
+      Size.PlatformDefault = False
+      TabOrder = 1
+      Text = 'JavaScript bridge'
+      OnClick = Button2Click
+    end
+    object ListBox1: TListBox
+      Align = Client
+      Size.Width = 260.000000000000000000
+      Size.Height = 504.000000000000000000
+      Size.PlatformDefault = False
+      TabOrder = 2
+      DisableFocusEffect = True
+      DefaultItemStyles.ItemStyle = ''
+      DefaultItemStyles.GroupHeaderStyle = ''
+      DefaultItemStyles.GroupFooterStyle = ''
+      OnItemClick = ListBox1ItemClick
+    end
+    object Panel1: TLayout
+      Align = Client
+      Size.Width = 260.000000000000000000
+      Size.Height = 504.000000000000000000
+      Size.PlatformDefault = False
+      Visible = False
+      TabOrder = 3
+      object BridgeHint: TLabel
+        Align = Top
+        StyledSettings = [Family, Style]
+        Margins.Bottom = 8.000000000000000000
+        Size.Width = 260.000000000000000000
+        Size.Height = 72.000000000000000000
+        Size.PlatformDefault = False
+        TextSettings.Font.Size = 13.000000000000000000
+        TextSettings.WordWrap = True
+        TextSettings.VertAlign = Leading
+        Text = 'The Yes and No buttons in the page call back into the application through a bridge object; the buttons below run JavaScript in the page.'
+      end
+      object Label1: TLabel
+        Align = Top
+        StyledSettings = [Family, Size, Style]
+        Position.Y = 80.000000000000000000
+        Size.Width = 260.000000000000000000
+        Size.Height = 24.000000000000000000
+        Size.PlatformDefault = False
+        Text = 'Yes clicked: 0'
+        TabOrder = 0
+      end
+      object Label2: TLabel
+        Align = Top
+        StyledSettings = [Family, Size, Style]
+        Margins.Bottom = 8.000000000000000000
+        Position.Y = 104.000000000000000000
+        Size.Width = 260.000000000000000000
+        Size.Height = 24.000000000000000000
+        Size.PlatformDefault = False
+        Text = 'No clicked: 0'
+        TabOrder = 1
+      end
+      object Button3: TButton
+        Align = Top
+        Margins.Bottom = 16.000000000000000000
+        Position.Y = 136.000000000000000000
+        Size.Width = 260.000000000000000000
+        Size.Height = 32.000000000000000000
+        Size.PlatformDefault = False
+        Text = 'Show the ratio in the page'
+        TabOrder = 2
+        OnClick = Button3Click
+      end
+      object Edit2: TEdit
+        Align = Top
+        Margins.Bottom = 8.000000000000000000
+        Position.Y = 184.000000000000000000
+        Size.Width = 260.000000000000000000
+        Size.Height = 32.000000000000000000
+        Size.PlatformDefault = False
+        Touch.InteractiveGestures = [LongTap, DoubleTap]
+        TabOrder = 3
+        Text = 'New Item'
+      end
+      object Button4: TButton
+        Align = Top
+        Position.Y = 224.000000000000000000
+        Size.Width = 260.000000000000000000
+        Size.Height = 32.000000000000000000
+        Size.PlatformDefault = False
+        Text = 'Add the item to the page list'
+        TabOrder = 4
+        OnClick = Button4Click
+      end
+    end
+  end
+  object AddressBar: TLayout
+    Align = Top
+    Margins.Left = 24.000000000000000000
+    Margins.Right = 24.000000000000000000
+    Margins.Bottom = 8.000000000000000000
+    Position.X = 24.000000000000000000
+    Position.Y = 72.000000000000000000
+    Size.Width = 876.000000000000000000
+    Size.Height = 32.000000000000000000
+    Size.PlatformDefault = False
+    TabOrder = 2
+    object iBack: TImage
+      Align = Left
+      Margins.Right = 8.000000000000000000
+      Size.Width = 24.000000000000000000
+      Size.Height = 32.000000000000000000
+      Size.PlatformDefault = False
+      MultiResBitmap = <
+        item
+        end>
+      Cursor = crHandPoint
+      Enabled = False
+      OnClick = iBackClick
+    end
+    object iForward: TImage
+      Align = Left
+      Margins.Right = 8.000000000000000000
+      Position.X = 32.000000000000000000
+      Size.Width = 24.000000000000000000
+      Size.Height = 32.000000000000000000
+      Size.PlatformDefault = False
+      MultiResBitmap = <
+        item
+        end>
+      Cursor = crHandPoint
+      Enabled = False
+      OnClick = iForwardClick
+    end
+    object iReload: TImage
+      Align = Left
+      Margins.Right = 8.000000000000000000
+      Position.X = 64.000000000000000000
+      Size.Width = 24.000000000000000000
+      Size.Height = 32.000000000000000000
+      Size.PlatformDefault = False
+      MultiResBitmap = <
+        item
+        end>
+      Cursor = crHandPoint
+      Enabled = False
+      OnClick = iReloadClick
+    end
+    object iGo: TImage
+      Align = Right
+      Margins.Left = 8.000000000000000000
+      Position.X = 852.000000000000000000
+      Size.Width = 24.000000000000000000
+      Size.Height = 32.000000000000000000
+      Size.PlatformDefault = False
+      MultiResBitmap = <
+        item
+        end>
+      Cursor = crHandPoint
+      Enabled = False
+      OnClick = iGoClick
+    end
+    object Edit1: TEdit
+      Align = Client
+      Size.Width = 724.000000000000000000
+      Size.Height = 32.000000000000000000
+      Size.PlatformDefault = False
+      TabOrder = 0
+      Touch.InteractiveGestures = [LongTap, DoubleTap]
+      OnKeyUp = Edit1KeyUp
+    end
+  end
+  object TMSFNCWebBrowser1: TTMSFNCWebBrowser
+    Align = Client
+    Margins.Left = 16.000000000000000000
+    Margins.Right = 24.000000000000000000
+    Margins.Bottom = 24.000000000000000000
+    Size.Width = 876.000000000000000000
+    Size.Height = 576.000000000000000000
+    Size.PlatformDefault = False
+    TabOrder = 3
     URL = 'https://www.tmssoftware.com/'
     OnNavigateComplete = TMSFNCWebBrowser1NavigateComplete
-  end
-  object iGo: TImage
-    MultiResBitmap = <
-      item
-      end>
-    Anchors = [akTop, akRight]
-    Cursor = crHandPoint
-    Enabled = False
-    Position.X = 800.000000000000000000
-    Position.Y = 14.000000000000000000
-    Size.Width = 24.000000000000000000
-    Size.Height = 24.000000000000000000
-    Size.PlatformDefault = False
-    OnClick = iGoClick
   end
   object TMSFNCBitmapContainer1: TTMSFNCBitmapContainer
     Size.Width = 39.000000000000000000
@@ -158,128 +386,9 @@ object Form3: TForm3
         Tag = 0
       end>
   end
-  object iBack: TImage
-    MultiResBitmap = <
-      item
-      end>
-    Cursor = crHandPoint
-    Enabled = False
-    Position.X = 8.000000000000000000
-    Position.Y = 14.000000000000000000
-    Size.Width = 24.000000000000000000
-    Size.Height = 24.000000000000000000
-    Size.PlatformDefault = False
-    OnClick = iBackClick
-  end
-  object iForward: TImage
-    MultiResBitmap = <
-      item
-      end>
-    Cursor = crHandPoint
-    Enabled = False
-    Position.X = 40.000000000000000000
-    Position.Y = 14.000000000000000000
-    Size.Width = 24.000000000000000000
-    Size.Height = 24.000000000000000000
-    Size.PlatformDefault = False
-    OnClick = iForwardClick
-  end
-  object iReload: TImage
-    MultiResBitmap = <
-      item
-      end>
-    Cursor = crHandPoint
-    Enabled = False
-    Position.X = 80.000000000000000000
-    Position.Y = 14.000000000000000000
-    Size.Width = 24.000000000000000000
-    Size.Height = 24.000000000000000000
-    Size.PlatformDefault = False
-    OnClick = iReloadClick
-  end
-  object ListBox1: TListBox
-    Anchors = [akTop, akRight, akBottom]
-    Position.X = 832.000000000000000000
-    Position.Y = 56.000000000000000000
-    Size.Width = 361.000000000000000000
-    Size.Height = 689.000000000000000000
-    Size.PlatformDefault = False
-    TabOrder = 7
-    DisableFocusEffect = True
-    DefaultItemStyles.ItemStyle = ''
-    DefaultItemStyles.GroupHeaderStyle = ''
-    DefaultItemStyles.GroupFooterStyle = ''
-    OnItemClick = ListBox1ItemClick
-    Viewport.Width = 357.000000000000000000
-    Viewport.Height = 685.000000000000000000
-  end
-  object Button1: TButton
-    Anchors = [akTop, akRight]
-    Enabled = False
-    Position.X = 832.000000000000000000
-    Position.Y = 16.000000000000000000
-    Size.Width = 97.000000000000000000
-    Size.Height = 24.000000000000000000
-    Size.PlatformDefault = False
-    TabOrder = 9
-    Text = 'History'
-    OnClick = Button1Click
-  end
-  object Button2: TButton
-    Anchors = [akTop, akRight]
-    Position.X = 1096.000000000000000000
-    Position.Y = 16.000000000000000000
-    Size.Width = 97.000000000000000000
-    Size.Height = 24.000000000000000000
-    Size.PlatformDefault = False
-    TabOrder = 8
-    Text = 'Bridge Adapter'
-    OnClick = Button2Click
-  end
-  object Panel1: TPanel
-    Anchors = [akTop, akRight, akBottom]
-    Position.X = 832.000000000000000000
-    Position.Y = 56.000000000000000000
-    Size.Width = 361.000000000000000000
-    Size.Height = 689.000000000000000000
-    Size.PlatformDefault = False
-    Visible = False
-    TabOrder = 10
-    object Label1: TLabel
-      Position.X = 24.000000000000000000
-      Position.Y = 24.000000000000000000
-      Text = 'Yes clicked: 0'
-      TabOrder = 0
-    end
-    object Label2: TLabel
-      Position.X = 24.000000000000000000
-      Position.Y = 56.000000000000000000
-      Text = 'No clicked: 0'
-      TabOrder = 1
-    end
-    object Button3: TButton
-      Position.X = 240.000000000000000000
-      Position.Y = 88.000000000000000000
-      TabOrder = 2
-      Text = 'Set Ratio'
-      OnClick = Button3Click
-    end
-    object Edit2: TEdit
-      Touch.InteractiveGestures = [LongTap, DoubleTap]
-      TabOrder = 3
-      Text = 'New Item'
-      Position.X = 24.000000000000000000
-      Position.Y = 136.000000000000000000
-      Size.Width = 201.000000000000000000
-      Size.Height = 22.000000000000000000
-      Size.PlatformDefault = False
-    end
-    object Button4: TButton
-      Position.X = 240.000000000000000000
-      Position.Y = 136.000000000000000000
-      TabOrder = 4
-      Text = 'Add Item'
-      OnClick = Button4Click
-    end
+  object ThemeManager: TTMSFNCThemeManager
+    Theme = 'Fluent Light'
+    Left = 8
+    Top = 8
   end
 end

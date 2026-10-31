@@ -8,7 +8,7 @@ uses
   FMX.TMSFNCTypes, FMX.TMSFNCUtils, FMX.TMSFNCGraphics, FMX.TMSFNCGraphicsTypes,
   FMX.TMSFNCCustomControl, FMX.TMSFNCWebBrowser, FMX.Controls.Presentation,
   FMX.Edit, FMX.Objects, FMX.TMSFNCCustomComponent, FMX.TMSFNCBitmapContainer,
-  FMX.StdCtrls, FMX.ScrollBox, FMX.Memo, FMX.Layouts, FMX.ListBox;
+  FMX.StdCtrls, FMX.ScrollBox, FMX.Memo, FMX.Layouts, FMX.ListBox, FMX.TMSFNCTheme;
 
 type
   TMyBridgeObject = class(TInterfacedPersistent, ITMSFNCCustomWebBrowserBridge)
@@ -20,6 +20,15 @@ type
   end;
 
   TForm3 = class(TForm)
+    ThemeManager: TTMSFNCThemeManager;
+    DemoHeader: TLayout;
+    DemoTitle: TLabel;
+    DemoDescription: TLabel;
+    DemoThemeCombo: TComboBox;
+    SettingsPanel: TLayout;
+    SidePanelCaption: TLabel;
+    BridgeHint: TLabel;
+    AddressBar: TLayout;
     Edit1: TEdit;
     TMSFNCWebBrowser1: TTMSFNCWebBrowser;
     iGo: TImage;
@@ -30,7 +39,7 @@ type
     ListBox1: TListBox;
     Button1: TButton;
     Button2: TButton;
-    Panel1: TPanel;
+    Panel1: TLayout;
     Label1: TLabel;
     Label2: TLabel;
     Button3: TButton;
@@ -51,6 +60,8 @@ type
     procedure Button2Click(Sender: TObject);
     procedure Button3Click(Sender: TObject);
     procedure Button4Click(Sender: TObject);
+    procedure FormDestroy(Sender: TObject);
+    procedure DemoThemeComboChange(Sender: TObject);
   private
     { Private declarations }
     o: TMyBridgeObject;
@@ -59,6 +70,7 @@ type
     procedure NavigateFNCWebBrowser(AURL: string);
     procedure SetVisibleComponents(AValue: Boolean);
     procedure UpdateLabels(AYes: Boolean);
+    procedure ThemeChanged(Sender: TObject);
   public
     { Public declarations }
   end;
@@ -151,6 +163,9 @@ procedure TForm3.FormCreate(Sender: TObject);
 begin
   ReportMemoryLeaksOnShutdown := True;
 
+  TTMSFNCTheme.AddChangeListener(ThemeChanged);
+  ThemeChanged(nil);
+
   yCnt := 0;
   nCnt := 0;
 
@@ -160,6 +175,45 @@ begin
   iReload.Bitmap.Assign(TMSFNCBitmapContainer1.Bitmaps[4]);
 
   TMSFNCWebBrowser1.Navigate;
+end;
+
+procedure TForm3.FormDestroy(Sender: TObject);
+begin
+  TTMSFNCTheme.RemoveChangeListener(ThemeChanged);
+end;
+
+{ Core has no FNC label: the native labels take the text colours of the theme in effect (without
+  a theme: the platform's). The theme manager colours the form; native buttons, edits and lists
+  keep the platform look, which is readable on a light and on a dark form. The page in the browser
+  is not themed. }
+procedure TForm3.ThemeChanged(Sender: TObject);
+var
+  t: TTMSFNCResolvedTheme;
+  txt, sec: TAlphaColor;
+begin
+  t := TTMSFNCTheme.Resolve(TTMSFNCTheme.Current);
+  if Assigned(t) then
+  begin
+    txt := t[ttText];
+    sec := t[ttTextSecondary];
+  end
+  else
+  begin
+    txt := TAlphaColorRec.Black;
+    sec := $FF5B6470;
+  end;
+  DemoTitle.FontColor := txt;
+  SidePanelCaption.FontColor := txt;
+  Label1.FontColor := txt;
+  Label2.FontColor := txt;
+  DemoDescription.FontColor := sec;
+  BridgeHint.FontColor := sec;
+end;
+
+procedure TForm3.DemoThemeComboChange(Sender: TObject);
+begin
+  if DemoThemeCombo.ItemIndex >= 0 then
+    ThemeManager.Theme := DemoThemeCombo.Items[DemoThemeCombo.ItemIndex];
 end;
 
 procedure TForm3.iGoClick(Sender: TObject);

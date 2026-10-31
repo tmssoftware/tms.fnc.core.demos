@@ -2,14 +2,14 @@ object Form3: TForm3
   Left = 0
   Top = 0
   ActiveControl = TMSFNCWebBrowser1
-  Caption = 'TMSFNCWebBrowser'
-  ClientHeight = 747
+  Caption = 'TMS FNC Core - Web Browser'
+  ClientHeight = 720
   ClientWidth = 1200
   Color = clBtnFace
   Font.Charset = DEFAULT_CHARSET
   Font.Color = clWindowText
-  Font.Height = -11
-  Font.Name = 'Tahoma'
+  Font.Height = -12
+  Font.Name = 'Segoe UI'
   Font.Style = []
   Icon.Data = {
     0000010001002020000001002000A81000001600000028000000200000004000
@@ -149,153 +149,345 @@ object Form3: TForm3
   OldCreateOrder = False
   Position = poScreenCenter
   OnCreate = FormCreate
-  DesignSize = (
-    1200
-    747)
+  OnDestroy = FormDestroy
   PixelsPerInch = 96
-  TextHeight = 13
-  object iBack: TImage
-    Left = 8
-    Top = 13
-    Width = 24
-    Height = 24
-    Cursor = crHandPoint
-    Stretch = True
-    OnClick = iBackClick
-  end
-  object iForward: TImage
-    Left = 38
-    Top = 13
-    Width = 24
-    Height = 24
-    Cursor = crHandPoint
-    Stretch = True
-    OnClick = iForwardClick
-  end
-  object iReload: TImage
-    Left = 74
-    Top = 13
-    Width = 24
-    Height = 24
-    Cursor = crHandPoint
-    Stretch = True
-    OnClick = iReloadClick
-  end
-  object iGo: TImage
-    Left = 817
-    Top = 13
-    Width = 24
-    Height = 24
-    Cursor = crHandPoint
-    Anchors = [akTop, akRight]
-    Stretch = True
-    OnClick = iGoClick
-  end
-  object Edit1: TEdit
-    Left = 108
-    Top = 13
-    Width = 703
-    Height = 24
-    Anchors = [akLeft, akTop, akRight]
-    Font.Charset = DEFAULT_CHARSET
-    Font.Color = clWindowText
-    Font.Height = -13
-    Font.Name = 'Tahoma'
-    Font.Style = []
-    ParentFont = False
+  TextHeight = 15
+  object DemoHeader: TPanel
+    Left = 0
+    Top = 0
+    Width = 1200
+    Height = 72
+    Align = alTop
+    BevelOuter = bvNone
+    ParentColor = True
+    ShowCaption = False
     TabOrder = 0
-    Text = 'Edit1'
-    OnKeyUp = Edit1KeyUp
+    object DemoTitle: TLabel
+      Left = 24
+      Top = 12
+      Width = 986
+      Height = 30
+      Anchors = [akLeft, akTop, akRight]
+      AutoSize = False
+      Caption = 'Web browser'
+      Font.Charset = DEFAULT_CHARSET
+      Font.Color = clWindowText
+      Font.Height = -20
+      Font.Name = 'Segoe UI Semibold'
+      Font.Style = []
+      ParentFont = False
+    end
+    object DemoDescription: TLabel
+      Left = 24
+      Top = 44
+      Width = 1152
+      Height = 20
+      Anchors = [akLeft, akTop, akRight]
+      AutoSize = False
+      Caption = 'Browse with back, forward and reload, follow the history, or talk to a page through a JavaScript bridge'
+    end
+    object DemoThemeCombo: TComboBox
+      Left = 1026
+      Top = 16
+      Width = 150
+      Height = 23
+      Style = csDropDownList
+      Anchors = [akTop, akRight]
+      ItemIndex = 0
+      TabOrder = 0
+      Text = 'Fluent Light'
+      OnChange = DemoThemeComboChange
+      Items.Strings = (
+        'Fluent Light'
+        'Fluent Dark')
+    end
+  end
+  object SettingsPanel: TPanel
+    AlignWithMargins = True
+    Left = 24
+    Top = 72
+    Width = 260
+    Height = 624
+    Margins.Left = 24
+    Margins.Top = 0
+    Margins.Right = 0
+    Margins.Bottom = 24
+    Align = alLeft
+    BevelOuter = bvNone
+    ParentColor = True
+    ShowCaption = False
+    TabOrder = 1
+    object SidePanelCaption: TLabel
+      AlignWithMargins = True
+      Left = 0
+      Top = 0
+      Width = 260
+      Height = 20
+      Margins.Left = 0
+      Margins.Top = 0
+      Margins.Right = 0
+      Margins.Bottom = 8
+      Align = alTop
+      AutoSize = False
+      Caption = 'Side panel'
+      Font.Charset = DEFAULT_CHARSET
+      Font.Color = clWindowText
+      Font.Height = -13
+      Font.Name = 'Segoe UI Semibold'
+      Font.Style = []
+      ParentFont = False
+    end
+    object Button1: TButton
+      AlignWithMargins = True
+      Left = 0
+      Top = 28
+      Width = 260
+      Height = 32
+      Margins.Left = 0
+      Margins.Top = 0
+      Margins.Right = 0
+      Margins.Bottom = 8
+      Align = alTop
+      TabOrder = 0
+      Caption = 'History'
+      Enabled = False
+      OnClick = Button1Click
+    end
+    object Button2: TButton
+      AlignWithMargins = True
+      Left = 0
+      Top = 68
+      Width = 260
+      Height = 32
+      Margins.Left = 0
+      Margins.Top = 0
+      Margins.Right = 0
+      Margins.Bottom = 16
+      Align = alTop
+      Caption = 'JavaScript bridge'
+      TabOrder = 1
+      OnClick = Button2Click
+    end
+    object ListBox1: TListBox
+      Left = 0
+      Top = 116
+      Width = 260
+      Height = 508
+      Align = alClient
+      ItemHeight = 15
+      TabOrder = 2
+    end
+    object Panel1: TPanel
+      Left = 0
+      Top = 116
+      Width = 260
+      Height = 508
+      Align = alClient
+      BevelOuter = bvNone
+      ParentColor = True
+      ShowCaption = False
+      TabOrder = 3
+      Visible = False
+      object BridgeHint: TLabel
+        AlignWithMargins = True
+        Left = 0
+        Top = 0
+        Width = 260
+        Height = 64
+        Margins.Left = 0
+        Margins.Top = 0
+        Margins.Right = 0
+        Margins.Bottom = 8
+        Align = alTop
+        AutoSize = False
+        Caption = 'The Yes and No buttons in the page call back into the application through a bridge object; the buttons below run JavaScript in the page.'
+        WordWrap = True
+      end
+      object Label1: TLabel
+        AlignWithMargins = True
+        Left = 0
+        Top = 72
+        Width = 260
+        Height = 20
+        Margins.Left = 0
+        Margins.Top = 0
+        Margins.Right = 0
+        Margins.Bottom = 4
+        Align = alTop
+        AutoSize = False
+        Caption = 'Yes clicked: 0'
+      end
+      object Label2: TLabel
+        AlignWithMargins = True
+        Left = 0
+        Top = 96
+        Width = 260
+        Height = 20
+        Margins.Left = 0
+        Margins.Top = 0
+        Margins.Right = 0
+        Margins.Bottom = 8
+        Align = alTop
+        AutoSize = False
+        Caption = 'No clicked: 0'
+      end
+      object Button3: TButton
+        AlignWithMargins = True
+        Left = 0
+        Top = 124
+        Width = 260
+        Height = 32
+        Margins.Left = 0
+        Margins.Top = 0
+        Margins.Right = 0
+        Margins.Bottom = 16
+        Align = alTop
+        Caption = 'Show the ratio in the page'
+        TabOrder = 0
+        OnClick = Button3Click
+      end
+      object Edit2: TEdit
+        AlignWithMargins = True
+        Left = 0
+        Top = 172
+        Width = 260
+        Height = 23
+        Margins.Left = 0
+        Margins.Top = 0
+        Margins.Right = 0
+        Margins.Bottom = 8
+        Align = alTop
+        TabOrder = 1
+        Text = 'New Item'
+      end
+      object Button4: TButton
+        AlignWithMargins = True
+        Left = 0
+        Top = 203
+        Width = 260
+        Height = 32
+        Margins.Left = 0
+        Margins.Top = 0
+        Margins.Right = 0
+        Margins.Bottom = 0
+        Align = alTop
+        Caption = 'Add the item to the page list'
+        TabOrder = 2
+        OnClick = Button4Click
+      end
+    end
+  end
+  object AddressBar: TPanel
+    AlignWithMargins = True
+    Left = 24
+    Top = 72
+    Width = 876
+    Height = 32
+    Margins.Left = 24
+    Margins.Top = 0
+    Margins.Right = 24
+    Margins.Bottom = 8
+    Align = alTop
+    BevelOuter = bvNone
+    ParentColor = True
+    ShowCaption = False
+    TabOrder = 2
+    object iBack: TImage
+      AlignWithMargins = True
+      Left = 0
+      Top = 4
+      Width = 24
+      Height = 24
+      Margins.Left = 0
+      Margins.Top = 4
+      Margins.Right = 8
+      Margins.Bottom = 4
+      Align = alLeft
+      Cursor = crHandPoint
+      Stretch = True
+      OnClick = iBackClick
+    end
+    object iForward: TImage
+      AlignWithMargins = True
+      Left = 32
+      Top = 4
+      Width = 24
+      Height = 24
+      Margins.Left = 0
+      Margins.Top = 4
+      Margins.Right = 8
+      Margins.Bottom = 4
+      Align = alLeft
+      Cursor = crHandPoint
+      Stretch = True
+      OnClick = iForwardClick
+    end
+    object iReload: TImage
+      AlignWithMargins = True
+      Left = 64
+      Top = 4
+      Width = 24
+      Height = 24
+      Margins.Left = 0
+      Margins.Top = 4
+      Margins.Right = 8
+      Margins.Bottom = 4
+      Align = alLeft
+      Cursor = crHandPoint
+      Stretch = True
+      OnClick = iReloadClick
+    end
+    object iGo: TImage
+      AlignWithMargins = True
+      Left = 852
+      Top = 4
+      Width = 24
+      Height = 24
+      Margins.Left = 8
+      Margins.Top = 4
+      Margins.Right = 0
+      Margins.Bottom = 4
+      Align = alRight
+      Cursor = crHandPoint
+      Stretch = True
+      OnClick = iGoClick
+    end
+    object Edit1: TEdit
+      AlignWithMargins = True
+      Left = 96
+      Top = 4
+      Width = 748
+      Height = 23
+      Margins.Left = 0
+      Margins.Top = 4
+      Margins.Right = 0
+      Margins.Bottom = 4
+      Align = alClient
+      TabOrder = 0
+      Text = 'Edit1'
+      OnKeyUp = Edit1KeyUp
+    end
   end
   object TMSFNCWebBrowser1: TTMSFNCWebBrowser
-    Left = 8
-    Top = 50
-    Width = 833
-    Height = 689
+    AlignWithMargins = True
+    Left = 300
+    Top = 112
+    Width = 876
+    Height = 584
+    Margins.Left = 16
+    Margins.Top = 0
+    Margins.Right = 24
+    Margins.Bottom = 24
+    Align = alClient
+    TabOrder = 3
     ParentDoubleBuffered = False
     DoubleBuffered = True
-    TabOrder = 1
     URL = 'https://www.tmssoftware.com/site/default.asp'
     OnNavigateComplete = TMSFNCWebBrowser1NavigateComplete
   end
-  object ListBox1: TListBox
-    Left = 847
-    Top = 50
-    Width = 345
-    Height = 689
-    ItemHeight = 13
-    TabOrder = 2
-  end
-  object Button1: TButton
-    Left = 847
-    Top = 13
-    Width = 106
-    Height = 24
-    Caption = 'History'
-    Enabled = False
-    TabOrder = 3
-    OnClick = Button1Click
-  end
-  object Button2: TButton
-    Left = 1086
-    Top = 13
-    Width = 106
-    Height = 24
-    Caption = 'Bridge Adapter'
-    TabOrder = 4
-    OnClick = Button2Click
-  end
-  object Panel1: TPanel
-    Left = 847
-    Top = 50
-    Width = 345
-    Height = 689
-    TabOrder = 5
-    Visible = False
-    object Label1: TLabel
-      Left = 24
-      Top = 48
-      Width = 64
-      Height = 13
-      Caption = 'Yes clicked: 0'
-    end
-    object Label2: TLabel
-      Left = 24
-      Top = 80
-      Width = 60
-      Height = 13
-      Caption = 'No clicked: 0'
-    end
-    object Button3: TButton
-      Left = 224
-      Top = 120
-      Width = 105
-      Height = 25
-      Caption = 'Set Ratio'
-      TabOrder = 0
-      OnClick = Button3Click
-    end
-    object Button4: TButton
-      Left = 224
-      Top = 192
-      Width = 105
-      Height = 25
-      Caption = 'Add Item'
-      TabOrder = 1
-      OnClick = Button4Click
-    end
-    object Edit2: TEdit
-      Left = 24
-      Top = 194
-      Width = 177
-      Height = 21
-      TabOrder = 2
-      Text = 'New Edit'
-    end
-  end
   object TMSFNCBitmapContainer1: TTMSFNCBitmapContainer
-    Left = 592
-    Top = 384
+    Left = 48
+    Top = 8
     Width = 26
     Height = 26
     Visible = True
@@ -511,5 +703,10 @@ object Form3: TForm3
         Name = 'reload'
         Tag = 0
       end>
+  end
+  object ThemeManager: TTMSFNCThemeManager
+    Theme = 'Fluent Light'
+    Left = 8
+    Top = 8
   end
 end

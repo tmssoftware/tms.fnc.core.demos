@@ -1,19 +1,118 @@
 object Form1: TForm1
   Left = 0
   Top = 0
-  Caption = 'TMS FNC Filter Rules Manager Panel Control Demo'
-  ClientHeight = 280
-  ClientWidth = 284
+  Caption = 'TMS FNC Core - Filter rules manager'
+  ClientHeight = 520
+  ClientWidth = 760
+  Position = ScreenCenter
   FormFactor.Width = 320
   FormFactor.Height = 480
   FormFactor.Devices = [Desktop]
   OnCreate = FormCreate
+  OnDestroy = FormDestroy
   DesignerMasterStyle = 0
+  object DemoHeader: TLayout
+    Align = Top
+    Size.Width = 760.000000000000000000
+    Size.Height = 72.000000000000000000
+    Size.PlatformDefault = False
+    TabOrder = 0
+    object DemoTitle: TLabel
+      Anchors = [akLeft, akTop, akRight]
+      StyledSettings = [Family]
+      Position.X = 24.000000000000000000
+      Position.Y = 12.000000000000000000
+      Size.Width = 546.000000000000000000
+      Size.Height = 30.000000000000000000
+      Size.PlatformDefault = False
+      TextSettings.Font.Size = 20.000000000000000000
+      TextSettings.Font.StyleExt = {00060000000000000004000000}
+      Text = 'Filter rules manager - panel'
+    end
+    object DemoDescription: TLabel
+      Anchors = [akLeft, akTop, akRight]
+      StyledSettings = [Family, Style]
+      Position.X = 24.000000000000000000
+      Position.Y = 44.000000000000000000
+      Size.Width = 712.000000000000000000
+      Size.Height = 20.000000000000000000
+      Size.PlatformDefault = False
+      TextSettings.Font.Size = 13.000000000000000000
+      Text = 'A rule shows and hides the action buttons of a panel, whatever else the panel holds'
+    end
+    object DemoThemeCombo: TComboBox
+      Anchors = [akTop, akRight]
+      Items.Strings = (
+        'Fluent Light'
+        'Fluent Dark')
+      ItemIndex = 0
+      Position.X = 586.000000000000000000
+      Position.Y = 10.000000000000000000
+      Size.Width = 150.000000000000000000
+      Size.Height = 32.000000000000000000
+      Size.PlatformDefault = False
+      TabOrder = 2
+      OnChange = DemoThemeComboChange
+    end
+  end
+  object SettingsPanel: TLayout
+    Align = Left
+    Margins.Left = 24.000000000000000000
+    Margins.Bottom = 24.000000000000000000
+    Position.X = 24.000000000000000000
+    Position.Y = 72.000000000000000000
+    Size.Width = 260.000000000000000000
+    Size.Height = 400.000000000000000000
+    Size.PlatformDefault = False
+    TabOrder = 1
+    object StepsCaption: TLabel
+      Align = Top
+      StyledSettings = [Family]
+      Margins.Bottom = 8.000000000000000000
+      Position.X = 0.000000000000000000
+      Position.Y = 0.000000000000000000
+      Size.Width = 260.000000000000000000
+      Size.Height = 24.000000000000000000
+      Size.PlatformDefault = False
+      TextSettings.Font.Size = 13.000000000000000000
+      TextSettings.Font.StyleExt = {00060000000000000004000000}
+      Text = 'Rule'
+    end
+    object btnToggleButtons: TButton
+      Align = Top
+      Margins.Bottom = 8.000000000000000000
+      Position.X = 0.000000000000000000
+      Position.Y = 32.000000000000000000
+      Size.Width = 260.000000000000000000
+      Size.Height = 36.000000000000000000
+      Size.PlatformDefault = False
+      TabOrder = 0
+      Text = 'Toggle action buttons'
+      TextSettings.Trimming = None
+      OnClick = btnToggleButtonsClick
+    end
+    object StepsHint: TLabel
+      Align = Top
+      StyledSettings = [Family, Style]
+      Margins.Bottom = 8.000000000000000000
+      Position.X = 0.000000000000000000
+      Position.Y = 76.000000000000000000
+      Size.Width = 260.000000000000000000
+      Size.Height = 110.000000000000000000
+      Size.PlatformDefault = False
+      TextSettings.Font.Size = 13.000000000000000000
+      TextSettings.VertAlign = Leading
+      TextSettings.WordWrap = True
+      Text = 'The rule selects every control of the panel whose name starts with btn and sets its visibility. The other controls stay.'
+    end
+  end
   object pnlControls: TPanel
-    Position.X = 8.000000000000000000
-    Position.Y = 48.000000000000000000
-    Size.Width = 265.000000000000000000
-    Size.Height = 217.000000000000000000
+    Align = Client
+    Margins.Left = 16.000000000000000000
+    Margins.Right = 24.000000000000000000
+    Margins.Bottom = 24.000000000000000000
+    Size.Width = 420.000000000000000000
+    Size.Height = 424.000000000000000000
     Size.PlatformDefault = False
     TabOrder = 0
     object btnCreateInvoice: TButton
@@ -98,14 +197,9 @@ object Form1: TForm1
       Text = 'Overdue only'
     end
   end
-  object btnToggleButtons: TButton
-    Position.X = 8.000000000000000000
-    Position.Y = 8.000000000000000000
-    Size.Width = 265.000000000000000000
-    Size.Height = 32.000000000000000000
-    Size.PlatformDefault = False
-    TabOrder = 1
-    Text = 'Toggle action buttons'
-    OnClick = btnToggleButtonsClick
+  object ThemeManager: TTMSFNCThemeManager
+    Theme = 'Fluent Light'
+    Left = 8
+    Top = 8
   end
 end

@@ -1,33 +1,150 @@
 object Form1: TForm1
   Left = 0
   Top = 0
-  Margins.Left = 5
-  Margins.Top = 5
-  Margins.Right = 5
-  Margins.Bottom = 5
-  Caption = 'TMS FNC Filter Rules Manager Panel Control VCL Demo'
-  ClientHeight = 420
-  ClientWidth = 435
+  Caption = 'TMS FNC Core - Filter rules manager'
+  ClientHeight = 520
+  ClientWidth = 760
   Color = clBtnFace
   Font.Charset = DEFAULT_CHARSET
   Font.Color = clWindowText
-  Font.Height = -18
+  Font.Height = -12
   Font.Name = 'Segoe UI'
   Font.Style = []
-  Position = poScreenCenter
   OnCreate = FormCreate
-  PixelsPerInch = 144
-  TextHeight = 25
-  object pnlControls: TPanel
-    Left = 12
+  Position = poScreenCenter
+  PixelsPerInch = 96
+  TextHeight = 15
+  OnDestroy = FormDestroy
+  object DemoHeader: TPanel
+    Left = 0
+    Top = 0
+    Width = 760
+    Height = 72
+    Align = alTop
+    BevelOuter = bvNone
+    ParentColor = True
+    ShowCaption = False
+    TabOrder = 0
+    object DemoTitle: TLabel
+      Left = 24
+      Top = 12
+      Width = 546
+      Height = 30
+      Anchors = [akLeft, akTop, akRight]
+      AutoSize = False
+      Caption = 'Filter rules manager - panel'
+      Font.Charset = DEFAULT_CHARSET
+      Font.Color = clWindowText
+      Font.Height = -20
+      Font.Name = 'Segoe UI Semibold'
+      Font.Style = []
+      ParentFont = False
+    end
+    object DemoDescription: TLabel
+      Left = 24
+      Top = 44
+      Width = 712
+      Height = 20
+      Anchors = [akLeft, akTop, akRight]
+      AutoSize = False
+      Caption = 'A rule shows and hides the action buttons of a panel, whatever else the panel holds'
+    end
+    object DemoThemeCombo: TComboBox
+      Left = 586
+      Top = 16
+      Width = 150
+      Height = 23
+      Style = csDropDownList
+      Anchors = [akTop, akRight]
+      ItemIndex = 0
+      TabOrder = 2
+      Text = 'Fluent Light'
+      OnChange = DemoThemeComboChange
+      Items.Strings = (
+        'Fluent Light'
+        'Fluent Dark')
+    end
+  end
+  object SettingsPanel: TPanel
+    AlignWithMargins = True
+    Left = 24
     Top = 72
-    Width = 398
-    Height = 326
-    Margins.Left = 5
-    Margins.Top = 5
-    Margins.Right = 5
-    Margins.Bottom = 5
+    Width = 260
+    Height = 400
+    Margins.Left = 24
+    Margins.Top = 0
+    Margins.Right = 0
+    Margins.Bottom = 24
+    Align = alLeft
+    BevelOuter = bvNone
+    ParentColor = True
+    ShowCaption = False
+    TabOrder = 1
+    object StepsCaption: TLabel
+      Left = 0
+      Top = 0
+      Width = 260
+      Height = 24
+      Align = alTop
+      AlignWithMargins = True
+      Margins.Left = 0
+      Margins.Top = 0
+      Margins.Right = 0
+      Margins.Bottom = 8
+      AutoSize = False
+      Caption = 'Rule'
+      Font.Charset = DEFAULT_CHARSET
+      Font.Color = clWindowText
+      Font.Height = -13
+      Font.Name = 'Segoe UI Semibold'
+      Font.Style = []
+      ParentFont = False
+    end
+    object btnToggleButtons: TButton
+      Left = 0
+      Top = 32
+      Width = 260
+      Height = 36
+      Align = alTop
+      AlignWithMargins = True
+      Margins.Left = 0
+      Margins.Top = 0
+      Margins.Right = 0
+      Margins.Bottom = 8
+      Caption = 'Toggle action buttons'
+      TabOrder = 0
+      OnClick = btnToggleButtonsClick
+    end
+    object StepsHint: TLabel
+      Left = 0
+      Top = 76
+      Width = 260
+      Height = 110
+      Align = alTop
+      AlignWithMargins = True
+      Margins.Left = 0
+      Margins.Top = 0
+      Margins.Right = 0
+      Margins.Bottom = 8
+      AutoSize = False
+      Caption = 'The rule selects every control of the panel whose name starts with btn and sets its visibility. The other controls stay.'
+      WordWrap = True
+    end
+  end
+  object pnlControls: TPanel
+    AlignWithMargins = True
+    Left = 300
+    Top = 72
+    Width = 436
+    Height = 424
+    Margins.Left = 16
+    Margins.Top = 0
+    Margins.Right = 24
+    Margins.Bottom = 24
+    Align = alClient
     BevelOuter = bvLowered
+    Color = clWindow
+    ParentBackground = False
     TabOrder = 0
     object lblCustomer: TLabel
       Left = 1
@@ -149,17 +266,9 @@ object Form1: TForm1
       TabOrder = 6
     end
   end
-  object btnToggleButtons: TButton
-    Left = 12
-    Top = 12
-    Width = 398
-    Height = 48
-    Margins.Left = 5
-    Margins.Top = 5
-    Margins.Right = 5
-    Margins.Bottom = 5
-    Caption = 'Toggle action buttons'
-    TabOrder = 1
-    OnClick = btnToggleButtonsClick
+  object ThemeManager: TTMSFNCThemeManager
+    Theme = 'Fluent Light'
+    Left = 8
+    Top = 8
   end
 end

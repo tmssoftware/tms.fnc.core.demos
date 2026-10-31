@@ -127,7 +127,9 @@ begin
   c.Expires := ExpirationDate.Date + ExpirationTime.Time;
   c.Value := ValueEdit.Text;
   c.Secure := true;
-  c.SameSite := sstLax;
+  {$IFNDEF MACOS}
+  c.SameSite := sstLax; // the cookie record has no SameSite on macOS and iOS
+  {$ENDIF}
 
   TMSFNCEdgeWebBrowser1.AddCookie(c);
 

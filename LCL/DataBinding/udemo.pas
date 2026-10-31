@@ -35,6 +35,9 @@ type
   { TForm1 }
 
   TForm1 = class(TForm)
+    DemoHeader: TPanel;
+    DemoTitle: TLabel;
+    DemoDescription: TLabel;
     Button1: TButton;
     Button2: TButton;
     DataSource1: TDataSource;
@@ -133,9 +136,9 @@ begin
   s.Parent := Self;
   s.Name := 'StringGrid1';
   s.Align := alClient;
-  s.BorderSpacing.Left := 10;
-  s.BorderSpacing.Right := 10;
-  s.BorderSpacing.Bottom := 10;
+  s.BorderSpacing.Left := 24;
+  s.BorderSpacing.Right := 24;
+  s.BorderSpacing.Bottom := 24;
   s.BorderSpacing.Top := ListBox1.Height + 20;
   s.FixedRows := 1;
 
@@ -145,7 +148,8 @@ begin
 
   p.Left := ListBox1.Left + ListBox1.Width + 20;
   p.Top := ListBox1.Top;
-  p.Width := Width - p.Left - 20;
+  p.Width := ClientWidth - p.Left - 24;
+  p.Anchors := [akLeft, akTop, akRight];
   p.Height := ListBox1.Height;
 
   TMSFNCDataBinder1.ConnectSingleHTMLTemplate(p, DataSource1, 'HTML',

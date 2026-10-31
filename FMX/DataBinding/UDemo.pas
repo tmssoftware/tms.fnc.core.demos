@@ -8,17 +8,21 @@ uses
   FMX.Layouts, FMX.ListBox, FMX.TMSFNCCustomComponent, FMX.TMSFNCDataBinding,
   System.Rtti, FMX.Grid.Style, FMX.ScrollBox, FMX.Grid, Data.DB,
   Datasnap.DBClient, Data.Bind.Controls, Data.Bind.Components,
-  Data.Bind.DBScope, Fmx.Bind.Navigator;
+  Data.Bind.DBScope, Fmx.Bind.Navigator,
+  FMX.TMSFNCTheme;
 
 type
   THTMLPaintBox = class(TPaintBox)
   private
     FHTML: string;
+    FTextColor: TAlphaColor;
     procedure SetHTML(const Value: string);
+    procedure SetTextColor(const Value: TAlphaColor);
   protected
     procedure Paint; override;
   published
     property HTML: string read FHTML write SetHTML;
+    property TextColor: TAlphaColor read FTextColor write SetTextColor;
   end;
 
   TStringGridEx = class(TStringGrid, ITMSFNCDataBinderGrid, ITMSFNCDataBinderSelection)
@@ -38,7 +42,12 @@ type
   end;
 
   TForm130 = class(TForm)
-    Panel1: TPanel;
+    ThemeManager: TTMSFNCThemeManager;
+    DemoHeader: TLayout;
+    DemoTitle: TLabel;
+    DemoDescription: TLabel;
+    DemoThemeCombo: TComboBox;
+    Panel1: TLayout;
     Button1: TButton;
     Button2: TButton;
     TMSFNCDataBinder1: TTMSFNCDataBinder;
@@ -51,7 +60,11 @@ type
     procedure Button1Click(Sender: TObject);
     procedure Button2Click(Sender: TObject);
     procedure FormCreate(Sender: TObject);
+    procedure FormDestroy(Sender: TObject);
+    procedure DemoThemeComboChange(Sender: TObject);
   private
+    FHTMLBox: THTMLPaintBox;
+    procedure ThemeChanged(Sender: TObject);
     { Private declarations }
   public
     { Public declarations }
@@ -92,13 +105,14 @@ var
   s: TStringGridEx;
   p: THTMLPaintBox;
 begin
+  TTMSFNCTheme.AddChangeListener(ThemeChanged);
   s := TStringGridEx.Create(Self);
   s.Parent := Self;
   s.Name := 'StringGrid1';
   s.Align := TAlignLayout.Client;
-  s.Margins.Left := 10;
-  s.Margins.Right := 10;
-  s.Margins.Bottom := 10;
+  s.Margins.Left := 24;
+  s.Margins.Right := 24;
+  s.Margins.Bottom := 24;
   s.Margins.Top := ImageControl1.Height + 20;
   s.Options := s.Options + [TGridOption.AlwaysShowSelection, TGridOption.RowSelect];
   s.OnSelChanged := DoSelChanged;
@@ -109,8 +123,11 @@ begin
 
   p.Position.X := ImageControl1.Position.X + ImageControl1.Width + 20;
   p.Position.Y := ImageControl1.Position.Y;
-  p.Width := Width - p.Position.X - 20;
+  p.Width := Width - p.Position.X - 24;
   p.Height := ImageControl1.Height;
+  p.Anchors := [TAnchorKind.akLeft, TAnchorKind.akTop, TAnchorKind.akRight];
+  FHTMLBox := p;
+  ThemeChanged(nil);
 
   TMSFNCDataBinder1.ConnectSingleHTMLTemplate(p, DataSource1, 'HTML', '<b>Name: <#COMMON_NAME></b><br/><font size="10"><#NOTES></font>');
   TMSFNCDataBinder1.ConnectSingle(ImageControl1, DataSource1, 'Bitmap', 'Graphic');
@@ -119,6 +136,42 @@ begin
 
   TMSFNCDataBinder1.Active := True;
   Button1.Text := 'Deactivate';
+end;
+
+procedure TForm130.FormDestroy(Sender: TObject);
+begin
+  TTMSFNCTheme.RemoveChangeListener(ThemeChanged);
+end;
+
+{ Core has no FNC label or button: the native labels take the text colours of the theme in
+  effect (without a theme: the platform's). Native buttons, edits and grids keep the platform
+  look, which is readable on a light and on a dark form. }
+procedure TForm130.ThemeChanged(Sender: TObject);
+var
+  t: TTMSFNCResolvedTheme;
+  txt, sec: TAlphaColor;
+begin
+  t := TTMSFNCTheme.Resolve(TTMSFNCTheme.Current);
+  if Assigned(t) then
+  begin
+    txt := t[ttText];
+    sec := t[ttTextSecondary];
+  end
+  else
+  begin
+    txt := TAlphaColorRec.Black;
+    sec := $FF5B6470;
+  end;
+  DemoTitle.FontColor := txt;
+  DemoDescription.FontColor := sec;
+  if Assigned(FHTMLBox) then
+    FHTMLBox.TextColor := txt;
+end;
+
+procedure TForm130.DemoThemeComboChange(Sender: TObject);
+begin
+  if DemoThemeCombo.ItemIndex >= 0 then
+    ThemeManager.Theme := DemoThemeCombo.Items[DemoThemeCombo.ItemIndex];
 end;
 
 { THTMLPaintBox }
@@ -130,10 +183,17 @@ begin
   inherited;
   g := TTMSFNCGraphics.Create(Canvas);
   try
+    g.Font.Color := FTextColor;
     g.DrawText(LocalRect, HTML, True, gtaLeading, gtaLeading);
   finally
     g.Free;
   end;
+end;
+
+procedure THTMLPaintBox.SetTextColor(const Value: TAlphaColor);
+begin
+  FTextColor := Value;
+  Repaint;
 end;
 
 procedure THTMLPaintBox.SetHTML(const Value: string);

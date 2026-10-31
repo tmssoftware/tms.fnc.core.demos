@@ -1,18 +1,54 @@
 object Form1: TForm1
   Left = 583
-  Height = 603
+  Height = 675
   Top = 193
   Width = 704
-  Caption = 'TMS FNC PDFLib'
-  ClientHeight = 603
+  Caption = 'TMS FNC Core - Data binding'
+  ClientHeight = 675
   ClientWidth = 704
   OnCreate = FormCreate
   Position = poScreenCenter
   LCLVersion = '2.0.2.0'
+  object DemoHeader: TPanel
+    Left = 0
+    Height = 72
+    Top = 0
+    Width = 704
+    Align = alTop
+    BevelOuter = bvNone
+    ClientHeight = 72
+    ClientWidth = 704
+    TabOrder = 0
+    object DemoTitle: TLabel
+      Left = 24
+      Height = 30
+      Top = 12
+      Width = 656
+      Anchors = [akTop, akLeft, akRight]
+      AutoSize = False
+      Caption = 'Data binding'
+      Font.Height = -20
+      Font.Style = [fsBold]
+      ParentColor = False
+      ParentFont = False
+    end
+    object DemoDescription: TLabel
+      Left = 24
+      Height = 20
+      Top = 44
+      Width = 656
+      Anchors = [akTop, akLeft, akRight]
+      AutoSize = False
+      Caption = 'One data set drives a list, a grid and an HTML template through TTMSFNCDataBinder'
+      Font.Color = clGrayText
+      ParentColor = False
+      ParentFont = False
+    end
+  end
   object Panel1: TPanel
     Left = 0
     Height = 41
-    Top = 0
+    Top = 72
     Width = 704
     Align = alTop
     BevelOuter = bvNone
@@ -26,7 +62,7 @@ object Form1: TForm1
       Top = 5
       Width = 75
       Align = alLeft
-      BorderSpacing.Left = 5
+      BorderSpacing.Left = 24
       BorderSpacing.Top = 5
       BorderSpacing.Bottom = 5
       Caption = 'Activate'
@@ -55,7 +91,7 @@ object Form1: TForm1
       BevelOuter = bvNone
       BorderSpacing.Left = 5
       BorderSpacing.Top = 5
-      BorderSpacing.Right = 5
+      BorderSpacing.Right = 24
       BorderSpacing.Bottom = 5
       ChildSizing.EnlargeHorizontal = crsScaleChilds
       ChildSizing.EnlargeVertical = crsScaleChilds
@@ -79,9 +115,9 @@ object Form1: TForm1
     Items = <>
   end
   object ListBox1: TListBox
-    Left = 10
+    Left = 24
     Height = 200
-    Top = 50
+    Top = 122
     Width = 200
     ItemHeight = 0
     TabOrder = 2

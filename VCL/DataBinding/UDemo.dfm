@@ -1,21 +1,73 @@
 object Form130: TForm130
   Left = 0
   Top = 0
-  Caption = 'TMS FNC DataBinding Demo'
-  ClientHeight = 603
+  Caption = 'TMS FNC Core - Data binding'
+  ClientHeight = 675
   ClientWidth = 704
   Color = clBtnFace
   Font.Charset = DEFAULT_CHARSET
   Font.Color = clWindowText
-  Font.Height = -11
-  Font.Name = 'Tahoma'
+  Font.Height = -12
+  Font.Name = 'Segoe UI'
   Font.Style = []
-  Position = poScreenCenter
   OnCreate = FormCreate
-  TextHeight = 13
+  Position = poScreenCenter
+  PixelsPerInch = 96
+  TextHeight = 15
+  OnDestroy = FormDestroy
+  object DemoHeader: TPanel
+    Left = 0
+    Top = 0
+    Width = 704
+    Height = 72
+    Align = alTop
+    BevelOuter = bvNone
+    ParentColor = True
+    ShowCaption = False
+    TabOrder = 0
+    object DemoTitle: TLabel
+      Left = 24
+      Top = 12
+      Width = 490
+      Height = 30
+      Anchors = [akLeft, akTop, akRight]
+      AutoSize = False
+      Caption = 'Data binding'
+      Font.Charset = DEFAULT_CHARSET
+      Font.Color = clWindowText
+      Font.Height = -20
+      Font.Name = 'Segoe UI Semibold'
+      Font.Style = []
+      ParentFont = False
+    end
+    object DemoDescription: TLabel
+      Left = 24
+      Top = 44
+      Width = 656
+      Height = 20
+      Anchors = [akLeft, akTop, akRight]
+      AutoSize = False
+      Caption = 'One data set drives a list, a grid, an image and an HTML template through TTMSFNCDataBinder'
+    end
+    object DemoThemeCombo: TComboBox
+      Left = 530
+      Top = 16
+      Width = 150
+      Height = 23
+      Style = csDropDownList
+      Anchors = [akTop, akRight]
+      ItemIndex = 0
+      TabOrder = 2
+      Text = 'Fluent Light'
+      OnChange = DemoThemeComboChange
+      Items.Strings = (
+        'Fluent Light'
+        'Fluent Dark')
+    end
+  end
   object Image1: TImage
-    Left = 223
-    Top = 50
+    Left = 238
+    Top = 122
     Width = 200
     Height = 200
     Center = True
@@ -29,9 +81,8 @@ object Form130: TForm130
     Height = 41
     Align = alTop
     BevelOuter = bvNone
-    BorderStyle = bsSingle
-    Ctl3D = False
-    ParentCtl3D = False
+    ParentColor = True
+    ShowCaption = False
     TabOrder = 0
     object Button1: TButton
       AlignWithMargins = True
@@ -39,7 +90,7 @@ object Form130: TForm130
       Top = 5
       Width = 75
       Height = 29
-      Margins.Left = 5
+      Margins.Left = 24
       Margins.Top = 5
       Margins.Right = 0
       Margins.Bottom = 5
@@ -71,7 +122,7 @@ object Form130: TForm130
       Height = 29
       Margins.Left = 5
       Margins.Top = 5
-      Margins.Right = 5
+      Margins.Right = 24
       Margins.Bottom = 5
       DataSource = DataSource1
       Align = alRight
@@ -87,8 +138,8 @@ object Form130: TForm130
     Items = <>
   end
   object ListBox1: TListBox
-    Left = 10
-    Top = 50
+    Left = 24
+    Top = 122
     Width = 200
     Height = 200
     ItemHeight = 13
@@ -34614,5 +34665,10 @@ object Form130: TForm130
     DataSet = ClientDataSet1
     Left = 496
     Top = 336
+  end
+  object ThemeManager: TTMSFNCThemeManager
+    Theme = 'Fluent Light'
+    Left = 8
+    Top = 8
   end
 end

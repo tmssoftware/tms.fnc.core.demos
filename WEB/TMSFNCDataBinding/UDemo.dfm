@@ -1,11 +1,14 @@
 object Form1: TForm1
+  Left = 0
+  Top = 0
   Width = 782
   Height = 649
-  Caption = 'TMS FNC DataBinding Demo'
+  Caption = 'TMS FNC Core - Data binding'
+  Color = clBtnFace
   Font.Charset = DEFAULT_CHARSET
   Font.Color = clWindowText
-  Font.Height = -11
-  Font.Name = 'Tahoma'
+  Font.Height = -13
+  Font.Name = 'Segoe UI'
   Font.Style = []
   FormContainer = 'appcontent'
   ParentFont = False
@@ -20,6 +23,7 @@ object Form1: TForm1
     Align = alTop
     BorderColor = clSilver
     BorderStyle = bsSingle
+    Color = clNone
     object WebButton1: TWebButton
       AlignWithMargins = True
       Left = 5
@@ -56,6 +60,33 @@ object Form1: TForm1
       ExplicitLeft = 352
       ExplicitTop = 24
       ExplicitHeight = 25
+    end
+    object ThemeLabel: TWebLabel
+      Left = 540
+      Top = 12
+      Width = 40
+      Height = 15
+      Anchors = [akTop, akRight]
+      Caption = 'Theme'
+      ElementClassName = 'form-label'
+      HeightPercent = 100.000000000000000000
+      WidthPercent = 100.000000000000000000
+    end
+    object ThemeCombo: TWebComboBox
+      Left = 596
+      Top = 6
+      Width = 160
+      Height = 28
+      Anchors = [akTop, akRight]
+      ElementClassName = 'form-select'
+      HeightPercent = 100.000000000000000000
+      Text = 'Fluent Light'
+      WidthPercent = 100.000000000000000000
+      OnChange = ThemeComboChange
+      ItemIndex = 0
+      Items.Strings = (
+        'Fluent Light'
+        'Fluent Dark')
     end
   end
   object WebListBox1: TWebListBox
@@ -100,5 +131,10 @@ object Form1: TForm1
     Params = <>
     Left = 624
     Top = 216
+  end
+  object ThemeManager: TTMSFNCThemeManager
+    Theme = 'Fluent Light'
+    Left = 8
+    Top = 8
   end
 end

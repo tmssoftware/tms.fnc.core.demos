@@ -1,0 +1,104 @@
+object frmHTMLDemo: TfrmHTMLDemo
+  Left = 0
+  Top = 0
+  Caption = 'TMS FNC Core - HTML engine'
+  ClientHeight = 720
+  ClientWidth = 900
+  Position = ScreenCenter
+  FormFactor.Width = 320
+  FormFactor.Height = 480
+  FormFactor.Devices = [Desktop]
+  DesignerMasterStyle = 0
+  OnCreate = FormCreate
+  OnDestroy = FormDestroy
+  OnShow = FormShow
+  object ThemeManager: TTMSFNCThemeManager
+    Theme = 'Fluent Light'
+    Left = 8
+    Top = 8
+  end
+  object Content: TRectangle
+    Align = Client
+    Size.Width = 900.000000000000000000
+    Size.Height = 720.000000000000000000
+    Size.PlatformDefault = False
+    Stroke.Kind = None
+    object Bar: TLayout
+      Align = Top
+      Size.Width = 900.000000000000000000
+      Size.Height = 48.000000000000000000
+      Size.PlatformDefault = False
+      TabOrder = 0
+      object SampleLbl: TLabel
+        Position.X = 12.000000000000000000
+        Position.Y = 14.000000000000000000
+        Size.Width = 50.000000000000000000
+        Size.Height = 17.000000000000000000
+        Size.PlatformDefault = False
+        Text = 'Sample'
+        TabOrder = 0
+      end
+      object Samples: TComboBox
+        Items.Strings = (
+          'All samples'
+          '4.x markup'
+          'CSS styling'
+          'Tables'
+          'Lists'
+          'Floats'
+          'Theme colours')
+        ItemIndex = 0
+        Position.X = 70.000000000000000000
+        Position.Y = 8.000000000000000000
+        Size.Width = 150.000000000000000000
+        Size.Height = 32.000000000000000000
+        Size.PlatformDefault = False
+        TabOrder = 1
+        OnChange = SamplesChange
+      end
+      object Themes: TComboBox
+        Items.Strings = (
+          'Fluent Light'
+          'Fluent Dark'
+          'Material 3 Light'
+          'Office 2019 Black')
+        ItemIndex = 0
+        Position.X = 240.000000000000000000
+        Position.Y = 8.000000000000000000
+        Size.Width = 160.000000000000000000
+        Size.Height = 32.000000000000000000
+        Size.PlatformDefault = False
+        TabOrder = 2
+        OnChange = ThemesChange
+      end
+      object ExportBtn: TButton
+        Position.X = 420.000000000000000000
+        Position.Y = 8.000000000000000000
+        Size.Width = 130.000000000000000000
+        Size.Height = 32.000000000000000000
+        Size.PlatformDefault = False
+        TabOrder = 3
+        Text = 'Export PDF'
+        OnClick = ExportClick
+      end
+    end
+    object StatusLbl: TLabel
+      Align = Bottom
+      Margins.Left = 12.000000000000000000
+      Position.X = 12.000000000000000000
+      Position.Y = 694.000000000000000000
+      Size.Width = 888.000000000000000000
+      Size.Height = 26.000000000000000000
+      Size.PlatformDefault = False
+      Text = 'Hover the link to see its title'
+      TabOrder = 1
+    end
+    object ViewHost: TLayout
+      Align = Client
+      Size.Width = 900.000000000000000000
+      Size.Height = 646.000000000000000000
+      Size.PlatformDefault = False
+      TabOrder = 2
+    end
+  end
+end

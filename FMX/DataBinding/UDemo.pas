@@ -108,8 +108,8 @@ procedure TForm130.FormCreate(Sender: TObject);
 var
   s: TStringGridEx;
   p: THTMLPaintBox;
-  m: TMemo;
-  lbl: TLabel;
+  LMemo: TMemo;
+  LLabel: TLabel;
   it: TTMSFNCDataBinderItem;
 begin
   TTMSFNCTheme.AddChangeListener(ThemeChanged);
@@ -125,28 +125,28 @@ begin
   s.OnSelChanged := DoSelChanged;
 
   { TMemo bound read-only to the Notes memo field }
-  m := TMemo.Create(Self);
-  m.Parent := Self;
-  m.Name := 'NotesDisplay';
-  m.Align := TAlignLayout.Bottom;
-  m.Margins.Left := 24;
-  m.Margins.Right := 24;
-  m.Margins.Bottom := 24;
-  m.Height := 140;
-  m.ReadOnly := True;
-  m.StyledSettings := m.StyledSettings - [TStyledSetting.Other];
-  FMemo := m;
+  LMemo := TMemo.Create(Self);
+  LMemo.Parent := Self;
+  LMemo.Name := 'NotesDisplay';
+  LMemo.Align := TAlignLayout.Bottom;
+  LMemo.Margins.Left := 24;
+  LMemo.Margins.Right := 24;
+  LMemo.Margins.Bottom := 24;
+  LMemo.Height := 140;
+  LMemo.ReadOnly := True;
+  LMemo.StyledSettings := LMemo.StyledSettings - [TStyledSetting.Other];
+  FMemo := LMemo;
 
   { Error label for OnBindError feedback }
-  lbl := TLabel.Create(Self);
-  lbl.Parent := Self;
-  lbl.Name := 'ErrorLbl';
-  lbl.Position.X := 24;
-  lbl.Position.Y := Height - 20;
-  lbl.Width := Width - 48;
-  lbl.Text := '';
-  lbl.Anchors := [TAnchorKind.akLeft, TAnchorKind.akBottom, TAnchorKind.akRight];
-  FErrorLbl := lbl;
+  LLabel := TLabel.Create(Self);
+  LLabel.Parent := Self;
+  LLabel.Name := 'ErrorLbl';
+  LLabel.Position.X := 24;
+  LLabel.Position.Y := Height - 20;
+  LLabel.Width := Width - 48;
+  LLabel.Text := '';
+  LLabel.Anchors := [TAnchorKind.akLeft, TAnchorKind.akBottom, TAnchorKind.akRight];
+  FErrorLbl := LLabel;
 
   p := THTMLPaintBox.Create(Self);
   p.Parent := Self;
@@ -167,12 +167,12 @@ begin
   TMSFNCDataBinder1.ConnectGrid(s, DataSource1);
 
   { Memo bound to Notes (ftMemo field); ReadOnly = True: field drives control, not the reverse }
-  it := TMSFNCDataBinder1.ConnectSingle(m, DataSource1, 'Text', 'Notes');
+  it := TMSFNCDataBinder1.ConnectSingle(LMemo, DataSource1, 'Text', 'Notes');
   it.ReadOnly := True;
   it.ClearOnInsert := False;
 
   { Wrong field name: OnBindError fires once and shows the message below the grid }
-  TMSFNCDataBinder1.ConnectSingle(lbl, DataSource1, 'Text', 'WRONG_FIELD');
+  TMSFNCDataBinder1.ConnectSingle(LLabel, DataSource1, 'Text', 'WRONG_FIELD');
 
   TMSFNCDataBinder1.Active := True;
   Button1.Text := 'Deactivate';

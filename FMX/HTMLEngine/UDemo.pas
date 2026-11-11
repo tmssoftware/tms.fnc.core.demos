@@ -269,12 +269,12 @@ end;
 
 procedure TfrmHTMLDemo.SamplesChange(Sender: TObject);
 var
-  c: TTMSFNCHTMLCache;
+  LCache: TTMSFNCHTMLCache;
 begin
   if Samples.ItemIndex = 10 then
   begin
-    c := HTMLCache;
-    View.HTML := CacheHTML(c.Documents.Count, c.Documents.Bytes, c.Documents.Hits, c.Documents.Misses);
+    LCache := HTMLCache;
+    View.HTML := CacheHTML(LCache.Documents.Count, LCache.Documents.Bytes, LCache.Documents.Hits, LCache.Documents.Misses);
   end
   else
     View.HTML := SampleHTML(Samples.ItemIndex);

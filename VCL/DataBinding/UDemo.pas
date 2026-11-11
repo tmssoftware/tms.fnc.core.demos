@@ -106,20 +106,20 @@ procedure TForm130.FormCreate(Sender: TObject);
 var
   s: TStringGridEx;
   p: THTMLPaintBox;
-  m: TMemo;
-  sb: TStatusBar;
+  LMemo: TMemo;
+  LSB: TStatusBar;
   it: TTMSFNCDataBinderItem;
 begin
   TTMSFNCTheme.AddChangeListener(ThemeChanged);
 
   { Status bar: indexed path demo — Panels[0].Text bound to Common_Name }
-  sb := TStatusBar.Create(Self);
-  sb.Parent := Self;
-  sb.Panels.Add;
-  sb.Panels[0].Width := ClientWidth;
-  sb.Panels[0].Style := psText;
-  sb.SimplePanel := False;
-  FStatusBar := sb;
+  LSB := TStatusBar.Create(Self);
+  LSB.Parent := Self;
+  LSB.Panels.Add;
+  LSB.Panels[0].Width := ClientWidth;
+  LSB.Panels[0].Style := psText;
+  LSB.SimplePanel := False;
+  FStatusBar := LSB;
 
   s := TStringGridEx.Create(Self);
   s.Parent := Self;
@@ -135,18 +135,18 @@ begin
   s.OnSelectCell := DoSelectCell;
 
   { TMemo bound read-only to the Notes memo field }
-  m := TMemo.Create(Self);
-  m.Parent := Self;
-  m.Name := 'NotesDisplay';
-  m.Align := alBottom;
-  m.AlignWithMargins := True;
-  m.Margins.Left := 24;
-  m.Margins.Right := 24;
-  m.Margins.Bottom := 4;
-  m.Height := 140;
-  m.ReadOnly := True;
-  m.ScrollBars := ssVertical;
-  FMemo := m;
+  LMemo := TMemo.Create(Self);
+  LMemo.Parent := Self;
+  LMemo.Name := 'NotesDisplay';
+  LMemo.Align := alBottom;
+  LMemo.AlignWithMargins := True;
+  LMemo.Margins.Left := 24;
+  LMemo.Margins.Right := 24;
+  LMemo.Margins.Bottom := 4;
+  LMemo.Height := 140;
+  LMemo.ReadOnly := True;
+  LMemo.ScrollBars := ssVertical;
+  FMemo := LMemo;
 
   p := THTMLPaintBox.Create(Self);
   p.Parent := Self;
@@ -167,15 +167,15 @@ begin
   TMSFNCDataBinder1.ConnectGrid(s, DataSource1);
 
   { Memo bound to Notes (ftMemo field); ReadOnly = True: field drives control, not the reverse }
-  it := TMSFNCDataBinder1.ConnectSingle(m, DataSource1, 'Text', 'Notes');
+  it := TMSFNCDataBinder1.ConnectSingle(LMemo, DataSource1, 'Text', 'Notes');
   it.ReadOnly := True;
   it.ClearOnInsert := False;
 
   { Indexed path: Panels[0].Text bound to Common_Name }
-  TMSFNCDataBinder1.ConnectSingle(sb, DataSource1, 'Panels[0].Text', 'Common_Name');
+  TMSFNCDataBinder1.ConnectSingle(LSB, DataSource1, 'Panels[0].Text', 'Common_Name');
 
   { Wrong field name: OnBindError fires once and sets the status bar's second hint }
-  TMSFNCDataBinder1.ConnectSingle(sb, DataSource1, 'Hint', 'WRONG_FIELD');
+  TMSFNCDataBinder1.ConnectSingle(LSB, DataSource1, 'Hint', 'WRONG_FIELD');
 
   TMSFNCDataBinder1.Active := True;
   Button1.Caption := 'Deactivate';

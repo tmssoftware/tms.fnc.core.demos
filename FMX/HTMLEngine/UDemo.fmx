@@ -46,7 +46,11 @@ object frmHTMLDemo: TfrmHTMLDemo
           'Tables'
           'Lists'
           'Floats'
-          'Theme colours')
+          'Theme colours'
+          'RTL text'
+          'Inline image'
+          'Rowspan'
+          'Cache')
         ItemIndex = 0
         Position.X = 70.000000000000000000
         Position.Y = 8.000000000000000000
@@ -80,6 +84,16 @@ object frmHTMLDemo: TfrmHTMLDemo
         TabOrder = 3
         Text = 'Export PDF'
         OnClick = ExportClick
+      end
+      object ClearCacheBtn: TButton
+        Position.X = 562.000000000000000000
+        Position.Y = 8.000000000000000000
+        Size.Width = 110.000000000000000000
+        Size.Height = 32.000000000000000000
+        Size.PlatformDefault = False
+        TabOrder = 4
+        Text = 'Clear cache'
+        OnClick = ClearCacheClick
       end
     end
     object StatusLbl: TLabel

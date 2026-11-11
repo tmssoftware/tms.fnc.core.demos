@@ -37,6 +37,7 @@ type
     Samples: TComboBox;
     Themes: TComboBox;
     ExportBtn: TButton;
+    ClearCacheBtn: TButton;
     StatusLbl: TLabel;
     ViewHost: TLayout;
     procedure FormCreate(Sender: TObject);
@@ -45,6 +46,7 @@ type
     procedure SamplesChange(Sender: TObject);
     procedure ThemesChange(Sender: TObject);
     procedure ExportClick(Sender: TObject);
+    procedure ClearCacheClick(Sender: TObject);
   private
     View: THTMLView;
     FShot, FPdf, FHit, FHitOut: string;
@@ -266,8 +268,25 @@ begin
 end;
 
 procedure TfrmHTMLDemo.SamplesChange(Sender: TObject);
+var
+  c: TTMSFNCHTMLCache;
 begin
-  View.HTML := SampleHTML(Samples.ItemIndex);
+  if Samples.ItemIndex = 10 then
+  begin
+    c := HTMLCache;
+    View.HTML := CacheHTML(c.Documents.Count, c.Documents.Bytes, c.Documents.Hits, c.Documents.Misses);
+  end
+  else
+    View.HTML := SampleHTML(Samples.ItemIndex);
+end;
+
+procedure TfrmHTMLDemo.ClearCacheClick(Sender: TObject);
+begin
+  ClearHTMLCache;
+  if Samples.ItemIndex = 10 then
+    SamplesChange(nil)
+  else
+    StatusLbl.Text := 'HTML cache cleared';
 end;
 
 procedure TfrmHTMLDemo.ThemesChange(Sender: TObject);

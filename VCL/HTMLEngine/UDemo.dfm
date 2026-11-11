@@ -55,7 +55,11 @@ object frmHTMLDemo: TfrmHTMLDemo
         'Tables'
         'Lists'
         'Floats'
-        'Theme colours')
+        'Theme colours'
+        'RTL text'
+        'Inline image'
+        'Rowspan'
+        'Cache')
     end
     object Themes: TComboBox
       Left = 240
@@ -81,6 +85,15 @@ object frmHTMLDemo: TfrmHTMLDemo
       Caption = 'Export PDF'
       TabOrder = 2
       OnClick = ExportClick
+    end
+    object ClearCacheBtn: TButton
+      Left = 562
+      Top = 10
+      Width = 110
+      Height = 28
+      Caption = 'Clear cache'
+      TabOrder = 3
+      OnClick = ClearCacheClick
     end
   end
   object StatusLbl: TLabel

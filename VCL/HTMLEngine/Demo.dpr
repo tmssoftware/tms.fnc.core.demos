@@ -3,7 +3,7 @@ program Demo;
 uses
   Vcl.Forms,
   UDemo in 'UDemo.pas' {frmHTMLDemo},
-  UHTMLSamples in 'UHTMLSamples.pas';
+  UHTMLSamples in '..\..\Shared Code\Business Logic\HTML Engine\UHTMLSamples.pas';
 
 {$R *.res}
 

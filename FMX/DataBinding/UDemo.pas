@@ -5,7 +5,7 @@ interface
 uses
   System.SysUtils, System.Types, System.UITypes, System.Classes, System.Variants, FMX.Forms,
   FMX.Types, FMX.Controls, FMX.Controls.Presentation, FMX.StdCtrls, FMX.Objects,
-  FMX.Layouts, FMX.ListBox, FMX.TMSFNCCustomComponent, FMX.TMSFNCDataBinding,
+  FMX.Layouts, FMX.ListBox, FMX.Memo, FMX.TMSFNCCustomComponent, FMX.TMSFNCDataBinding,
   System.Rtti, FMX.Grid.Style, FMX.ScrollBox, FMX.Grid, Data.DB,
   Datasnap.DBClient, Data.Bind.Controls, Data.Bind.Components,
   Data.Bind.DBScope, Fmx.Bind.Navigator,
@@ -64,7 +64,11 @@ type
     procedure DemoThemeComboChange(Sender: TObject);
   private
     FHTMLBox: THTMLPaintBox;
+    FMemo: TMemo;
+    FErrorLbl: TLabel;
     procedure ThemeChanged(Sender: TObject);
+    procedure DataBinderBindError(Sender: TObject; AItem: TTMSFNCDataBinderItem;
+      const AMessage: string);
     { Private declarations }
   public
     { Public declarations }
@@ -104,6 +108,9 @@ procedure TForm130.FormCreate(Sender: TObject);
 var
   s: TStringGridEx;
   p: THTMLPaintBox;
+  m: TMemo;
+  lbl: TLabel;
+  it: TTMSFNCDataBinderItem;
 begin
   TTMSFNCTheme.AddChangeListener(ThemeChanged);
   s := TStringGridEx.Create(Self);
@@ -112,15 +119,38 @@ begin
   s.Align := TAlignLayout.Client;
   s.Margins.Left := 24;
   s.Margins.Right := 24;
-  s.Margins.Bottom := 24;
+  s.Margins.Bottom := 170;
   s.Margins.Top := ImageControl1.Height + 20;
   s.Options := s.Options + [TGridOption.AlwaysShowSelection, TGridOption.RowSelect];
   s.OnSelChanged := DoSelChanged;
 
+  { TMemo bound read-only to the Notes memo field }
+  m := TMemo.Create(Self);
+  m.Parent := Self;
+  m.Name := 'NotesDisplay';
+  m.Align := TAlignLayout.Bottom;
+  m.Margins.Left := 24;
+  m.Margins.Right := 24;
+  m.Margins.Bottom := 24;
+  m.Height := 140;
+  m.ReadOnly := True;
+  m.StyledSettings := m.StyledSettings - [TStyledSetting.Other];
+  FMemo := m;
+
+  { Error label for OnBindError feedback }
+  lbl := TLabel.Create(Self);
+  lbl.Parent := Self;
+  lbl.Name := 'ErrorLbl';
+  lbl.Position.X := 24;
+  lbl.Position.Y := Height - 20;
+  lbl.Width := Width - 48;
+  lbl.Text := '';
+  lbl.Anchors := [TAnchorKind.akLeft, TAnchorKind.akBottom, TAnchorKind.akRight];
+  FErrorLbl := lbl;
+
   p := THTMLPaintBox.Create(Self);
   p.Parent := Self;
   p.Name := 'HTMLPaintBox1';
-
   p.Position.X := ImageControl1.Position.X + ImageControl1.Width + 20;
   p.Position.Y := ImageControl1.Position.Y;
   p.Width := Width - p.Position.X - 24;
@@ -129,10 +159,20 @@ begin
   FHTMLBox := p;
   ThemeChanged(nil);
 
+  TMSFNCDataBinder1.OnBindError := DataBinderBindError;
+
   TMSFNCDataBinder1.ConnectSingleHTMLTemplate(p, DataSource1, 'HTML', '<b>Name: <#COMMON_NAME></b><br/><font size="10"><#NOTES></font>');
   TMSFNCDataBinder1.ConnectSingle(ImageControl1, DataSource1, 'Bitmap', 'Graphic');
   TMSFNCDataBinder1.ConnectList(ListBox1, DataSource1, 'Items', 'Species Name');
   TMSFNCDataBinder1.ConnectGrid(s, DataSource1);
+
+  { Memo bound to Notes (ftMemo field); ReadOnly = True: field drives control, not the reverse }
+  it := TMSFNCDataBinder1.ConnectSingle(m, DataSource1, 'Text', 'Notes');
+  it.ReadOnly := True;
+  it.ClearOnInsert := False;
+
+  { Wrong field name: OnBindError fires once and shows the message below the grid }
+  TMSFNCDataBinder1.ConnectSingle(lbl, DataSource1, 'Text', 'WRONG_FIELD');
 
   TMSFNCDataBinder1.Active := True;
   Button1.Text := 'Deactivate';
@@ -166,6 +206,13 @@ begin
   DemoDescription.FontColor := sec;
   if Assigned(FHTMLBox) then
     FHTMLBox.TextColor := txt;
+end;
+
+procedure TForm130.DataBinderBindError(Sender: TObject;
+  AItem: TTMSFNCDataBinderItem; const AMessage: string);
+begin
+  if Assigned(FErrorLbl) then
+    FErrorLbl.Text := 'Bind error: ' + AMessage;
 end;
 
 procedure TForm130.DemoThemeComboChange(Sender: TObject);

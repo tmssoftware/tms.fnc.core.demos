@@ -37,12 +37,17 @@ type
     WebClientDataSet1: TWebClientDataSet;
     TMSFNCDataBinder1: TTMSFNCDataBinder;
     procedure WebFormCreate(Sender: TObject);
+    procedure WebFormDestroy(Sender: TObject);
     procedure WebButton1Click(Sender: TObject);
     procedure WebButton2Click(Sender: TObject);
     procedure ThemeComboChange(Sender: TObject);
   private
     FHTMLBox: THTMLPaintBox;
+    FMemo: TWebMemo;
+    FErrorLbl: TWebLabel;
     procedure ThemeChanged(Sender: TObject);
+    procedure DataBinderBindError(Sender: TObject; AItem: TTMSFNCDataBinderItem;
+      const AMessage: string);
     { Private declarations }
   public
     { Public declarations }
@@ -77,6 +82,9 @@ end;
 procedure TForm1.WebFormCreate(Sender: TObject);
 var
   p: THTMLPaintBox;
+  m: TWebMemo;
+  lbl: TWebLabel;
+  it: TTMSFNCDataBinderItem;
 begin
   TTMSFNCTheme.AddChangeListener(@ThemeChanged);
   ThemeChanged(nil);
@@ -99,20 +107,56 @@ begin
   p := THTMLPaintBox.Create(Self);
   p.Parent := Self;
   p.Name := 'HTMLPaintBox1';
-
   p.Left := WebListBox1.Left + WebListBox1.Width + 20;
   p.Top := WebListBox1.Top;
   p.Width := 300;
   p.Height := WebListBox1.Height;
   FHTMLBox := p;
+
+  { TWebMemo bound read-only to Notes (_Notes field); ReadOnly = True: one-way, field → control }
+  m := TWebMemo.Create(Self);
+  m.Parent := Self;
+  m.Name := 'NotesDisplay';
+  m.Left := 8;
+  m.Top := WebListBox1.Top + WebListBox1.Height + 8;
+  m.Width := 753;
+  m.Height := 100;
+  m.ReadOnly := True;
+  FMemo := m;
+
+  { Error label for OnBindError feedback }
+  lbl := TWebLabel.Create(Self);
+  lbl.Parent := Self;
+  lbl.Name := 'ErrorLbl';
+  lbl.Left := 8;
+  lbl.Top := m.Top + m.Height + 4;
+  lbl.Width := 753;
+  lbl.Caption := '';
+  FErrorLbl := lbl;
+
   ThemeChanged(nil);
+
+  TMSFNCDataBinder1.OnBindError := @DataBinderBindError;
 
   TMSFNCDataBinder1.ConnectSingleHTMLTemplate(p, WebDataSource1, 'HTML', '<b>Name: <#_COMMON_NAME></b><br/><font size="10"><#_NOTES></font>');
   TMSFNCDataBinder1.ConnectList(WebListBox1, WebDataSource1, 'Items', '_Species_Name');
   TMSFNCDataBinder1.ConnectGrid(WebStringGrid1, WebDataSource1);
 
+  { Memo bound to _Notes; ReadOnly = True: field drives the memo, edits are not sent back }
+  it := TMSFNCDataBinder1.ConnectSingle(m, WebDataSource1, 'Text', '_Notes');
+  it.ReadOnly := True;
+  it.ClearOnInsert := False;
+
+  { Wrong field name: OnBindError fires once and shows the message }
+  TMSFNCDataBinder1.ConnectSingle(lbl, WebDataSource1, 'Caption', 'WRONG_FIELD');
+
   TMSFNCDataBinder1.Active := True;
   WebButton1.Caption := 'Deactivate';
+end;
+
+procedure TForm1.WebFormDestroy(Sender: TObject);
+begin
+  TTMSFNCTheme.RemoveChangeListener(@ThemeChanged);
 end;
 
 { Core has no FNC label or button: the page's own controls take the colours of the theme in
@@ -140,6 +184,13 @@ begin
   ThemeLabel.Font.Color := txt;
   if Assigned(FHTMLBox) then
     FHTMLBox.TextColor := txt;
+end;
+
+procedure TForm1.DataBinderBindError(Sender: TObject;
+  AItem: TTMSFNCDataBinderItem; const AMessage: string);
+begin
+  if Assigned(FErrorLbl) then
+    FErrorLbl.Caption := 'Bind error: ' + AMessage;
 end;
 
 procedure TForm1.ThemeComboChange(Sender: TObject);

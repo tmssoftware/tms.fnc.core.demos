@@ -13,6 +13,7 @@ object Form1: TForm1
   FormContainer = 'appcontent'
   ParentFont = False
   OnCreate = WebFormCreate
+  OnDestroy = WebFormDestroy
   object WebPanel1: TWebPanel
     Left = 0
     Top = 0

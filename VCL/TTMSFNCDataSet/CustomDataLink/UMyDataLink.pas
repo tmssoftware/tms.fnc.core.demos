@@ -34,7 +34,7 @@ type
     function GetRecord(AIndex: Integer): TValue;
     function GetRecordIndex(ARecord: TValue): Integer;
     function GetRecordCount: Integer;
-    function GetRecordValue(ARecord: TValue; AField: string): ValueType;
+    function GetRecordValue(ARecord: TValue; AField: string; AFieldType: TFieldType): ValueType;
     procedure SetRecordValue(ARecordIndex: Integer; AField: string; AValue: ValueType);
     function CompareRecords(AField: string; ARecord1, ARecord2: TValue): Integer;
     function Clone: TObject;
@@ -125,7 +125,7 @@ begin
   Result := IndexOf(ARecord.AsType<TMyRecord>)
 end;
 
-function TMyDataLink.GetRecordValue(ARecord: TValue; AField: string): ValueType;
+function TMyDataLink.GetRecordValue(ARecord: TValue; AField: string; AFieldType: TFieldType): ValueType;
 var
   ctx: TRttiContext;
   rttitype: TRttiType;
@@ -141,6 +141,11 @@ begin
   finally
     ctx.free;
   end;
+
+  //Having access to AFieldType can help with conversion
+  //For example: all data is string, but it is expected a date will be returned
+  //as a TDateTime. You can validate if AFieldType is ftDate/ftDateTime
+  //and convert accordingly.
 end;
 
 procedure TMyDataLink.InitializeFieldDefs(AFieldDefs: TFieldDefs);
@@ -201,7 +206,7 @@ end;
 
 function TMyDataLink.QueryInterface(const IID: TGUID; out Obj): HResult;
 const
-  E_NOINTERFACE = HResult($00024000);
+  E_NOINTERFACE = HResult($80004002);
 begin
   if GetInterface(IID, Obj) then Result := 0 else Result := E_NOINTERFACE;
 end;

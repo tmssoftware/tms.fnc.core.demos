@@ -72,9 +72,8 @@ type
     property Previewing: Boolean read FPreviewing write FPreviewing;
   end;
 
-  { the model of the demo: an OpenAI-compatible server on this computer whose answers this unit writes; it streams
-    them in pieces like a real server, so the progress of the service shows }
-  TDemoModel = class(TInterfacedObject, ITMSFNCAITransport)
+  { one answer on its way: the events of its stream, one per tick of its own timer }
+  TDemoStream = class
   private
     FTimer: TTimer;
     FChunk: TTMSFNCAITransportChunkCallback;
@@ -82,7 +81,22 @@ type
     FToken: ITMSFNCAICancelToken;
     FBody: TBytes;
     FPos: Integer;
+    FFinished: Boolean;
     procedure Tick(Sender: TObject);
+  public
+    constructor Create(AOwner: TComponent; const ABody: TBytes; const AChunk: TTMSFNCAITransportChunkCallback;
+      const ADone: TTMSFNCAITransportDoneCallback; const AToken: ITMSFNCAICancelToken);
+    destructor Destroy; override;
+    property Finished: Boolean read FFinished;
+  end;
+
+  { the model of the demo: an OpenAI-compatible server on this computer whose answers this unit writes; it streams
+    them in pieces like a real server, so the progress of the service shows. Requests run side by side (a plan
+    and a promptable field). }
+  TDemoModel = class(TInterfacedObject, ITMSFNCAITransport)
+  private
+    FOwner: TComponent;
+    FStreams: TObjectList<TDemoStream>;
     function Answer(const ARequest: TTMSFNCAITransportRequest): string;
   public
     constructor Create(AOwner: TComponent);
@@ -503,49 +517,38 @@ end;
 
 { ---------------------------------------------------------------- TDemoModel }
 
-constructor TDemoModel.Create(AOwner: TComponent);
+constructor TDemoStream.Create(AOwner: TComponent; const ABody: TBytes; const AChunk: TTMSFNCAITransportChunkCallback;
+  const ADone: TTMSFNCAITransportDoneCallback; const AToken: ITMSFNCAICancelToken);
 begin
   inherited Create;
-  FTimer := TTimer.Create(AOwner);
-  FTimer.Enabled := False;
-  FTimer.Interval := 40;
-  FTimer.OnTimer := Tick;
-end;
-
-destructor TDemoModel.Destroy;
-begin
-  FTimer.OnTimer := nil;
-  inherited;
-end;
-
-function TDemoModel.Send(const ARequest: TTMSFNCAITransportRequest; const AChunk: TTMSFNCAITransportChunkCallback;
-  const ADone: TTMSFNCAITransportDoneCallback): ITMSFNCAICancelToken;
-begin
-  Result := TTMSFNCAICancelToken.Create;
-  FToken := Result;
+  FBody := ABody;
   FChunk := AChunk;
   FDone := ADone;
-  FBody := TEncoding.UTF8.GetBytes(StreamOf(Answer(ARequest)));
-  FPos := 0;
+  FToken := AToken;
+  FTimer := TTimer.Create(AOwner);
+  FTimer.Interval := 40;
+  FTimer.OnTimer := Tick;
   FTimer.Enabled := True;
 end;
 
-procedure TDemoModel.Tick(Sender: TObject);
+destructor TDemoStream.Destroy;
+begin
+  FTimer.Free;
+  inherited;
+end;
+
+procedure TDemoStream.Tick(Sender: TObject);
 var
   e: Integer;
   done: TTMSFNCAITransportDoneCallback;
   resp: TTMSFNCAITransportResponse;
 begin
-  if not Assigned(FDone) then
-  begin
-    FTimer.Enabled := False;
+  if FFinished then
     Exit;
-  end;
   if FToken.IsCancelled then
   begin
     FTimer.Enabled := False;
-    FDone := nil;
-    FChunk := nil;
+    FFinished := True;
     Exit;
   end;
   { one event at a time, as a server sends them }
@@ -560,15 +563,40 @@ begin
   begin
     FTimer.Enabled := False;
     done := FDone;
-    FDone := nil;
-    FChunk := nil;
     resp := System.Default(TTMSFNCAITransportResponse);
     resp.Status := 200;
     SetLength(resp.Headers, 1);
     resp.Headers[0] := 'Content-Type: text/event-stream';
     resp.Body := FBody;
     done(resp);
+    { only now: a request sent from inside the callback must not free this stream while its tick runs }
+    FFinished := True;
   end;
+end;
+
+constructor TDemoModel.Create(AOwner: TComponent);
+begin
+  inherited Create;
+  FOwner := AOwner;
+  FStreams := TObjectList<TDemoStream>.Create(True);
+end;
+
+destructor TDemoModel.Destroy;
+begin
+  FStreams.Free;
+  inherited;
+end;
+
+function TDemoModel.Send(const ARequest: TTMSFNCAITransportRequest; const AChunk: TTMSFNCAITransportChunkCallback;
+  const ADone: TTMSFNCAITransportDoneCallback): ITMSFNCAICancelToken;
+var
+  I: Integer;
+begin
+  for I := FStreams.Count - 1 downto 0 do
+    if FStreams[I].Finished then
+      FStreams.Delete(I);
+  Result := TTMSFNCAICancelToken.Create;
+  FStreams.Add(TDemoStream.Create(FOwner, TEncoding.UTF8.GetBytes(StreamOf(Answer(ARequest))), AChunk, ADone, Result));
 end;
 
 function TDemoModel.Answer(const ARequest: TTMSFNCAITransportRequest): string;

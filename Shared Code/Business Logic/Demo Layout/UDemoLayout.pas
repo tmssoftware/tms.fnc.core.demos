@@ -75,6 +75,7 @@ type
     procedure SetText(const Value: string);
     procedure SetRole(const Value: TTMSFNCGraphicsTextRole);
     procedure DemoFontChanged(Sender: TObject);
+    procedure UseFont(AGraphics: TTMSFNCGraphics);
   protected
     procedure Draw(AGraphics: TTMSFNCGraphics; ARect: TRectF); override;
   public
@@ -167,6 +168,9 @@ begin
   inherited;
   FFont := TTMSFNCGraphicsFont.Create;
   FFont.OnChanged := {$IFDEF WEBLIB}@{$ENDIF}DemoFontChanged;
+  {$IFDEF VCL}
+  FFont.Size := 12;
+  {$ENDIF}
   FWordWrap := True;
   FVerticalAlign := gtaLeading;
   Fill.Kind := gfkNone;
@@ -203,6 +207,24 @@ begin
   Invalidate;
 end;
 
+{ the font of the text on a canvas. VCL: Font.Size is the height in pixels at 96 DPI, as in FMX, scaled to the DPI
+  of the form (a size in points is a third larger than the FMX text and does not follow a form on another DPI) }
+procedure TDemoText.UseFont(AGraphics: TTMSFNCGraphics);
+{$IFDEF VCL}
+var
+  ppi: Integer;
+{$ENDIF}
+begin
+  AGraphics.Font.AssignSource(FFont);
+  {$IFDEF VCL}
+  if Owner is TCustomForm then
+    ppi := TCustomForm(Owner).CurrentPPI
+  else
+    ppi := CurrentPPI;
+  AGraphics.Font.Height := -MulDiv(FFont.Size, ppi, 96);
+  {$ENDIF}
+end;
+
 function TDemoText.TextHeight(AWidth: Single): Single;
 var
   g: TTMSFNCGraphics;
@@ -212,7 +234,7 @@ begin
   try
     if g.BeginScene then
     begin
-      g.Font.AssignSource(FFont);
+      UseFont(g);
       Result := g.CalculateTextHeight(FText, RectF(0, 0, AWidth, 10000), FWordWrap);
       g.EndScene;
     end;
@@ -227,7 +249,7 @@ var
   c: TTMSFNCGraphicsColor;
 begin
   inherited;
-  AGraphics.Font.AssignSource(FFont);
+  UseFont(AGraphics);
   { the theme's text colour comes through the font binding; a role takes its own colour }
   t := ThemeOf(Self);
   if Assigned(t) and (FRole <> gtrPrimary) then
@@ -326,7 +348,9 @@ begin
 
   FThemes := TDemoComboBox.Create(FOwner);
   FThemes.Parent := FHeader;
-  Place(FThemes, daRight, 160, 0, 20, 24, 20);
+  { above the description: bottom aligned controls take their height first, so the selector has the 40 px over
+    it (20 px above and below left it no height: no demo showed its theme selector) }
+  Place(FThemes, daRight, 160, 0, 10, 24, 0);
   for I := 0 to High(AThemes) do
     FThemes.Items.Add(AThemes[I]);
   {$IFDEF VCL}
@@ -429,12 +453,19 @@ begin
 end;
 
 function TDemoLayout.AddText(AParent: TDemoParent; const AText: string): TDemoText;
+var
+  h: Integer;
 begin
   Result := TDemoText.Create(FOwner);
   Result.Parent := AParent;
   Result.TextRole := gtrSecondary;
   Result.Text := AText;
-  Place(Result, daTop, Round(Result.TextHeight(InnerWidth(AParent))) + 2, 16, 4, 16, 4);
+  h := Round(Result.TextHeight(InnerWidth(AParent))) + 2;
+  {$IFDEF VCL}
+  { the text is measured in pixels of the form, Place takes sizes at 96 DPI }
+  h := MulDiv(h, 96, FOwner.CurrentPPI) + 1;
+  {$ENDIF}
+  Place(Result, daTop, h, 16, 4, 16, 4);
 end;
 
 function TDemoLayout.AddCheck(AParent: TDemoParent; const AText: string; AChecked: Boolean; AOnChange: TNotifyEvent): TDemoCheckBox;

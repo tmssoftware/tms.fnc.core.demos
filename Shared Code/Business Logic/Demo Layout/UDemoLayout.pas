@@ -137,6 +137,11 @@ type
 { the resolved theme in effect for a control (nil without a theme) }
 function ThemeOf(AControl: TComponent): TTMSFNCResolvedTheme;
 
+{ a font of ASize pixels at 96 DPI for a text a demo draws itself, the same size in every framework: FMX sizes are
+  pixels and scale with the form; a VCL or WEB font size is in points (a third larger) and a VCL font does not follow
+  a form on another DPI, so there the height is set in pixels of the form that owns AControl }
+procedure DemoPixelFont(AFont: TTMSFNCGraphicsFont; ASize: Single; AControl: TControl);
+
 implementation
 
 function ThemeOf(AControl: TComponent): TTMSFNCResolvedTheme;
@@ -168,7 +173,7 @@ begin
   inherited;
   FFont := TTMSFNCGraphicsFont.Create;
   FFont.OnChanged := {$IFDEF WEBLIB}@{$ENDIF}DemoFontChanged;
-  {$IFDEF VCL}
+  {$IFNDEF FMX}
   FFont.Size := 12;
   {$ENDIF}
   FWordWrap := True;
@@ -207,21 +212,35 @@ begin
   Invalidate;
 end;
 
-{ the font of the text on a canvas. VCL: Font.Size is the height in pixels at 96 DPI, as in FMX, scaled to the DPI
-  of the form (a size in points is a third larger than the FMX text and does not follow a form on another DPI) }
-procedure TDemoText.UseFont(AGraphics: TTMSFNCGraphics);
+procedure DemoPixelFont(AFont: TTMSFNCGraphicsFont; ASize: Single; AControl: TControl);
 {$IFDEF VCL}
 var
   ppi: Integer;
 {$ENDIF}
 begin
-  AGraphics.Font.AssignSource(FFont);
+  {$IFDEF FMX}
+  AFont.Size := ASize;
+  {$ENDIF}
   {$IFDEF VCL}
-  if Owner is TCustomForm then
-    ppi := TCustomForm(Owner).CurrentPPI
+  if Assigned(AControl) and (AControl.Owner is TCustomForm) then
+    ppi := TCustomForm(AControl.Owner).CurrentPPI
+  else if Assigned(AControl) then
+    ppi := AControl.CurrentPPI
   else
-    ppi := CurrentPPI;
-  AGraphics.Font.Height := -MulDiv(FFont.Size, ppi, 96);
+    ppi := 96;
+  AFont.Height := -Round(ASize * ppi / 96);
+  {$ENDIF}
+  {$IFDEF WEBLIB}
+  AFont.Height := -Round(ASize);
+  {$ENDIF}
+end;
+
+{ the font of the text on a canvas: Font.Size is its height in pixels at 96 DPI in every framework }
+procedure TDemoText.UseFont(AGraphics: TTMSFNCGraphics);
+begin
+  AGraphics.Font.AssignSource(FFont);
+  {$IFNDEF FMX}
+  DemoPixelFont(AGraphics.Font, FFont.Size, Self);
   {$ENDIF}
 end;
 
@@ -309,6 +328,10 @@ begin
     daBottom: AControl.Align := TAlignLayout.Bottom;
     daClient: AControl.Align := TAlignLayout.Client;
   end;
+  { FMX orders right aligned controls by their current X, which the first alignment has already changed: a new one
+    gets an X left of every one placed before, so the first one placed stays furthest right }
+  if AAlign = daRight then
+    AControl.Position.X := -FPlaceOrder * 1000;
   case AAlign of
     daTop, daBottom: AControl.Height := ASize;
     daLeft, daRight: AControl.Width := ASize;
@@ -316,7 +339,12 @@ begin
   AControl.Margins.Rect := RectF(ALeft, ATop, ARight, ABottom);
   {$ELSE}
   AControl.Top := 100000 + FPlaceOrder * 1000;
-  AControl.Left := 100000 + FPlaceOrder * 1000;
+  { VCL and WEB give the right edge to the right aligned control with the largest Left: right aligned controls
+    count down, so the first one placed sits furthest right in every framework (Apply all | Undo) }
+  if AAlign = daRight then
+    AControl.Left := 100000 - FPlaceOrder * 1000
+  else
+    AControl.Left := 100000 + FPlaceOrder * 1000;
   case AAlign of
     daTop: AControl.Align := alTop;
     daLeft: AControl.Align := alLeft;

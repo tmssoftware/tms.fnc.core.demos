@@ -13,7 +13,11 @@
 
   No key and no network: the provider of the service is an OpenAI-compatible model whose answers this demo writes
   itself (TDemoModel, set as the Transport of the service). Replace it with a real provider through
-  Service.DefaultProfile (Provider, model, key) and the same form works with a real model. }
+  Service.DefaultProfile (Provider, model, key) and the same form works with a real model.
+
+  The same unit runs in the browser (TMS WEB Core): there a real provider is reached through a proxy URL of your
+  server (the key never is in the page), and the drop zone takes the content the page hands it (DropText,
+  DropStream): the sample CSV; it has no file dialog and takes no files dropped on the page. }
 
 interface
 
@@ -37,10 +41,25 @@ uses
   FMX.TMSFNCAIPromptEdit, FMX.TMSFNCAIPlanView, FMX.TMSFNCAIChoiceCards, FMX.TMSFNCAIPreviewLens,
   FMX.TMSFNCAIDropZone,
   {$ENDIF}
+
+  {$IFDEF WEBLIB}
+  SysUtils, Classes, Types, Math, Variants, Generics.Collections, WEBLib.Graphics, WEBLib.Controls, WEBLib.Forms,
+  WEBLib.Dialogs, WEBLib.StdCtrls, WEBLib.ExtCtrls,
+  WEBLib.TMSFNCTypes, WEBLib.TMSFNCUtils, WEBLib.TMSFNCGraphics, WEBLib.TMSFNCGraphicsTypes,
+  WEBLib.TMSFNCCustomControl, WEBLib.TMSFNCTheme, WEBLib.TMSFNCAIClient, WEBLib.TMSFNCAIProvider,
+  WEBLib.TMSFNCAISettings, WEBLib.TMSFNCAIService, WEBLib.TMSFNCAIPromptEdit, WEBLib.TMSFNCAIPlanView,
+  WEBLib.TMSFNCAIChoiceCards, WEBLib.TMSFNCAIPreviewLens, WEBLib.TMSFNCAIDropZone,
+  {$ENDIF}
   TMS.TMSFNCJSONReader, TMS.TMSFNCAIOperations, TMS.TMSFNCAIRegistry, TMS.TMSFNCAIPlan, TMS.TMSFNCAIAgent,
   TMS.TMSFNCAIValues, UDemoLayout;
 
 type
+  {$IFDEF WEBLIB}
+  TDemoEdit = TWebEdit;
+  {$ELSE}
+  TDemoEdit = TEdit;
+  {$ENDIF}
+
   TDish = record
     Section: string;
     Name: string;
@@ -131,7 +150,7 @@ type
     FContent: TDemoPanel;
     FService: TTMSFNCAIService;
     FModel: ITMSFNCAITransport;
-    FGoal: TEdit;
+    FGoal: TDemoEdit;
     FPlanButton: TDemoButton;
     FCancelButton: TDemoButton;
     FStatus: TDemoText;
@@ -195,6 +214,9 @@ implementation
 {$IFDEF VCL}
 {$R *.dfm}
 {$ENDIF}
+{$IFDEF WEBLIB}
+{$R *.dfm}
+{$ENDIF}
 
 const
   StartTitle = 'Le Petit Jardin';
@@ -233,9 +255,32 @@ begin
   {$ENDIF}
 end;
 
+{ numbers of the model and of the menu: with a point in every country }
 function MoneyText(AValue: Double): string;
 begin
+  {$IFDEF WEBLIB}
+  Result := FormatFloat('0.00', AValue);
+  {$ELSE}
   Result := FormatFloat('0.00', AValue, TFormatSettings.Invariant);
+  {$ENDIF}
+end;
+
+function NumberOf(const AText: string; ADefault: Double): Double;
+begin
+  {$IFDEF WEBLIB}
+  Result := StrToFloatDef(AText, ADefault);
+  {$ELSE}
+  Result := StrToFloatDef(AText, ADefault, TFormatSettings.Invariant);
+  {$ENDIF}
+end;
+
+function NumberText(AValue: Double): string;
+begin
+  {$IFDEF WEBLIB}
+  Result := FloatToStr(AValue);
+  {$ELSE}
+  Result := FloatToStr(AValue, TFormatSettings.Invariant);
+  {$ENDIF}
 end;
 
 function Dish(const ASection, AName: string; APrice: Double): TDish;
@@ -264,7 +309,7 @@ begin
             if r.HasString then
               Result := r.ReadString
             else
-              Result := FloatToStr(r.ReadDouble, TFormatSettings.Invariant);
+              Result := NumberText(r.ReadDouble);
           end
           else
             r.SkipValue;
@@ -434,8 +479,7 @@ const
 var
   paper, r: TRectF;
   y, w, h, k: Single;
-  I, S: Integer;
-  names: TStringList;
+  I, S, N: Integer;
   sec: string;
 
   { a size of the 96 DPI design in pixels of the form (FMX and WEB scale by themselves) }
@@ -444,15 +488,10 @@ var
     Result := AValue * k;
   end;
 
-  { a font of that many pixels at 96 DPI: a VCL font size is in points, a third larger, and does not follow the form }
   procedure SetFont(ASize: Single; AStyle: TFontStyles; AColor: TTMSFNCGraphicsColor);
   begin
     AGraphics.Font.Name := 'Georgia';
-    {$IFDEF VCL}
-    AGraphics.Font.Height := -Round(P(ASize));
-    {$ELSE}
-    AGraphics.Font.Size := ASize;
-    {$ENDIF}
+    DemoPixelFont(AGraphics.Font, ASize, Self);
     AGraphics.Font.Style := AStyle;
     AGraphics.Font.Color := AColor;
   end;
@@ -466,9 +505,9 @@ begin
   {$ENDIF}
   { the card is a printed menu: paper and ink are the colours of the restaurant, not of the theme (demo-colors:
     content, like a picture) }
-  w := Min(ARect.Width - P(32), P(460));
-  h := ARect.Height - P(32);
-  paper := RectF(ARect.Left + (ARect.Width - w) / 2, ARect.Top + P(16), ARect.Left + (ARect.Width + w) / 2,
+  w := Min((ARect.Right - ARect.Left) - P(32), P(460));
+  h := (ARect.Bottom - ARect.Top) - P(32);
+  paper := RectF(ARect.Left + ((ARect.Right - ARect.Left) - w) / 2, ARect.Top + P(16), ARect.Left + ((ARect.Right - ARect.Left) + w) / 2,
     ARect.Top + P(16) + h);
   AGraphics.Fill.Kind := gfkSolid;
   AGraphics.Fill.Color := MakeGraphicsColor(253, 250, 243);
@@ -493,36 +532,33 @@ begin
   AGraphics.DrawText(RectF(paper.Left + P(28), y, paper.Right - P(28), y + P(22)), FTagline, False, gtaLeading, gtaCenter);
   y := y + P(34);
 
-  names := TStringList.Create;
-  try
-    for S := 0 to High(Sections) do
+  for S := 0 to High(Sections) do
+  begin
+    sec := Sections[S];
+    N := 0;
+    for I := 0 to FDishes.Count - 1 do
+      if SameText(FDishes[I].Section, sec) then
+        Inc(N);
+    if N = 0 then
+      Continue;
+    SetFont(11, [TFontStyle.fsBold], FAccent);
+    AGraphics.DrawText(RectF(paper.Left + P(28), y, paper.Right - P(28), y + P(20)), UpperCase(sec), False, gtaLeading,
+      gtaCenter);
+    y := y + P(22);
+    SetFont(12, [], MakeGraphicsColor(40, 36, 30));
+    for I := 0 to FDishes.Count - 1 do
     begin
-      sec := Sections[S];
-      names.Clear;
-      for I := 0 to FDishes.Count - 1 do
-        if SameText(FDishes[I].Section, sec) then
-          names.AddObject(FDishes[I].Name, TObject(I));
-      if names.Count = 0 then
+      if not SameText(FDishes[I].Section, sec) then
         Continue;
-      SetFont(11, [TFontStyle.fsBold], FAccent);
-      AGraphics.DrawText(RectF(paper.Left + P(28), y, paper.Right - P(28), y + P(20)), UpperCase(sec), False, gtaLeading,
-        gtaCenter);
-      y := y + P(22);
-      SetFont(12, [], MakeGraphicsColor(40, 36, 30));
-      for I := 0 to names.Count - 1 do
-      begin
-        if y + P(22) > paper.Bottom - P(30) then
-          Break;
-        AGraphics.DrawText(RectF(paper.Left + P(28), y, paper.Right - P(90), y + P(22)), names[I], False, gtaLeading,
-          gtaCenter);
-        AGraphics.DrawText(RectF(paper.Right - P(100), y, paper.Right - P(28), y + P(22)),
-          MoneyText(FDishes[Integer(names.Objects[I])].Price), False, gtaTrailing, gtaCenter);
-        y := y + P(24);
-      end;
-      y := y + P(10);
+      if y + P(22) > paper.Bottom - P(30) then
+        Break;
+      AGraphics.DrawText(RectF(paper.Left + P(28), y, paper.Right - P(90), y + P(22)), FDishes[I].Name, False,
+        gtaLeading, gtaCenter);
+      AGraphics.DrawText(RectF(paper.Right - P(100), y, paper.Right - P(28), y + P(22)), MoneyText(FDishes[I].Price),
+        False, gtaTrailing, gtaCenter);
+      y := y + P(24);
     end;
-  finally
-    names.Free;
+    y := y + P(10);
   end;
 
   if FPreviewing then
@@ -545,7 +581,7 @@ begin
   FToken := AToken;
   FTimer := TTimer.Create(AOwner);
   FTimer.Interval := 40;
-  FTimer.OnTimer := Tick;
+  FTimer.OnTimer := {$IFDEF WEBLIB}@{$ENDIF}Tick;
   FTimer.Enabled := True;
 end;
 
@@ -581,11 +617,12 @@ begin
   begin
     FTimer.Enabled := False;
     done := FDone;
-    resp := System.Default(TTMSFNCAITransportResponse);
     resp.Status := 200;
     SetLength(resp.Headers, 1);
     resp.Headers[0] := 'Content-Type: text/event-stream';
     resp.Body := FBody;
+    resp.ErrorMessage := '';
+    resp.Fatal := False;
     done(resp);
     { only now: a request sent from inside the callback must not free this stream while its tick runs }
     FFinished := True;
@@ -681,9 +718,9 @@ begin
         begin
           line := Trim(lines[I]);
           parts := line.Split([';']);
-          if (Length(parts) = 3) and (StrToFloatDef(parts[2], -1, TFormatSettings.Invariant) >= 0) then
+          if (Length(parts) = 3) and (NumberOf(parts[2], -1) >= 0) then
             steps.Add(Step('Add ' + parts[0], 'it is a line of the file, in the section ' + parts[1], 'add_dish',
-              DishArgs(parts[1], parts[0], StrToFloat(parts[2], TFormatSettings.Invariant))));
+              DishArgs(parts[1], parts[0], NumberOf(parts[2], 0))));
         end;
       finally
         lines.Free;
@@ -788,7 +825,7 @@ begin
     c.Accent := HexToColor(Arg('color'));
   end
   else if Kind = 'add_dish' then
-    c.Dishes.Add(Dish(Arg('section'), Arg('name'), StrToFloatDef(Arg('price'), 0, TFormatSettings.Invariant)))
+    c.Dishes.Add(Dish(Arg('section'), Arg('name'), NumberOf(Arg('price'), 0)))
   else if Kind = 'remove_dish' then
   begin
     FOldIndex := c.IndexOfDish(Arg('name'));
@@ -800,7 +837,7 @@ begin
     FOldIndex := c.IndexOfDish(Arg('name'));
     d := c.Dishes[FOldIndex];
     FOld := MoneyText(d.Price);
-    d.Price := StrToFloatDef(Arg('price'), d.Price, TFormatSettings.Invariant);
+    d.Price := NumberOf(Arg('price'), d.Price);
     c.Dishes[FOldIndex] := d;
   end;
   c.Invalidate;
@@ -836,7 +873,7 @@ begin
     if I >= 0 then
     begin
       d := c.Dishes[I];
-      d.Price := StrToFloat(FOld, TFormatSettings.Invariant);
+      d.Price := NumberOf(FOld, d.Price);
       c.Dishes[I] := d;
     end;
   end;
@@ -916,11 +953,11 @@ begin
   FService.Instructions := 'You design the menu card of a restaurant.';
   FService.Transport := FModel;
   FService.Active := True;
-  FService.OnProgress := ServiceProgress;
-  FService.OnPlanReady := ServicePlanReady;
-  FService.OnStepChanged := ServiceStepChanged;
-  FService.OnFinished := ServiceFinished;
-  FService.OnError := ServiceError;
+  FService.OnProgress := {$IFDEF WEBLIB}@{$ENDIF}ServiceProgress;
+  FService.OnPlanReady := {$IFDEF WEBLIB}@{$ENDIF}ServicePlanReady;
+  FService.OnStepChanged := {$IFDEF WEBLIB}@{$ENDIF}ServiceStepChanged;
+  FService.OnFinished := {$IFDEF WEBLIB}@{$ENDIF}ServiceFinished;
+  FService.OnError := {$IFDEF WEBLIB}@{$ENDIF}ServiceError;
 end;
 
 function NewPromptEdit(AOwner: TComponent; AParent: TDemoParent; AKind: TTMSFNCAIValueKind;
@@ -951,27 +988,27 @@ var
     Result := NewPromptEdit(Self, r, AKind, AContext);
     FLayout.Place(Result, daClient, 0, 0, 0, 0, 0);
     Result.Service := FService;
-    Result.OnAfterApply := FieldApplied;
+    Result.OnAfterApply := {$IFDEF WEBLIB}@{$ENDIF}FieldApplied;
   end;
 
 begin
   FSettings := FLayout.AddSettingsPanel(Self, 300);
 
   FLayout.AddCaption(FSettings, 'Ask for a change');
-  FGoal := TEdit.Create(Self);
+  FGoal := TDemoEdit.Create(Self);
   FGoal.Parent := FSettings;
   FLayout.Place(FGoal, daTop, 30, 16, 4, 16, 4);
   {$IFDEF FMX}
   FGoal.TextPrompt := 'a brunch menu, make it vegan, ...';
-  FGoal.OnKeyDown := GoalKeyDown;
+  FGoal.OnKeyDown := {$IFDEF WEBLIB}@{$ENDIF}GoalKeyDown;
   {$ELSE}
   FGoal.TextHint := 'a brunch menu, make it vegan, ...';
-  FGoal.OnKeyPress := GoalKeyPress;
+  FGoal.OnKeyPress := {$IFDEF WEBLIB}@{$ENDIF}GoalKeyPress;
   {$ENDIF}
   row := FLayout.AddBox(FSettings, daTop, 32, 16, 4, 16, 0);
-  FPlanButton := FLayout.AddButton(row, 'Plan', PlanClick);
+  FPlanButton := FLayout.AddButton(row, 'Plan', {$IFDEF WEBLIB}@{$ENDIF}PlanClick);
   FLayout.Place(FPlanButton, daLeft, 128, 0, 0, 8, 0);
-  FCancelButton := FLayout.AddButton(row, 'Cancel', CancelClick);
+  FCancelButton := FLayout.AddButton(row, 'Cancel', {$IFDEF WEBLIB}@{$ENDIF}CancelClick);
   FLayout.Place(FCancelButton, daLeft, 128, 0, 0, 0, 0);
   FStatus := FLayout.AddText(FSettings, 'Type what the menu should become and choose Plan. Nothing changes before you ' +
     'accept the plan.');
@@ -987,10 +1024,16 @@ begin
   FZone.Parent := FSettings;
   { 92 high: with 120 the sample button fell below the form }
   FLayout.Place(FZone, daTop, 92, 16, 4, 16, 4);
+  {$IFDEF WEBLIB}
+  { in a page the application hands the zone its content: the sample below }
+  FZone.Kinds := [adkCSV, adkText];
+  FZone.Text := 'Choose the sample below: its CSV text is dropped here';
+  {$ELSE}
   FZone.Kinds := [adkCSV, adkImage, adkText];
-  FZone.OnGetActions := ZoneActions;
-  FZone.OnActionSelected := ZoneAction;
-  FLayout.Place(FLayout.AddButton(FSettings, 'Try the sample CSV', SampleClick), daTop, 30, 16, 4, 16, 0);
+  {$ENDIF}
+  FZone.OnGetActions := {$IFDEF WEBLIB}@{$ENDIF}ZoneActions;
+  FZone.OnActionSelected := {$IFDEF WEBLIB}@{$ENDIF}ZoneAction;
+  FLayout.Place(FLayout.AddButton(FSettings, 'Try the sample CSV', {$IFDEF WEBLIB}@{$ENDIF}SampleClick), daTop, 30, 16, 4, 16, 0);
 end;
 
 procedure TForm1.CreateContent;
@@ -1010,27 +1053,27 @@ begin
     '#1B1A22,#E9D8A6,#5B5870,#B8860B';
   FCards.AddChoice('Editorial', 'Strong contrast, red accent, a statement line').Swatches.CommaText :=
     '#F4EFE6,#111111,#9A8F7C,#B33A2B';
-  FCards.OnChoice := CardChosen;
-  FCards.OnNoneOfThese := CardNone;
+  FCards.OnChoice := {$IFDEF WEBLIB}@{$ENDIF}CardChosen;
+  FCards.OnNoneOfThese := {$IFDEF WEBLIB}@{$ENDIF}CardNone;
   FCards.Visible := False;
 
   bar := FLayout.AddBox(FSide, daBottom, 36, 0, 8, 0, 0);
   FLens := TTMSFNCAIPreviewLens.Create(Self);
   FLens.Parent := bar;
   FLayout.Place(FLens, daLeft, 150, 0, 4, 8, 4);
-  FLens.OnBeginPreview := LensBegin;
-  FLens.OnEndPreview := LensEnd;
-  FUndoButton := FLayout.AddButton(bar, 'Undo', UndoClick);
+  FLens.OnBeginPreview := {$IFDEF WEBLIB}@{$ENDIF}LensBegin;
+  FLens.OnEndPreview := {$IFDEF WEBLIB}@{$ENDIF}LensEnd;
+  FUndoButton := FLayout.AddButton(bar, 'Undo', {$IFDEF WEBLIB}@{$ENDIF}UndoClick);
   FLayout.Place(FUndoButton, daRight, 90, 0, 2, 0, 2);
-  FApplyButton := FLayout.AddButton(bar, 'Apply all', ApplyClick);
+  FApplyButton := FLayout.AddButton(bar, 'Apply all', {$IFDEF WEBLIB}@{$ENDIF}ApplyClick);
   FLayout.Place(FApplyButton, daRight, 100, 0, 2, 8, 2);
 
   FPlanView := TTMSFNCAIPlanView.Create(Self);
   FPlanView.Parent := FSide;
   FLayout.Place(FPlanView, daClient, 0, 0, 0, 0, 0);
   FPlanView.Actions := [apvaAccept, apvaSkip, apvaUndo, apvaPreview, apvaDetails];
-  FPlanView.OnStepAction := PlanStepAction;
-  FPlanView.OnStepChanged := PlanStepChanged;
+  FPlanView.OnStepAction := {$IFDEF WEBLIB}@{$ENDIF}PlanStepAction;
+  FPlanView.OnStepChanged := {$IFDEF WEBLIB}@{$ENDIF}PlanStepChanged;
 
   FCard := TMenuCard.Create(Self);
   FCard.Parent := FContent;
@@ -1127,6 +1170,12 @@ begin
 end;
 
 procedure TForm1.SampleClick(Sender: TObject);
+{$IFDEF WEBLIB}
+begin
+  { a page has no files of its own: the text of the sample is dropped }
+  FZone.DropText(SampleCSV);
+end;
+{$ELSE}
 var
   f: string;
 begin
@@ -1134,6 +1183,7 @@ begin
   TFile.WriteAllText(f, SampleCSV, TEncoding.UTF8);
   FZone.Drop(f);
 end;
+{$ENDIF}
 
 {$IFDEF FMX}
 procedure TForm1.GoalKeyDown(Sender: TObject; var Key: Word; var KeyChar: Char; Shift: TShiftState);
@@ -1163,7 +1213,6 @@ begin
     aasConnecting: FStatus.Text := 'Asking the model...';
     aasThinking, aasWriting: FStatus.Text := 'The model is answering...';
     aasValidating: FStatus.Text := 'Checking the answer...';
-    aasCancelled: FStatus.Text := 'Cancelled. Nothing has changed.';
   else
     if AText <> '' then
       FStatus.Text := AText;
@@ -1254,11 +1303,12 @@ procedure TForm1.FieldApplied(Sender: TObject; const AValue: Variant);
 var
   v: string;
 begin
-  v := VarToStr(AValue);
+  { the value as the field shows it: a colour is a number, '#RRGGBB' as text }
+  v := TMSFNCAIValueToText(TTMSFNCAIPromptEdit(Sender).ValueKind, AValue);
   if Sender = FAccentEdit then
     FCard.Accent := HexToColor(v)
   else if Sender = FSizeEdit then
-    FCard.TitleSize := EnsureRange(Round(StrToFloatDef(v, FCard.TitleSize, TFormatSettings.Invariant)), 12, 48)
+    FCard.TitleSize := EnsureRange(Round(NumberOf(v, FCard.TitleSize)), 12, 48)
   else if Sender = FTaglineEdit then
     FCard.Tagline := v;
   FCard.Invalidate;
@@ -1281,15 +1331,19 @@ begin
   if AAction.Name = 'import' then
   begin
     { only now does the content go to the model, as data of the request }
+    {$IFNDEF WEBLIB}
     if AContent.FileName <> '' then
       csv := TFile.ReadAllText(AContent.FileName)
     else
+    {$ENDIF}
       csv := AContent.Text;
     StartPlan('Import the dishes of ' + AContent.DisplayName, #10'The file:'#10 + csv);
   end
   else if AAction.Name = 'logo' then
   begin
+    {$IFNDEF WEBLIB}
     FCard.Logo.LoadFromFile(AContent.FileName);
+    {$ENDIF}
     FCard.Invalidate;
   end
   else if AAction.Name = 'tagline' then

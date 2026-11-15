@@ -433,43 +433,65 @@ const
   Sections: array[0..2] of string = ('Starters', 'Mains', 'Desserts');
 var
   paper, r: TRectF;
-  y, w, h: Single;
+  y, w, h, k: Single;
   I, S: Integer;
   names: TStringList;
   sec: string;
+
+  { a size of the 96 DPI design in pixels of the form (FMX and WEB scale by themselves) }
+  function P(AValue: Single): Single;
+  begin
+    Result := AValue * k;
+  end;
+
+  { a font of that many pixels at 96 DPI: a VCL font size is in points, a third larger, and does not follow the form }
+  procedure SetFont(ASize: Single; AStyle: TFontStyles; AColor: TTMSFNCGraphicsColor);
+  begin
+    AGraphics.Font.Name := 'Georgia';
+    {$IFDEF VCL}
+    AGraphics.Font.Height := -Round(P(ASize));
+    {$ELSE}
+    AGraphics.Font.Size := ASize;
+    {$ENDIF}
+    AGraphics.Font.Style := AStyle;
+    AGraphics.Font.Color := AColor;
+  end;
+
 begin
   inherited;
+  {$IFDEF VCL}
+  k := CurrentPPI / 96;
+  {$ELSE}
+  k := 1;
+  {$ENDIF}
   { the card is a printed menu: paper and ink are the colours of the restaurant, not of the theme (demo-colors:
     content, like a picture) }
-  w := Min(ARect.Width - 32, 460);
-  h := ARect.Height - 32;
-  paper := RectF(ARect.Left + (ARect.Width - w) / 2, ARect.Top + 16, ARect.Left + (ARect.Width + w) / 2, ARect.Top + 16 + h);
+  w := Min(ARect.Width - P(32), P(460));
+  h := ARect.Height - P(32);
+  paper := RectF(ARect.Left + (ARect.Width - w) / 2, ARect.Top + P(16), ARect.Left + (ARect.Width + w) / 2,
+    ARect.Top + P(16) + h);
   AGraphics.Fill.Kind := gfkSolid;
   AGraphics.Fill.Color := MakeGraphicsColor(253, 250, 243);
   AGraphics.Stroke.Kind := gskSolid;
   AGraphics.Stroke.Color := MakeGraphicsColor(221, 214, 200);
-  AGraphics.DrawRoundRectangle(paper, 10);
+  AGraphics.DrawRoundRectangle(paper, P(10));
 
   AGraphics.Fill.Color := FAccent;
   AGraphics.Stroke.Kind := gskNone;
-  AGraphics.DrawRectangle(RectF(paper.Left, paper.Top + 10, paper.Left + 6, paper.Bottom - 10));
+  AGraphics.DrawRectangle(RectF(paper.Left, paper.Top + P(10), paper.Left + P(6), paper.Bottom - P(10)));
 
   if not IsBitmapEmpty(FLogo) then
-    AGraphics.DrawBitmap(RectF(paper.Right - 72, paper.Top + 16, paper.Right - 16, paper.Top + 72), FLogo, True, True);
+    AGraphics.DrawBitmap(RectF(paper.Right - P(72), paper.Top + P(16), paper.Right - P(16), paper.Top + P(72)), FLogo,
+      True, True);
 
-  y := paper.Top + 24;
-  AGraphics.Font.Name := 'Georgia';
-  AGraphics.Font.Size := FTitleSize;
-  AGraphics.Font.Style := [TFontStyle.fsBold];
-  AGraphics.Font.Color := MakeGraphicsColor(40, 36, 30);
-  r := RectF(paper.Left + 28, y, paper.Right - 80, y + FTitleSize * 1.6);
+  y := paper.Top + P(24);
+  SetFont(FTitleSize, [TFontStyle.fsBold], MakeGraphicsColor(40, 36, 30));
+  r := RectF(paper.Left + P(28), y, paper.Right - P(80), y + P(FTitleSize * 1.6));
   AGraphics.DrawText(r, FTitle, False, gtaLeading, gtaCenter);
-  y := r.Bottom + 2;
-  AGraphics.Font.Size := 12;
-  AGraphics.Font.Style := [TFontStyle.fsItalic];
-  AGraphics.Font.Color := FAccent;
-  AGraphics.DrawText(RectF(paper.Left + 28, y, paper.Right - 28, y + 22), FTagline, False, gtaLeading, gtaCenter);
-  y := y + 34;
+  y := r.Bottom + P(2);
+  SetFont(12, [TFontStyle.fsItalic], FAccent);
+  AGraphics.DrawText(RectF(paper.Left + P(28), y, paper.Right - P(28), y + P(22)), FTagline, False, gtaLeading, gtaCenter);
+  y := y + P(34);
 
   names := TStringList.Create;
   try
@@ -482,24 +504,22 @@ begin
           names.AddObject(FDishes[I].Name, TObject(I));
       if names.Count = 0 then
         Continue;
-      AGraphics.Font.Size := 11;
-      AGraphics.Font.Style := [TFontStyle.fsBold];
-      AGraphics.Font.Color := FAccent;
-      AGraphics.DrawText(RectF(paper.Left + 28, y, paper.Right - 28, y + 20), UpperCase(sec), False, gtaLeading, gtaCenter);
-      y := y + 22;
-      AGraphics.Font.Style := [];
-      AGraphics.Font.Size := 12;
-      AGraphics.Font.Color := MakeGraphicsColor(40, 36, 30);
+      SetFont(11, [TFontStyle.fsBold], FAccent);
+      AGraphics.DrawText(RectF(paper.Left + P(28), y, paper.Right - P(28), y + P(20)), UpperCase(sec), False, gtaLeading,
+        gtaCenter);
+      y := y + P(22);
+      SetFont(12, [], MakeGraphicsColor(40, 36, 30));
       for I := 0 to names.Count - 1 do
       begin
-        if y + 22 > paper.Bottom - 30 then
+        if y + P(22) > paper.Bottom - P(30) then
           Break;
-        AGraphics.DrawText(RectF(paper.Left + 28, y, paper.Right - 90, y + 22), names[I], False, gtaLeading, gtaCenter);
-        AGraphics.DrawText(RectF(paper.Right - 100, y, paper.Right - 28, y + 22),
+        AGraphics.DrawText(RectF(paper.Left + P(28), y, paper.Right - P(90), y + P(22)), names[I], False, gtaLeading,
+          gtaCenter);
+        AGraphics.DrawText(RectF(paper.Right - P(100), y, paper.Right - P(28), y + P(22)),
           MoneyText(FDishes[Integer(names.Objects[I])].Price), False, gtaTrailing, gtaCenter);
-        y := y + 24;
+        y := y + P(24);
       end;
-      y := y + 10;
+      y := y + P(10);
     end;
   finally
     names.Free;
@@ -507,10 +527,8 @@ begin
 
   if FPreviewing then
   begin
-    AGraphics.Font.Size := 10;
-    AGraphics.Font.Style := [TFontStyle.fsBold];
-    AGraphics.Font.Color := FAccent;
-    AGraphics.DrawText(RectF(paper.Left + 28, paper.Bottom - 28, paper.Right - 28, paper.Bottom - 8),
+    SetFont(10, [TFontStyle.fsBold], FAccent);
+    AGraphics.DrawText(RectF(paper.Left + P(28), paper.Bottom - P(28), paper.Right - P(28), paper.Bottom - P(8)),
       'PREVIEW - release to go back', False, gtaCenter, gtaCenter);
   end;
 end;
@@ -917,6 +935,25 @@ end;
 procedure TForm1.CreateSettings;
 var
   row: TDemoPanel;
+
+  { a style field with its name in front (the fields alone did not say what '26' is) }
+  function StyleField(const AName: string; AKind: TTMSFNCAIValueKind; const AContext: string): TTMSFNCAIPromptEdit;
+  var
+    r: TDemoPanel;
+    n: TDemoText;
+  begin
+    r := FLayout.AddBox(FSettings, daTop, 58, 16, 4, 16, 0);
+    n := FLayout.AddText(r, AName);
+    { next to the edit line of the field; the interpretation of a phrase shows under it }
+    FLayout.Place(n, daLeft, 64, 0, 0, 8, 28);
+    n.WordWrap := False;
+    n.VerticalAlign := gtaCenter;
+    Result := NewPromptEdit(Self, r, AKind, AContext);
+    FLayout.Place(Result, daClient, 0, 0, 0, 0, 0);
+    Result.Service := FService;
+    Result.OnAfterApply := FieldApplied;
+  end;
+
 begin
   FSettings := FLayout.AddSettingsPanel(Self, 300);
 
@@ -941,23 +978,15 @@ begin
   FStatus.Height := FLayout.Size(52);
 
   FLayout.AddCaption(FSettings, 'Style: a value or a phrase');
-  FAccentEdit := NewPromptEdit(Self, FSettings, aivkColor, 'the accent colour of the menu card');
-  FLayout.Place(FAccentEdit, daTop, 58, 16, 4, 16, 0);
-  FAccentEdit.Service := FService;
-  FAccentEdit.OnAfterApply := FieldApplied;
-  FSizeEdit := NewPromptEdit(Self, FSettings, aivkSize, 'the font size of the menu title, in points');
-  FLayout.Place(FSizeEdit, daTop, 58, 16, 4, 16, 0);
-  FSizeEdit.Service := FService;
-  FSizeEdit.OnAfterApply := FieldApplied;
-  FTaglineEdit := NewPromptEdit(Self, FSettings, aivkText, 'the tagline under the name of the menu');
-  FLayout.Place(FTaglineEdit, daTop, 58, 16, 4, 16, 0);
-  FTaglineEdit.Service := FService;
-  FTaglineEdit.OnAfterApply := FieldApplied;
+  FAccentEdit := StyleField('Accent', aivkColor, 'the accent colour of the menu card');
+  FSizeEdit := StyleField('Title size', aivkSize, 'the font size of the menu title, in points');
+  FTaglineEdit := StyleField('Tagline', aivkText, 'the tagline under the name of the menu');
 
   FLayout.AddCaption(FSettings, 'Drop a file');
   FZone := TTMSFNCAIDropZone.Create(Self);
   FZone.Parent := FSettings;
-  FLayout.Place(FZone, daTop, 120, 16, 4, 16, 4);
+  { 92 high: with 120 the sample button fell below the form }
+  FLayout.Place(FZone, daTop, 92, 16, 4, 16, 4);
   FZone.Kinds := [adkCSV, adkImage, adkText];
   FZone.OnGetActions := ZoneActions;
   FZone.OnActionSelected := ZoneAction;
@@ -1129,8 +1158,16 @@ end;
 procedure TForm1.ServiceProgress(Sender: TObject; AState: TTMSFNCAIAgentState; AStep, AStepCount: Integer;
   const AText: string);
 begin
-  if AText <> '' then
-    FStatus.Text := AText;
+  { in words while the model answers: the text of these states is the answer as it arrives (pieces of JSON) }
+  case AState of
+    aasConnecting: FStatus.Text := 'Asking the model...';
+    aasThinking, aasWriting: FStatus.Text := 'The model is answering...';
+    aasValidating: FStatus.Text := 'Checking the answer...';
+    aasCancelled: FStatus.Text := 'Cancelled. Nothing has changed.';
+  else
+    if AText <> '' then
+      FStatus.Text := AText;
+  end;
   UpdateButtons;
 end;
 

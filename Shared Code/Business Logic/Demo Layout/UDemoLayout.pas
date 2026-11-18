@@ -366,38 +366,46 @@ begin
 end;
 
 {$IFNDEF FMX}
-{ a position past the controls placed before it in the same parent }
+{ a position past the controls of the same alignment placed before it in the same parent }
 procedure TDemoLayout.PlaceBeyond(AControl: TControl; AAlign: TDemoAlign);
 {$IFDEF VCL}
+const
+  Aligns: array[TDemoAlign] of TAlign = (alTop, alLeft, alRight, alBottom, alClient);
 var
-  I, bottom, right, left: Integer;
+  I, edge: Integer;
   c: TControl;
 {$ENDIF}
 begin
   {$IFDEF VCL}
   { next to its siblings: Windows keeps a child window within 32767 pixels of its parent, so a control in a panel
-    whose windows are made later (one shown later) would lose its place in the order at a larger position }
-  bottom := 0;
-  right := 0;
-  left := 0;
+    whose windows are made later (one shown later) would lose its place in the order at a larger position. VCL
+    orders each alignment on its own and on one axis (top and bottom by Top, left and right by Left): only those
+    siblings and that axis count, or every row of a long settings column would push the next left aligned control
+    past that limit again }
+  edge := 0;
   for I := 0 to AControl.Parent.ControlCount - 1 do
   begin
     c := AControl.Parent.Controls[I];
-    if c = AControl then
+    if (c = AControl) or (c.Align <> Aligns[AAlign]) then
       Continue;
-    if c.Top + c.Height > bottom then
-      bottom := c.Top + c.Height;
-    if c.Left + c.Width > right then
-      right := c.Left + c.Width;
-    if c.Left < left then
-      left := c.Left;
+    case AAlign of
+      daTop, daBottom:
+        if c.Top + c.Height > edge then
+          edge := c.Top + c.Height;
+      daLeft:
+        if c.Left + c.Width > edge then
+          edge := c.Left + c.Width;
+      daRight:
+        if c.Left < edge then
+          edge := c.Left;
+    end;
   end;
-  AControl.Top := bottom + 100;
-  { a right aligned one: its right edge left of every other, at any width below 1000 }
-  if AAlign = daRight then
-    AControl.Left := left - 1000
-  else
-    AControl.Left := right + 100;
+  case AAlign of
+    daTop, daBottom: AControl.Top := edge + 100;
+    daLeft: AControl.Left := edge + 100;
+    { a right aligned one: its right edge left of every other, at any width below 1000 }
+    daRight: AControl.Left := edge - 1000;
+  end;
   {$ELSE}
   AControl.Top := 100000 + FPlaceOrder * 1000;
   if AAlign = daRight then

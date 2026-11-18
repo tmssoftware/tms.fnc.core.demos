@@ -98,6 +98,9 @@ type
     FNatives: TList;
     FHeader: TDemoPanel;
     FThemes: TDemoComboBox;
+    {$IFNDEF FMX}
+    procedure PlaceBeyond(AControl: TControl; AAlign: TDemoAlign);
+    {$ENDIF}
     procedure ThemeChanged(Sender: TObject);
     procedure ThemesChange(Sender: TObject);
     procedure ColorNative(AControl: TControl; AText: TTMSFNCGraphicsColor);
@@ -338,13 +341,9 @@ begin
   end;
   AControl.Margins.Rect := RectF(ALeft, ATop, ARight, ABottom);
   {$ELSE}
-  AControl.Top := 100000 + FPlaceOrder * 1000;
   { VCL and WEB give the right edge to the right aligned control with the largest Left: right aligned controls
     count down, so the first one placed sits furthest right in every framework (Apply all | Undo) }
-  if AAlign = daRight then
-    AControl.Left := 100000 - FPlaceOrder * 1000
-  else
-    AControl.Left := 100000 + FPlaceOrder * 1000;
+  PlaceBeyond(AControl, AAlign);
   case AAlign of
     daTop: AControl.Align := alTop;
     daLeft: AControl.Align := alLeft;
@@ -363,6 +362,49 @@ begin
   AControl.Margins.Bottom := Size(ABottom);
   {$ENDIF}
 end;
+
+{$IFNDEF FMX}
+{ a position past the controls placed before it in the same parent }
+procedure TDemoLayout.PlaceBeyond(AControl: TControl; AAlign: TDemoAlign);
+{$IFDEF VCL}
+var
+  I, bottom, right, left: Integer;
+  c: TControl;
+{$ENDIF}
+begin
+  {$IFDEF VCL}
+  { next to its siblings: Windows keeps a child window within 32767 pixels of its parent, so a control in a panel
+    whose windows are made later (one shown later) would lose its place in the order at a larger position }
+  bottom := 0;
+  right := 0;
+  left := 0;
+  for I := 0 to AControl.Parent.ControlCount - 1 do
+  begin
+    c := AControl.Parent.Controls[I];
+    if c = AControl then
+      Continue;
+    if c.Top + c.Height > bottom then
+      bottom := c.Top + c.Height;
+    if c.Left + c.Width > right then
+      right := c.Left + c.Width;
+    if c.Left < left then
+      left := c.Left;
+  end;
+  AControl.Top := bottom + 100;
+  { a right aligned one: its right edge left of every other, at any width below 1000 }
+  if AAlign = daRight then
+    AControl.Left := left - 1000
+  else
+    AControl.Left := right + 100;
+  {$ELSE}
+  AControl.Top := 100000 + FPlaceOrder * 1000;
+  if AAlign = daRight then
+    AControl.Left := 100000 - FPlaceOrder * 1000
+  else
+    AControl.Left := 100000 + FPlaceOrder * 1000;
+  {$ENDIF}
+end;
+{$ENDIF}
 
 procedure TDemoLayout.AddHeader(const ATitle, ADescription: string; const AThemes: array of string);
 var

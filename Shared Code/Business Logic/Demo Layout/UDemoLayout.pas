@@ -322,6 +322,8 @@ begin
     position less their margin, so the steps are larger than any margin) }
   Inc(FPlaceOrder);
   {$IFDEF FMX}
+  { a control already aligned goes back to its aligned place when it is moved: free it first }
+  AControl.Align := TAlignLayout.None;
   AControl.Position.Y := 100000 + FPlaceOrder * 1000;
   AControl.Position.X := 100000 + FPlaceOrder * 1000;
   case AAlign of

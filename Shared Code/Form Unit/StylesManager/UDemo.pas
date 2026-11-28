@@ -15,14 +15,14 @@ uses
   Winapi.Windows, Winapi.Messages, System.SysUtils, System.Types, System.Variants, System.Classes, Vcl.Graphics,
   Vcl.Controls, Vcl.Forms, Vcl.Dialogs,
   VCL.TMSFNCTypes, VCL.TMSFNCUtils, VCL.TMSFNCGraphics, VCL.TMSFNCGraphicsTypes, VCL.TMSFNCCustomControl,
-  VCL.TMSFNCCustomComponent, VCL.TMSFNCTheme, VCL.TMSFNCStyles, VCL.TMSFNCScrollBar,
+  VCL.TMSFNCCustomComponent, VCL.TMSFNCTheme, VCL.TMSFNCStyles, VCL.TMSFNCStylesResources, VCL.TMSFNCScrollBar,
   {$ENDIF}
 
   {$IFDEF FMX}
   System.SysUtils, System.Types, System.UITypes, System.Classes, System.Variants,
   FMX.Types, FMX.Forms, FMX.Controls, FMX.Graphics, FMX.Dialogs,
   FMX.TMSFNCTypes, FMX.TMSFNCUtils, FMX.TMSFNCGraphics, FMX.TMSFNCGraphicsTypes, FMX.TMSFNCCustomControl,
-  FMX.TMSFNCCustomComponent, FMX.TMSFNCTheme, FMX.TMSFNCStyles, FMX.TMSFNCScrollBar,
+  FMX.TMSFNCCustomComponent, FMX.TMSFNCTheme, FMX.TMSFNCStyles, FMX.TMSFNCStylesResources, FMX.TMSFNCScrollBar,
   {$ENDIF}
   UDemoLayout;
 

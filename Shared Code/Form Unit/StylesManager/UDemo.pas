@@ -90,13 +90,14 @@ begin
   FLayout.AddCaption(FSettings, 'Where the look comes from');
   FSourceRadios := FLayout.AddRadios(FSettings, 'Source', [
     'The application theme of the ThemeManager',
-    'StylesManager.Style = ''Office 2019 Black'' (a theme name)',
-    'StylesManager.StyleResource = ''' + LegacyStyle + ''' (a style file)',
+    'Style = ''Office 2019 Black'' (a theme)',
+    'StyleResource (a style file)',
     'A theme made from that style file'], 0, SettingChanged);
   FLayout.AddText(FSettings, 'A theme name in Style gives the form a form-scope theme over the application theme ' +
-    '(the header picker still changes the application theme behind it). A style file sets the colours of the ' +
-    'controls it knows and of the form: they stay as the developer''s values under every theme until the demo ' +
-    'restarts. ThemeFromStyleText reads the same file into a theme, registered under its own name.');
+    '(the header picker still changes the application theme behind it). A style file (here ' + LegacyStyle + ') ' +
+    'sets the colours of the controls it knows and of the form: they stay as the developer''s values under every ' +
+    'theme until the demo restarts. ThemeFromStyleText reads the same file into a theme, registered under its own ' +
+    'name.');
 
   FLayout.AddCaption(FSettings, 'Framework style');
   FAdaptCheck := FLayout.AddCheck(FSettings, 'AdaptToStyle on the scroll bars', False, SettingChanged);
